@@ -4,7 +4,7 @@ from utils import read_json, write_json
 from scripts_for_datasets import COWCDataset
 
 class TestCOWCDataset():
-    def test_image_annot_equality():
+    def test_image_annot_equality(self):
         # Test code for init method
         # Testing the dataset size and similarity
         config = read_json('config.json')
