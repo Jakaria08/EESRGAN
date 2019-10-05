@@ -1,7 +1,7 @@
 import pytest
 from parse_config import ConfigParser
 from utils import read_json, write_json
-from scripts_for_datasets import COWC_dataset
+from scripts_for_datasets import COWCDataset
 
 class TestCOWCDataset():
     def test_image_annot_equality():
@@ -10,7 +10,7 @@ class TestCOWCDataset():
         config = read_json('config.json')
         config = ConfigParser(config)
         data_dir = config['data_dir']
-        a = COWC_dataset.COWCDataset(data_dir)
+        a = COWCDataset(data_dir)
         for img, annot in zip(a.imgs, a.annotation):
             if os.path.splitext(img)[0] != os.path.splitext(annot)[0]:
                 print("problem")
