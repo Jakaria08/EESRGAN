@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore")
 
 
 class COWCDataset(Dataset):
-  def __init__(self, root, image_height, image_width, transform = None):
+  def __init__(self, root, image_height=256, image_width=256, transform = None):
     self.root = root
     #take all under same folder for train and test split.
     self.transform = transform

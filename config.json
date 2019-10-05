@@ -7,9 +7,9 @@
         "args": {}
     },
     "data_loader": {
-        "type": "MnistDataLoader",
+        "type": "COWCDataLoader",
         "args":{
-            "data_dir": "data/",
+            "data_dir": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/",
             "batch_size": 128,
             "shuffle": true,
             "validation_split": 0.1,
@@ -41,7 +41,7 @@
         "save_dir": "saved/",
         "save_period": 1,
         "verbosity": 2,
-        
+
         "monitor": "min val_loss",
         "early_stop": 10,
 

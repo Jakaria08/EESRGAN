@@ -55,7 +55,10 @@ class ConfigParser:
         for opt in options:
             args.add_argument(*opt.flags, default=None, type=opt.type)
         if not isinstance(args, tuple):
+            print("############")
             args = args.parse_args()
+        else:
+            print("!!!!!!!!!")
 
         if args.device is not None:
             os.environ["CUDA_VISIBLE_DEVICES"] = args.device
@@ -67,7 +70,7 @@ class ConfigParser:
             assert args.config is not None, msg_no_cfg
             resume = None
             cfg_fname = Path(args.config)
-        
+
         config = read_json(cfg_fname)
         if args.config and resume:
             # update new config for fine-tuning
