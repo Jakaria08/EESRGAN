@@ -30,7 +30,7 @@ class COWCDataset(Dataset):
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
-    self.imgs = list(sorted(set(glob.glob(self.root+"*.jpg")) - set(glob.glob(root_dir+"*check.jpg"))))
+    self.imgs = list(sorted(set(glob.glob(self.root+"*.jpg")) - set(glob.glob(self.root+"*check.jpg"))))
     self.annotation = list(sorted(glob.glob(self.root+"*.txt")))
 
   def __getitem__(self, idx):
