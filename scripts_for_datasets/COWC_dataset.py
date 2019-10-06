@@ -8,15 +8,6 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 
-from albumentations import (
-    HorizontalFlip, IAAPerspective, ShiftScaleRotate, CLAHE, RandomRotate90,
-    Transpose, ShiftScaleRotate, Blur, OpticalDistortion, GridDistortion, HueSaturationValue,
-    IAAAdditiveGaussianNoise, GaussNoise, MotionBlur, MedianBlur, IAAPiecewiseAffine,
-    IAASharpen, IAAEmboss, RandomBrightnessContrast, Flip, OneOf, Compose,
-    BboxParams, RandomCrop, Normalize, Resize, VerticalFlip
-)
-
-from albumentations.pytorch import ToTensor
 # Ignore warnings
 import warnings
 warnings.filterwarnings("ignore")
