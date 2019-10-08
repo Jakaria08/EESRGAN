@@ -33,6 +33,7 @@ class COWCDataLoader(BaseDataLoader):
         #data transformation
         #According to this link: https://discuss.pytorch.org/t/normalization-of-input-image/34814/8
         #satellite image 0.5 is good otherwise calculate mean and std for the whole dataset.
+        #calculted mean and std using method from util
         data_transforms = Compose([
             Resize(256, 256),
             HorizontalFlip(),
@@ -59,6 +60,5 @@ class COWCDataLoader(BaseDataLoader):
              label_fields=['labels'])
         )
         self.data_dir = data_dir
-        #calculate mean and std over three channel
         self.dataset = COWCDataset(self.data_dir, transform = data_transforms)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)

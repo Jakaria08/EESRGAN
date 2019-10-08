@@ -33,6 +33,7 @@ def inf_loop(data_loader):
         yield from loader
 
 def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thickness=2):
+    #receives data from visualize() method
     print(np.shape(bbox))
     x_min, y_min, x_max, y_max = bbox
     x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
@@ -44,6 +45,7 @@ def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thic
     return img
 
 def visualize(annotations, category_id_to_name):
+    #receives single image and its properties
     img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
     annotations['labels'] = annotations['labels'].numpy()
     length = np.shape(annotations['labels'])[1]
@@ -60,11 +62,13 @@ def visualize(annotations, category_id_to_name):
     x = random.randint(0,1000)
     cv2.imwrite(str(x)+'test.png', img)
 
-def calculate_mean_std():
+def calculate_mean_std(data_loader):
+    #receivdes a data loader object to calcute std, mean for 3 channel image dataset
+    #From: https://discuss.pytorch.org/t/computing-the-mean-and-std-of-dataset/34949/2
     mean = 0
     std = 0
     nb_samples = 0
-    for batch_idx, dataset_dict in enumerate(self.data_loader):
+    for batch_idx, dataset_dict in enumerate(data_loader):
         batch_samples = dataset_dict['image'].size(0)
         imgs = dataset_dict['image'].double().view(batch_samples, dataset_dict['image'].size(1), -1)
         #print(imgs.size())

@@ -42,8 +42,7 @@ class COWCTrainer(BaseTrainer):
         self.model.train()
         self.train_metrics.reset()
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            category_id_to_name = {1: 'car'}
-            visualize(dataset_dict, category_id_to_name)
+            print(dataset_dict['image'].size())
             if batch_idx > 3:
                 break
             else:
