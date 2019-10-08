@@ -10,7 +10,7 @@
         "type": "COWCDataLoader",
         "args":{
             "data_dir": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/",
-            "batch_size": 10,
+            "batch_size": 1,
             "shuffle": true,
             "validation_split": 0.1,
             "num_workers": 2

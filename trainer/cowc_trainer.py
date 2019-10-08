@@ -44,15 +44,18 @@ class COWCTrainer(BaseTrainer):
         self.model.train()
         self.train_metrics.reset()
         #for batch_idx, dataset_dict in enumerate(self.data_loader):
-        for dataset_dict in self.data_loader:
+        for batch_idx, dataset_dict in enumerate(dataloader):
             batch_samples = dataset_dict['image'].size(0)
-            dataset_dict['image'] = dataset_dict['image'].view(batch_samples, dataset_dict['image'].size(1), -1)
-            mean += dataset_dict['image'].mean(2).sum(0)
-            std += dataset_dict['image'].std(2).sum(0)
+            imgs = dataset_dict['image'].double().view(batch_samples, dataset_dict['image'].size(1), -1)
+            #print(imgs.size())
+            mean += imgs.mean(2).sum(0)
+            std += imgs.std(2).sum(0)
             nb_samples += batch_samples
-
+        print(nb_samples)
         mean /= nb_samples
         std /= nb_samples
+        mean /= 255
+        std /= 255
         print(mean,std)
         '''
             data, target = data.to(self.device), target.to(self.device)
