@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torchvision.utils import make_grid
 from base import BaseTrainer
-from utils import inf_loop, MetricTracker
+from utils import inf_loop, MetricTracker, visualize_bbox, visualize
 
 
 class COWCTrainer(BaseTrainer):
@@ -36,6 +36,11 @@ class COWCTrainer(BaseTrainer):
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
+        #testing some training data
+        data_dict = (next(iter(self.data_loader))
+        category_id_to_name = {1: 'car'}
+        visualize(data_dict, category_id_to_name)
+        exit(1)
         self.model.train()
         self.train_metrics.reset()
         for batch_idx, dataset_dict in enumerate(self.data_loader):
