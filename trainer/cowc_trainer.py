@@ -22,11 +22,7 @@ class COWCTrainer(BaseTrainer):
             # iteration-based training
             self.data_loader = inf_loop(data_loader)
             #testing some training data
-            data_dict = next(iter(self.data_loader))
-            category_id_to_name = {1: 'car'}
-            print(data_dict["bboxes"].size())
-            print(data_dict)
-            visualize(data_dict, category_id_to_name)
+            #data_dict = next(iter(self.data_loader))
 
             self.len_epoch = len_epoch
         self.valid_data_loader = valid_data_loader
