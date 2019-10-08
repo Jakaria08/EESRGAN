@@ -14,18 +14,20 @@ class COWCTrainer(BaseTrainer):
         super().__init__(model, criterion, metric_ftns, optimizer, config)
         self.config = config
         self.data_loader = data_loader
-        #testing some training data
-        data_dict = next(iter(self.data_loader))
-        category_id_to_name = {1: 'car'}
-        print(data_dict["bboxes"].size())
-        print(data_dict)
-        visualize(data_dict, category_id_to_name)
+
         if len_epoch is None:
             # epoch-based training
             self.len_epoch = len(self.data_loader)
         else:
             # iteration-based training
             self.data_loader = inf_loop(data_loader)
+            #testing some training data
+            data_dict = next(iter(self.data_loader))
+            category_id_to_name = {1: 'car'}
+            print(data_dict["bboxes"].size())
+            print(data_dict)
+            visualize(data_dict, category_id_to_name)
+            exit(1)
             self.len_epoch = len_epoch
         self.valid_data_loader = valid_data_loader
         self.do_validation = self.valid_data_loader is not None
