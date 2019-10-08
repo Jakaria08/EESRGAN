@@ -43,10 +43,6 @@ class COWCTrainer(BaseTrainer):
         self.train_metrics.reset()
         for batch_idx, dataset_dict in enumerate(self.data_loader):
             print(dataset_dict['image'].size())
-            if batch_idx > 3:
-                break
-            else:
-                continue
             data, target = data.to(self.device), target.to(self.device)
 
             self.optimizer.zero_grad()
