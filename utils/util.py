@@ -29,6 +29,26 @@ def inf_loop(data_loader):
     for loader in repeat(data_loader):
         yield from loader
 
+def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thickness=2):
+    x_min, y_min, x_max, y_max = bbox
+    x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
+    cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
+    class_name = class_idx_to_name[class_id]
+    ((text_width, text_height), _) = cv2.getTextSize(class_name, cv2.FONT_HERSHEY_SIMPLEX, 0.35, 1)
+    cv2.rectangle(img, (x_min, y_min - int(1.3 * text_height)), (x_min + text_width, y_min), BOX_COLOR, -1)
+    cv2.putText(img, class_name, (x_min, y_min - int(0.3 * text_height)), cv2.FONT_HERSHEY_SIMPLEX, 0.35,TEXT_COLOR, lineType=cv2.LINE_AA)
+    return img
+
+def visualize(annotations, category_id_to_name):
+    img = annotations['image'].numpy().transpose(1,2,0).copy()
+    annotations['labels'] = annotations['labels'].numpy()
+    for idx, bbox in enumerate(annotations['bboxes'].numpy()):
+        img = visualize_bbox(img, bbox, annotations['labels'][idx], category_id_to_name)
+    plt.figure(figsize=(12, 12))
+    plt.imshow(img)
+    print(img.shape)
+
+
 class MetricTracker:
     def __init__(self, *keys, writer=None):
         self.writer = writer
@@ -51,22 +71,3 @@ class MetricTracker:
 
     def result(self):
         return dict(self._data.average)
-
-    def visualize_bbox(self, img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thickness=2):
-        x_min, y_min, x_max, y_max = bbox
-        x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
-        cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
-        class_name = class_idx_to_name[class_id]
-        ((text_width, text_height), _) = cv2.getTextSize(class_name, cv2.FONT_HERSHEY_SIMPLEX, 0.35, 1)
-        cv2.rectangle(img, (x_min, y_min - int(1.3 * text_height)), (x_min + text_width, y_min), BOX_COLOR, -1)
-        cv2.putText(img, class_name, (x_min, y_min - int(0.3 * text_height)), cv2.FONT_HERSHEY_SIMPLEX, 0.35,TEXT_COLOR, lineType=cv2.LINE_AA)
-        return img
-
-    def visualize(self, annotations, category_id_to_name):
-        img = annotations['image'].numpy().transpose(1,2,0).copy()
-        annotations['labels'] = annotations['labels'].numpy()
-        for idx, bbox in enumerate(annotations['bboxes'].numpy()):
-            img = visualize_bbox(img, bbox, annotations['labels'][idx], category_id_to_name)
-        plt.figure(figsize=(12, 12))
-        plt.imshow(img)
-        print(img.shape)
