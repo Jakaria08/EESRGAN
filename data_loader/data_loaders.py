@@ -60,5 +60,5 @@ class COWCDataLoader(BaseDataLoader):
         )
         self.data_dir = data_dir
         #calculate mean and std over three channel
-        self.dataset = COWCDataset(self.data_dir, transform = data_transform)
+        self.dataset = COWCDataset(self.data_dir, transform = data_transforms)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
