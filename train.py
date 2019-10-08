@@ -23,12 +23,6 @@ def main(config):
     # setup data_loader instances
     data_loader = config.init_obj('data_loader', module_data)
     valid_data_loader = data_loader.split_validation()
-    data_dict = next(iter(data_loader))
-    category_id_to_name = {1: 'car'}
-    print(data_dict["bboxes"].size())
-    print(data_dict)
-    visualize(data_dict, category_id_to_name)
-    #in trainer ^^^
 
     # build model architecture, then print to console
     model = config.init_obj('arch', module_arch)
