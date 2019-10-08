@@ -60,6 +60,24 @@ def visualize(annotations, category_id_to_name):
     x = random.randint(0,1000)
     cv2.imwrite(str(x)+'test.png', img)
 
+def calculate_mean_std():
+    mean = 0
+    std = 0
+    nb_samples = 0
+    for batch_idx, dataset_dict in enumerate(self.data_loader):
+        batch_samples = dataset_dict['image'].size(0)
+        imgs = dataset_dict['image'].double().view(batch_samples, dataset_dict['image'].size(1), -1)
+        #print(imgs.size())
+        mean += imgs.mean(2).sum(0)
+        std += imgs.std(2).sum(0)
+        nb_samples += batch_samples
+    print(nb_samples)
+    mean /= nb_samples
+    std /= nb_samples
+    mean /= 255
+    std /= 255
+    print(mean,std)
+    return mean, std
 
 class MetricTracker:
     def __init__(self, *keys, writer=None):

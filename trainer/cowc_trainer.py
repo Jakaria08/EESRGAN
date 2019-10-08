@@ -20,7 +20,7 @@ class COWCTrainer(BaseTrainer):
             self.len_epoch = len(self.data_loader)
         else:
             # iteration-based training
-            #self.data_loader = inf_loop(data_loader)
+            self.data_loader = inf_loop(data_loader)
 
             self.len_epoch = len_epoch
         self.valid_data_loader = valid_data_loader
@@ -38,26 +38,13 @@ class COWCTrainer(BaseTrainer):
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
-        mean = 0
-        std = 0
-        nb_samples = 0
+
         self.model.train()
         self.train_metrics.reset()
-        #for batch_idx, dataset_dict in enumerate(self.data_loader):
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            batch_samples = dataset_dict['image'].size(0)
-            imgs = dataset_dict['image'].double().view(batch_samples, dataset_dict['image'].size(1), -1)
-            #print(imgs.size())
-            mean += imgs.mean(2).sum(0)
-            std += imgs.std(2).sum(0)
-            nb_samples += batch_samples
-        print(nb_samples)
-        mean /= nb_samples
-        std /= nb_samples
-        mean /= 255
-        std /= 255
-        print(mean,std)
-        '''
+            category_id_to_name = {1: 'car'}
+            visualize(data_dict['image'].squeeze(), category_id_to_name)
+            exit(1)
             data, target = data.to(self.device), target.to(self.device)
 
             self.optimizer.zero_grad()
@@ -89,7 +76,6 @@ class COWCTrainer(BaseTrainer):
         if self.lr_scheduler is not None:
             self.lr_scheduler.step()
         return log
-        '''
 
     def _valid_epoch(self, epoch):
         """
