@@ -51,7 +51,7 @@ class COWCTrainer(BaseTrainer):
             category_id_to_name = {1: 'car'}
             print(dataset_dict["bboxes"].size())
             print(dataset_dict)
-            visualize(data_dict, category_id_to_name)
+            visualize(dataset_dict, category_id_to_name)
             exit(1)
             data, target = data.to(self.device), target.to(self.device)
 
