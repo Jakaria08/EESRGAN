@@ -43,8 +43,8 @@ def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thic
 
 def visualize(annotations, category_id_to_name):
     img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
-    annotations['labels'] = annotations['labels'].numpy()
-    for idx, bbox in enumerate(annotations['bboxes'].numpy()):
+    annotations['labels'] = annotations['labels'].squeeze().numpy()
+    for idx, bbox in enumerate(annotations['bboxes'].squeeze().numpy()):
         img = visualize_bbox(img, bbox, annotations['labels'][idx], category_id_to_name)
     plt.figure(figsize=(12, 12))
     plt.imshow(img)
