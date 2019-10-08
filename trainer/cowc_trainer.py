@@ -27,7 +27,7 @@ class COWCTrainer(BaseTrainer):
             print(data_dict["bboxes"].size())
             print(data_dict)
             visualize(data_dict, category_id_to_name)
-            exit(1)
+
             self.len_epoch = len_epoch
         self.valid_data_loader = valid_data_loader
         self.do_validation = self.valid_data_loader is not None
@@ -44,16 +44,15 @@ class COWCTrainer(BaseTrainer):
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
-        #testing some training data
-        data_dict = next(iter(self.data_loader))
-        category_id_to_name = {1: 'car'}
-        print(data_dict["bboxes"].size())
-        print(data_dict)
-        visualize(data_dict, category_id_to_name)
-        exit(1)
+
         self.model.train()
         self.train_metrics.reset()
         for batch_idx, dataset_dict in enumerate(self.data_loader):
+            category_id_to_name = {1: 'car'}
+            print(dataset_dict["bboxes"].size())
+            print(dataset_dict)
+            visualize(data_dict, category_id_to_name)
+            exit(1)
             data, target = data.to(self.device), target.to(self.device)
 
             self.optimizer.zero_grad()
