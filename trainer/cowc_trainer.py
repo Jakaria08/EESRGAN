@@ -47,7 +47,10 @@ class COWCTrainer(BaseTrainer):
             print(dataset_dict)
             visualize(dataset_dict, category_id_to_name)
             print("inside epoch")
-            exit(1)
+            if batch_idx == 3:
+                exit(1)
+            else:
+                continue
             data, target = data.to(self.device), target.to(self.device)
 
             self.optimizer.zero_grad()
