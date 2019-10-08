@@ -4,6 +4,7 @@ import torch
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
+import random
 from pathlib import Path
 from itertools import repeat
 from collections import OrderedDict
@@ -56,7 +57,8 @@ def visualize(annotations, category_id_to_name):
     plt.figure(figsize=(12, 12))
     plt.imshow(img)
     print(img.shape)
-    cv2.imwrite('test.png', img)
+    x = random.randint(0,1000)
+    cv2.imwrite(str(x)+'test.png', img)
 
 
 class MetricTracker:
