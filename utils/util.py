@@ -49,6 +49,7 @@ def visualize(annotations, category_id_to_name):
         img = visualize_bbox(img, bbox, annotations['labels'][idx], category_id_to_name)
     plt.figure(figsize=(12, 12))
     plt.imshow(img)
+    cv2.imwrite("test.png", img)
     print(img.shape)
 
 
