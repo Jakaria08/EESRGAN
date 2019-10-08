@@ -61,5 +61,5 @@ class COWCDataLoader(BaseDataLoader):
             label_fields=['labels'])
                     )
         self.data_dir = data_dir
-        self.dataset = COWCDatasetA(self.data_dir, transform = data_transforms)
+        self.dataset = COWCDataset(self.data_dir, transform = data_transforms)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
