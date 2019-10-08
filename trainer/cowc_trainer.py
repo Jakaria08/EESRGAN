@@ -44,7 +44,7 @@ class COWCTrainer(BaseTrainer):
         self.model.train()
         self.train_metrics.reset()
         #for batch_idx, dataset_dict in enumerate(self.data_loader):
-        for batch_idx, dataset_dict in enumerate(dataloader):
+        for batch_idx, dataset_dict in enumerate(self.data_loader):
             batch_samples = dataset_dict['image'].size(0)
             imgs = dataset_dict['image'].double().view(batch_samples, dataset_dict['image'].size(1), -1)
             #print(imgs.size())
