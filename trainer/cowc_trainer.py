@@ -20,7 +20,7 @@ class COWCTrainer(BaseTrainer):
             self.len_epoch = len(self.data_loader)
         else:
             # iteration-based training
-            self.data_loader = inf_loop(data_loader)
+            #self.data_loader = inf_loop(data_loader)
 
             self.len_epoch = len_epoch
         self.valid_data_loader = valid_data_loader
@@ -38,19 +38,23 @@ class COWCTrainer(BaseTrainer):
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
-
+        mean = 0
+        std = 0
+        nb_samples = 0
         self.model.train()
         self.train_metrics.reset()
-        for batch_idx, dataset_dict in enumerate(self.data_loader):
-            category_id_to_name = {1: 'car'}
-            print(dataset_dict["bboxes"].size())
-            print(dataset_dict)
-            visualize(dataset_dict, category_id_to_name)
-            print("inside epoch")
-            if batch_idx == 3:
-                exit(1)
-            else:
-                continue
+        #for batch_idx, dataset_dict in enumerate(self.data_loader):
+        for dataset_dict in self.data_loader:
+            batch_samples = dataset_dict['image'].size(0)
+            dataset_dict['image'] = dataset_dict['image'].view(batch_samples, dataset_dict['image'].size(1), -1)
+            mean += dataset_dict['image'].mean(2).sum(0)
+            std += dataset_dict['image'].std(2).sum(0)
+            nb_samples += batch_samples
+
+        mean /= nb_samples
+        std /= nb_samples
+        print(mean,std)
+        '''
             data, target = data.to(self.device), target.to(self.device)
 
             self.optimizer.zero_grad()
@@ -82,6 +86,7 @@ class COWCTrainer(BaseTrainer):
         if self.lr_scheduler is not None:
             self.lr_scheduler.step()
         return log
+        '''
 
     def _valid_epoch(self, epoch):
         """

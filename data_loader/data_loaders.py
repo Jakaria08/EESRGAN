@@ -51,7 +51,7 @@ class COWCDataLoader(BaseDataLoader):
                 mean=[0.485, 0.456, 0.406],
                 std=[0.229, 0.224, 0.225]
                 )
-        ], p=0.5,
+        ],
             bbox_params=BboxParams(
              format='pascal_voc',
              min_area=0,
@@ -59,5 +59,6 @@ class COWCDataLoader(BaseDataLoader):
              label_fields=['labels'])
         )
         self.data_dir = data_dir
-        self.dataset = COWCDataset(self.data_dir, transform = data_transforms)
+        #calculate mean and std over three channel
+        self.dataset = COWCDataset(self.data_dir)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
