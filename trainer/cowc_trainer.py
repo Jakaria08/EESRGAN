@@ -44,7 +44,7 @@ class COWCTrainer(BaseTrainer):
         for batch_idx, dataset_dict in enumerate(self.data_loader):
             category_id_to_name = {1: 'car'}
             visualize(dataset_dict, category_id_to_name)
-            if batch_idx = 3:
+            if batch_idx > 3:
                 break
             else:
                 continue
