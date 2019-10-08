@@ -21,8 +21,6 @@ class COWCTrainer(BaseTrainer):
         else:
             # iteration-based training
             self.data_loader = inf_loop(data_loader)
-            #testing some training data
-            #data_dict = next(iter(self.data_loader))
 
             self.len_epoch = len_epoch
         self.valid_data_loader = valid_data_loader

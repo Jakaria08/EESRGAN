@@ -34,10 +34,8 @@ class COWCDataLoader(BaseDataLoader):
         #According to this link: https://discuss.pytorch.org/t/normalization-of-input-image/34814/8
         #satellite image 0.5 is good otherwise calculate mean and std for the whole dataset.
         data_transforms = Compose([
-            RandomCrop(224, 224),
             Resize(256, 256),
             HorizontalFlip(),
-            ShiftScaleRotate(shift_limit=0.0625, scale_limit=0.2, rotate_limit=45, p=0.2),
             OneOf([
                     IAAAdditiveGaussianNoise(),
                     GaussNoise(),
