@@ -52,7 +52,7 @@ class MetricTracker:
     def result(self):
         return dict(self._data.average)
 
-    def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thickness=2):
+    def visualize_bbox(self, img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thickness=2):
         x_min, y_min, x_max, y_max = bbox
         x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
         cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
@@ -62,7 +62,7 @@ class MetricTracker:
         cv2.putText(img, class_name, (x_min, y_min - int(0.3 * text_height)), cv2.FONT_HERSHEY_SIMPLEX, 0.35,TEXT_COLOR, lineType=cv2.LINE_AA)
         return img
 
-    def visualize(annotations, category_id_to_name):
+    def visualize(self, annotations, category_id_to_name):
         img = annotations['image'].numpy().transpose(1,2,0).copy()
         annotations['labels'] = annotations['labels'].numpy()
         for idx, bbox in enumerate(annotations['bboxes'].numpy()):
