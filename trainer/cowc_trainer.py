@@ -37,7 +37,7 @@ class COWCTrainer(BaseTrainer):
         :return: A log that contains average loss and metric in this epoch.
         """
         #testing some training data
-        data_dict = (next(iter(self.data_loader))
+        data_dict = next(iter(self.data_loader))
         category_id_to_name = {1: 'car'}
         visualize(data_dict, category_id_to_name)
         exit(1)
