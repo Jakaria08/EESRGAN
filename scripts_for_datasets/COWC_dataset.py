@@ -66,6 +66,7 @@ class COWCDataset(Dataset):
 
     #transform
     else:
+      print("transform....")
       target = {}
       target['image'] = img
       target['bboxes'] = boxes
