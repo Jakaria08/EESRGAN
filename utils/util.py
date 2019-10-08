@@ -30,6 +30,7 @@ def inf_loop(data_loader):
         yield from loader
 
 def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thickness=2):
+    print(np.shape(bbox))
     x_min, y_min, x_max, y_max = bbox
     x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
     cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
@@ -42,6 +43,7 @@ def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thic
 def visualize(annotations, category_id_to_name):
     img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
     annotations['labels'] = annotations['labels'].numpy()
+    print(annotations['bboxes'].shape())
     for idx, bbox in enumerate(annotations['bboxes'].numpy()):
         img = visualize_bbox(img, bbox, annotations['labels'][idx], category_id_to_name)
     plt.figure(figsize=(12, 12))
