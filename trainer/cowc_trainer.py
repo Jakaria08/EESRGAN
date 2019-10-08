@@ -39,6 +39,7 @@ class COWCTrainer(BaseTrainer):
         #testing some training data
         data_dict = next(iter(self.data_loader))
         category_id_to_name = {1: 'car'}
+        print(data_dict["image"].size())
         visualize(data_dict, category_id_to_name)
         exit(1)
         self.model.train()
