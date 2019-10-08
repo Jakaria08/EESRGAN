@@ -43,6 +43,7 @@ class COWCTrainer(BaseTrainer):
         self.train_metrics.reset()
         for batch_idx, dataset_dict in enumerate(self.data_loader):
             print(dataset_dict['image'].size())
+        '''
             data, target = data.to(self.device), target.to(self.device)
 
             self.optimizer.zero_grad()
@@ -74,7 +75,7 @@ class COWCTrainer(BaseTrainer):
         if self.lr_scheduler is not None:
             self.lr_scheduler.step()
         return log
-
+        '''
     def _valid_epoch(self, epoch):
         """
         Validate after training an epoch
