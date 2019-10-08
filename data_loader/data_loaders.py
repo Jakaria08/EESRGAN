@@ -39,27 +39,27 @@ class COWCDataLoader(BaseDataLoader):
             HorizontalFlip(),
             ShiftScaleRotate(shift_limit=0.0625, scale_limit=0.2, rotate_limit=45, p=0.2),
             OneOf([
-                IAAAdditiveGaussianNoise(),
-                GaussNoise(),
-                    ], p=0.2),
+                    IAAAdditiveGaussianNoise(),
+                    GaussNoise(),
+                ], p=0.2),
             OneOf([
-                CLAHE(clip_limit=2),
-                IAASharpen(),
-                IAAEmboss(),
-                RandomBrightnessContrast(),
-                    ], p=0.3),
-            HueSaturationValue(p=0.3),
+                    CLAHE(clip_limit=2),
+                    IAASharpen(),
+                    IAAEmboss(),
+                    RandomBrightnessContrast(),
+                ], p=0.3),
+                HueSaturationValue(p=0.3),
             Normalize(
                 mean=[0.485, 0.456, 0.406],
                 std=[0.229, 0.224, 0.225]
-                    )
-                    ], p=0.5,
+                )
+        ], p=0.5,
             bbox_params=BboxParams(
-            format='pascal_voc',
-            min_area=0,
-            min_visibility=0,
-            label_fields=['labels'])
-                    )
+             format='pascal_voc',
+             min_area=0,
+             min_visibility=0,
+             label_fields=['labels'])
+        )
         self.data_dir = data_dir
         self.dataset = COWCDataset(self.data_dir, transform = data_transforms)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
