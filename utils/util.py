@@ -102,10 +102,6 @@ def collate_fn(batch):
         target['idx'].append(b['idx'])
 
     target['image'] = torch.stack(target['image'], dim=0)
-    target['bboxes'] = torch.stack(target['bboxes'], dim=0)
-    target['labels'] = torch.stack(target['labels'], dim=0)
-    target['label_car_type'] = torch.stack(target['label_car_type'], dim=0)
-    target['idx'] = torch.stack(target['idx'], dim=0)
 
     return target
 
