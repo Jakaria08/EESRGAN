@@ -83,6 +83,28 @@ def calculate_mean_std(data_loader):
     print(mean,std)
     return mean, std
 
+def collate_fn(batch):
+    '''
+    Image have a different number of objects, we need a collate function (to be passed to the DataLoader).
+    '''
+    target = {}
+    target['image'] = list()
+    target['bboxes'] = list()
+    target['labels'] = list()
+    target['label_car_type'] = list()
+    target['idx'] = list()
+
+    for b in batch:
+        target['image'].append(b['image'])
+        target['bboxes'].append(b['bboxes'])
+        target['labels'].append(b['labels'])
+        target['label_car_type'].append(b['label_car_type'])
+        target['idx'].append(b['idx'])
+
+    target['image'] = torch.stack(target['images'], dim=0)
+
+    return target
+
 class MetricTracker:
     def __init__(self, *keys, writer=None):
         self.writer = writer
