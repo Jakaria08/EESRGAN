@@ -1,6 +1,7 @@
 from torchvision import datasets, transforms
 from base import BaseDataLoader
 from scripts_for_datasets import COWCDataset
+from utils import collate_fn
 from albumentations import (
     HorizontalFlip, IAAPerspective, ShiftScaleRotate, CLAHE, RandomRotate90,
     Transpose, ShiftScaleRotate, Blur, OpticalDistortion, GridDistortion, HueSaturationValue,
@@ -61,4 +62,4 @@ class COWCDataLoader(BaseDataLoader):
         )
         self.data_dir = data_dir
         self.dataset = COWCDataset(self.data_dir, transform = data_transforms)
-        super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)
+        super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
