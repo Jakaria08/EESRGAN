@@ -1,5 +1,6 @@
 import pytest
 import os
+import shutil
 from parse_config import ConfigParser
 from utils import read_json, write_json
 from scripts_for_datasets import COWCDataset
@@ -13,8 +14,7 @@ class TestCOWCDataset():
         config = read_json('config.json')
         config = ConfigParser(config)
         data_dir = config['data_loader']['args']['data_dir']
-        os.rmdir("./saved")
-        print(os.getcwd())
+        shutil.rmtree("./saved")
         a = COWCDataset(data_dir)
         for img, annot in zip(a.imgs, a.annotation):
             if os.path.splitext(img)[0] != os.path.splitext(annot)[0]:
@@ -27,7 +27,7 @@ class TestCOWCDataset():
         config = read_json('config.json')
         config = ConfigParser(config)
         data_dir = config['data_loader']['args']['data_dir']
-        os.rmdir("./saved")
+        shutil.rmtree("./saved")
         a = COWCDataset(data_dir)
         zero_annotation = 0
         for i in range(len(a.annotation)):
