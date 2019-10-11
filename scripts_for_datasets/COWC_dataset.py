@@ -40,27 +40,29 @@ class COWCDataset(Dataset):
         obj_class = int(values[0])
         if obj_class == 0:
             self.zero_annotation += 1
-        #get coordinates withing height width range
-        x = float(values[1])*self.image_width
-        y = float(values[2])*self.image_height
-        width = float(values[3])*self.image_width
-        height = float(values[4])*self.image_height
-        #creating bounding boxes that would not touch the image edges
-        x_min = 1 if x - width/2 <= 0 else int(x - width/2)
-        x_max = 255 if x + width/2 >= 256 else int(x + width/2)
-        y_min = 1 if y - height/2 <= 0 else int(y - height/2)
-        y_max = 255 if y + height/2 >= 256 else int(y + height/2)
+            target = {}
+        else:
+            #get coordinates withing height width range
+            x = float(values[1])*self.image_width
+            y = float(values[2])*self.image_height
+            width = float(values[3])*self.image_width
+            height = float(values[4])*self.image_height
+            #creating bounding boxes that would not touch the image edges
+            x_min = 1 if x - width/2 <= 0 else int(x - width/2)
+            x_max = 255 if x + width/2 >= 256 else int(x + width/2)
+            y_min = 1 if y - height/2 <= 0 else int(y - height/2)
+            y_max = 255 if y + height/2 >= 256 else int(y + height/2)
 
-        boxes.append([x_min, y_min, x_max, y_max])
-        label_car_type.append(obj_class)
-        labels = np.ones(len(boxes)) # all are cars
-        #create dictionary to access the values
-        target = {}
-        target['image'] = img
-        target['bboxes'] = boxes
-        target['labels'] = labels
-        target['label_car_type'] = label_car_type
-        target['idx'] = idx
+            boxes.append([x_min, y_min, x_max, y_max])
+            label_car_type.append(obj_class)
+            labels = np.ones(len(boxes)) # all are cars
+            #create dictionary to access the values
+            target = {}
+            target['image'] = img
+            target['bboxes'] = boxes
+            target['labels'] = labels
+            target['label_car_type'] = label_car_type
+            target['idx'] = idx
 
     if self.transform is None:
       #convert to tensor
