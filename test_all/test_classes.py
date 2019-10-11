@@ -18,3 +18,15 @@ class TestCOWCDataset():
                 print("problem")
 
         assert len(a.imgs) == len(a.annotation), "NOT equal"
+
+    def test_zero_annotation(self):
+        # Test for checking number of image without bounding box
+        config = read_json('config.json')
+        config = ConfigParser(config)
+        data_dir = config['data_loader']['args']['data_dir']
+        a = COWCDataset(data_dir)
+        zero_annotation = 0
+        for i in range(len(a.annotation)):
+            _, zero_annotation_get =  a[i]
+            zero_annotation = zero_annotation + zero_annotation_get
+        assert zero_annotation == 0, "Image exists without bounding box"

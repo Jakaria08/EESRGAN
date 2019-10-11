@@ -23,6 +23,7 @@ class COWCDataset(Dataset):
     #sort all images for indexing, filter out check.jpgs
     self.imgs = list(sorted(set(glob.glob(self.root+"*.jpg")) - set(glob.glob(self.root+"*check.jpg"))))
     self.annotation = list(sorted(glob.glob(self.root+"*.txt")))
+    self.zero_annotation = 0
 
   def __getitem__(self, idx):
     #get the paths
@@ -37,6 +38,8 @@ class COWCDataset(Dataset):
       for line in f:
         values = (line.split())
         obj_class = int(values[0])
+        if obj_class == 0:
+            self.zero_annotation += 1
         #get coordinates withing height width range
         x = float(values[1])*self.image_width
         y = float(values[2])*self.image_height
@@ -62,7 +65,7 @@ class COWCDataset(Dataset):
     if self.transform is None:
       #convert to tensor
       target = self.convert_to_tensor(**target)
-      return target
+      return target , self.zero_annotation
 
     #transform
     else:
