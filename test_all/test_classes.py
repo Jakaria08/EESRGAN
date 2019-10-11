@@ -14,6 +14,7 @@ class TestCOWCDataset():
         config = ConfigParser(config)
         data_dir = config['data_loader']['args']['data_dir']
         os.rmdir("./saved")
+        print(os.getcwd())
         a = COWCDataset(data_dir)
         for img, annot in zip(a.imgs, a.annotation):
             if os.path.splitext(img)[0] != os.path.splitext(annot)[0]:
