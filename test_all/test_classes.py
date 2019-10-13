@@ -34,6 +34,7 @@ class TestCOWCDataset():
         zero_annotation = 0
         for i in range(len(a.annotation)):
             zero_annotation_get =  a[i]
-            zero_annotation += zero_annotation_get['object'].item()
+            if zero_annotation_get['object'].item() == 0:
+                 zero_annotation += 1
         print(zero_annotation)
-        assert zero_annotation == 0, "Image exists without bounding box"
+        assert zero_annotation != 0, "Image exists with bounding box"
