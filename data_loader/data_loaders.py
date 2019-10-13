@@ -53,7 +53,7 @@ class COWCDataLoader(BaseDataLoader):
                 std=[0.1232, 0.1230, 0.1284]
                 ),
             Resize(256, 256)
-        ],a
+        ],
             bbox_params=BboxParams(
              format='pascal_voc',
              min_area=0,
