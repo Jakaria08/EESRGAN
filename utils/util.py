@@ -88,6 +88,7 @@ def collate_fn(batch):
     Image have a different number of objects, we need a collate function (to be passed to the DataLoader).
     '''
     target = {}
+    target['object'] = list()
     target['image'] = list()
     target['bboxes'] = list()
     target['labels'] = list()
@@ -95,6 +96,7 @@ def collate_fn(batch):
     target['idx'] = list()
 
     for b in batch:
+        target['object'].append(b['object'])
         target['image'].append(b['image'])
         target['bboxes'].append(b['bboxes'])
         target['labels'].append(b['labels'])

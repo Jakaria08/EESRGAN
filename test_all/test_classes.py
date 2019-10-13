@@ -37,4 +37,5 @@ class TestCOWCDataset():
             if zero_annotation_get['object'].item() == 0:
                  zero_annotation += 1
         print("Number of image withot bbox: "+str(zero_annotation))
+        #use assert zero_annotation == 0 if all image contain bounding box
         assert zero_annotation != 0, "Image exists with bounding box"

@@ -42,6 +42,7 @@ class COWCTrainer(BaseTrainer):
         self.model.train()
         self.train_metrics.reset()
         for batch_idx, dataset_dict in enumerate(self.data_loader):
+            print(dataset_dict['object'])
             print(dataset_dict['image'].size())
             print(dataset_dict['bboxes'])
             print(dataset_dict['labels'])
