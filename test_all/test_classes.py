@@ -1,6 +1,7 @@
 import pytest
 import os
 import shutil
+import torch
 from parse_config import ConfigParser
 from utils import read_json, write_json
 from scripts_for_datasets import COWCDataset
@@ -33,6 +34,6 @@ class TestCOWCDataset():
         zero_annotation = 0
         for i in range(len(a.annotation)):
             zero_annotation_get =  a[i]
-            zero_annotation += zero_annotation_get['object'].numpy()[0]
+            zero_annotation += zero_annotation_get['object'].data[0]
         print(zero_annotation)
         assert zero_annotation != 0, "Image exists without bounding box"
