@@ -42,7 +42,7 @@ class COWCDataset(Dataset):
                 target = {}
                 target['object'] = 0
                 target['image'] = img
-                target['bboxes'] = [0, 0, 0, 0]
+                target['bboxes'] = [[0, 0, 0, 0]]
                 target['labels'] = 0
                 target['label_car_type'] = 0
                 target['idx'] = idx
