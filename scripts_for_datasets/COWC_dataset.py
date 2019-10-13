@@ -14,11 +14,10 @@ warnings.filterwarnings("ignore")
 
 
 class COWCDataset(Dataset):
-  def __init__(self, root, image_height=256, image_width=256, transform = None, trnsfrm_wt_obj = None):
+  def __init__(self, root, image_height=256, image_width=256, transform = None):
     self.root = root
     #take all under same folder for train and test split.
     self.transform = transform
-    self.trnsfrm_wt_obj = trnsfrm_wt_obj
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
@@ -43,7 +42,11 @@ class COWCDataset(Dataset):
                 target = {}
                 target['object'] = 0
                 target['image'] = img
+                target['bboxes'] = [0, 0, 0, 0]
+                target['labels'] = 0
+                target['label_car_type'] = 0
                 target['idx'] = idx
+                break
             else:
                 #get coordinates withing height width range
                 x = float(values[1])*self.image_width
@@ -70,44 +73,27 @@ class COWCDataset(Dataset):
         target['label_car_type'] = label_car_type
         target['idx'] = idx
 
-        if self.transform is None:
-            #convert to tensor
-            target = self.convert_to_tensor(**target)
-            return target
-            #transform
-        else:
-            transformed = self.transform(**target)
-            #print(transformed['image'], transformed['bboxes'], transformed['labels'], transformed['idx'])
-            target = self.convert_to_tensor(**transformed)
-            return target
-    else: #if there is no object value = 0
-        if self.trnsfrm_wt_obj is None:
-            #convert to tensor
-            target = self.convert_to_tensor(**target)
-            return target
-
-            #transform
-        else:
-            transformed = self.trnsfrm_wt_obj(**target)
-            #print(transformed['image'], transformed['bboxes'], transformed['labels'], transformed['idx'])
-            target = self.convert_to_tensor(**transformed)
-            return target
+    if self.transform is None:
+        #convert to tensor
+        target = self.convert_to_tensor(**target)
+        return target
+        #transform
+    else:
+        transformed = self.transform(**target)
+        #print(transformed['image'], transformed['bboxes'], transformed['labels'], transformed['idx'])
+        target = self.convert_to_tensor(**transformed)
+        return target
 
   def __len__(self):
     return len(self.imgs)
 
   def convert_to_tensor(self, **target):
       #convert to tensor
-      if target['object'] == 1:
-          target['object'] = torch.tensor(target['object'], dtype=torch.int64)
-          target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
-          target['bboxes'] = torch.as_tensor(target['bboxes'], dtype=torch.int64)
-          target['labels'] = torch.ones(len(target['bboxes']), dtype=torch.int64)
-          target['label_car_type'] = torch.as_tensor(target['label_car_type'], dtype=torch.int64)
-          target['image_id'] = torch.tensor([target['idx']])
-      else:
-          target['object'] = torch.tensor(target['object'], dtype=torch.int64)
-          target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
-          target['image_id'] = torch.tensor([target['idx']])
+      target['object'] = torch.tensor(target['object'], dtype=torch.int64)
+      target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
+      target['bboxes'] = torch.as_tensor(target['bboxes'], dtype=torch.int64)
+      target['labels'] = torch.ones(len(target['bboxes']), dtype=torch.int64)
+      target['label_car_type'] = torch.as_tensor(target['label_car_type'], dtype=torch.int64)
+      target['image_id'] = torch.tensor([target['idx']])
 
       return target

@@ -60,28 +60,7 @@ class COWCDataLoader(BaseDataLoader):
              min_visibility=0,
              label_fields=['labels'])
         )
-        # transformation for the images without bounding boxes
-        data_transforms_wt_obj = Compose([
-            HorizontalFlip(),
-            OneOf([
-                    IAAAdditiveGaussianNoise(),
-                    GaussNoise(),
-                ], p=0.2),
-            OneOf([
-                    CLAHE(clip_limit=2),
-                    IAASharpen(),
-                    IAAEmboss(),
-                    RandomBrightnessContrast(),
-                ], p=0.3),
-                HueSaturationValue(p=0.3),
-            Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225]
-                ),
-            Resize(256, 256)
-        ]
-        )
 
         self.data_dir = data_dir
-        self.dataset = COWCDataset(self.data_dir, transform=data_transforms, trnsfrm_wt_obj=data_transforms_wt_obj)
+        self.dataset = COWCDataset(self.data_dir, transform=data_transforms)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
