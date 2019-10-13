@@ -48,12 +48,12 @@ class COWCDataLoader(BaseDataLoader):
                     RandomBrightnessContrast(),
                 ], p=0.3),
                 HueSaturationValue(p=0.3),
-            Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225]
+            Normalize( #mean std for potsdam dataset from COWC
+                mean=[0.3442, 0.3708, 0.3476],
+                std=[0.1232, 0.1230, 0.1284]
                 ),
             Resize(256, 256)
-        ],
+        ],a
             bbox_params=BboxParams(
              format='pascal_voc',
              min_area=0,
