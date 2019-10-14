@@ -33,3 +33,4 @@ class TinyNet(BaseModel):
         super().__init__()
 
     def forward(self, x):
+        pass
