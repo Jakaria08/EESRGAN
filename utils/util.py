@@ -59,7 +59,7 @@ def visualize(annotations, category_id_to_name):
 
     collate function in data loader will create this format as a list:
     'bboxes': [tensor([[255,   0, 256,   1]])],
-    'labels': [tensor([1])], 'label_car_type': [tensor([0])], 'idx': [1670]}
+    'labels': [tensor([1])], 'label_car_type': [tensor([0])], 'idx': [1670]
     '''
     img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
     annotations['labels'] = annotations['labels'][0].numpy()
