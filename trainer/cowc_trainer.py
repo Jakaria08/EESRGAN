@@ -52,7 +52,7 @@ class COWCTrainer(BaseTrainer):
             print(dataset_dict['idx'])
             '''
 
-            if dataset_dict['object'].item() == 0:
+            if dataset_dict['object'].squeeze().item() == 0:
                 visualize(dataset_dict, category_id_to_name)
         '''
             data, target = data.to(self.device), target.to(self.device)
