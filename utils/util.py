@@ -48,29 +48,21 @@ def visualize(annotations, category_id_to_name):
     '''
     receives single image and its properties
 
-    To use this method make sure use data loader without collate function
+    To use this method make sure use data loader with collate function
     and use batch size as 1
 
-    If collate function is used in data loader then the data format will
-    be changed.
-
-    This is the desired format 'bboxes': tensor([[0, 0, 1, 1]]), 'labels': tensor([1]),
-    'label_car_type': tensor([0]), 'idx': 0, 'image_id': tensor([0])
-
     collate function in data loader will create this format as a list:
-    'bboxes': [tensor([[255,   0, 256,   1]])],
+    This is the desired format: 'bboxes': [tensor([[255,   0, 256,   1]])],
     'labels': [tensor([1])], 'label_car_type': [tensor([0])], 'idx': [1670]
     '''
     img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
     annotations['labels'] = annotations['labels'][0].numpy()
-    length = np.shape(annotations['labels'])[1]
-    print(annotations['labels'].squeeze())
+    length = len(annotations['labels'])
     if length == 1:
         img = visualize_bbox(img, annotations['bboxes'][0].squeeze().numpy(), int(annotations['labels'].squeeze()), category_id_to_name)
     else:
-        for idx, bbox in enumerate(annotations['bboxes'][0].squeeze().numpy()):
-          img = visualize_bbox(img, bbox, annotations['labels'].squeeze()[idx], category_id_to_name)
-
+        for idx, bbox in enumerate(annotations['bboxes'][0].numpy()):
+            img = visualize_bbox(img, bbox, annotations['labels'][idx], category_id_to_name)
     plt.figure(figsize=(12, 12))
     plt.imshow(img)
     print(img.shape)
