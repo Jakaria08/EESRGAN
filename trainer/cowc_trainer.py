@@ -50,7 +50,7 @@ class COWCTrainer(BaseTrainer):
         self.train_metrics.reset()
         category_id_to_name = {1: 'car'}
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            print(dataset_dict[image].size())
+            print(dataset_dict['image'].size())
         '''
             data, target = data.to(self.device), target.to(self.device)
 
