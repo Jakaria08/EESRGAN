@@ -45,7 +45,22 @@ def visualize_bbox(img, bbox, class_id, class_idx_to_name, color=BOX_COLOR, thic
     return img
 
 def visualize(annotations, category_id_to_name):
-    #receives single image and its properties
+    '''
+    receives single image and its properties
+
+    To use this method make sure use data loader without collate function
+    and use batch size as 1
+
+    If collate function is used in data loader then the data format will
+    be changed.
+
+    This is the desired format 'bboxes': tensor([[0, 0, 1, 1]]), 'labels': tensor([1]),
+    'label_car_type': tensor([0]), 'idx': 0, 'image_id': tensor([0])
+
+    collate function in data loader will create this format as a list:
+    'bboxes': [tensor([[255,   0, 256,   1]])],
+    'labels': [tensor([1])], 'label_car_type': [tensor([0])], 'idx': [1670]}
+    '''
     img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
     annotations['labels'] = annotations['labels'].numpy()
     length = np.shape(annotations['labels'])[1]
@@ -85,7 +100,8 @@ def calculate_mean_std(data_loader):
 
 def collate_fn(batch):
     '''
-    Image have a different number of objects, we need a collate function (to be passed to the DataLoader).
+    Image have a different number of objects, we need a collate function
+    (to be passed to the DataLoader).
     '''
     target = {}
     target['object'] = list()

@@ -52,7 +52,7 @@ class COWCTrainer(BaseTrainer):
             print(dataset_dict['idx'])
             '''
 
-            if dataset_dict['object'][0] == 0:
+            if dataset_dict['object'][0].item() == 0:
                 print(dataset_dict)
                 #visualize(dataset_dict, category_id_to_name)
         '''
