@@ -35,6 +35,13 @@ class COWCTrainer(BaseTrainer):
         """
         Training logic for an epoch
 
+        for visualization use the following code:
+        category_id_to_name = {1: 'car'}
+        for batch_idx, dataset_dict in enumerate(self.data_loader):
+            if dataset_dict['object'][0].item() == 0:
+                print(dataset_dict)
+                visualize(dataset_dict, category_id_to_name)
+
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
@@ -43,10 +50,7 @@ class COWCTrainer(BaseTrainer):
         self.train_metrics.reset()
         category_id_to_name = {1: 'car'}
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            if dataset_dict['object'][0].item() == 0:
-                print(dataset_dict)
-                visualize(dataset_dict, category_id_to_name)
-                
+            print(dataset_dict[image].size())
         '''
             data, target = data.to(self.device), target.to(self.device)
 
