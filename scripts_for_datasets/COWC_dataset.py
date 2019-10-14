@@ -36,15 +36,21 @@ class COWCDataset(Dataset):
     with open(annotation_path) as f:
         for line in f:
             values = (line.split())
+            if "\ufeff" in values[0]:
+                values[0] = values[0][-1]
             obj_class = int(values[0])
             #image without bounding box - in txt file, line starts with 0 and only contains only 0
             if obj_class == 0:
+                boxes.append([0, 0, 1, 1])
+                labels = np.ones(len(boxes)) # all are cars
+                label_car_type.append(obj_class)
+                #create dictionary to access the values
                 target = {}
                 target['object'] = 0
                 target['image'] = img
-                target['bboxes'] = [[0, 0, 0, 0]]
-                target['labels'] = 0
-                target['label_car_type'] = 0
+                target['bboxes'] = boxes
+                target['labels'] = labels
+                target['label_car_type'] = label_car_type
                 target['idx'] = idx
                 break
             else:

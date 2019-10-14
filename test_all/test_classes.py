@@ -21,7 +21,7 @@ class TestCOWCDataset():
         for img, annot in zip(a.imgs, a.annotation):
             if os.path.splitext(img)[0] != os.path.splitext(annot)[0]:
                 print("problem")
-
+        print(len(a.annotation))
         assert len(a.imgs) == len(a.annotation), "NOT equal"
 
     def test_zero_annotation(self):
