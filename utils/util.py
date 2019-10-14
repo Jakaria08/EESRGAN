@@ -70,13 +70,17 @@ def visualize(annotations, category_id_to_name):
     cv2.imwrite(str(x)+'test.png', img)
 
 def calculate_mean_std(data_loader):
-    #receivdes a data loader object to calcute std, mean for 3 channel image dataset
-    #From: https://discuss.pytorch.org/t/computing-the-mean-and-std-of-dataset/34949/2
+    '''
+    receivdes a data loader object to calcute std, mean for 3 channel image dataset
+    From: https://discuss.pytorch.org/t/computing-the-mean-and-std-of-dataset/34949/2
+    check this method using collate function in data DataLoader
+    test it before using
+    '''
     mean = 0
     std = 0
     nb_samples = 0
     for batch_idx, dataset_dict in enumerate(data_loader):
-        batch_samples = dataset_dict['image'].size(0)
+        batch_samples = dataset_dict['image'].size(0)# check this line for correctness
         imgs = dataset_dict['image'].double().view(batch_samples, dataset_dict['image'].size(1), -1)
         #print(imgs.size())
         mean += imgs.mean(2).sum(0)
