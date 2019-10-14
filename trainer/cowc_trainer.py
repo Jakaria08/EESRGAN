@@ -43,18 +43,9 @@ class COWCTrainer(BaseTrainer):
         self.train_metrics.reset()
         category_id_to_name = {1: 'car'}
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            '''
-            print(dataset_dict['object'])
-            print(dataset_dict['image'].size())
-            print(dataset_dict['bboxes'])
-            print(dataset_dict['labels'])
-            print(dataset_dict['label_car_type'])
-            print(dataset_dict['idx'])
-            '''
-
             if dataset_dict['object'][0].item() == 0:
                 print(dataset_dict)
-                #visualize(dataset_dict, category_id_to_name)
+                visualize(dataset_dict, category_id_to_name)
         '''
             data, target = data.to(self.device), target.to(self.device)
 

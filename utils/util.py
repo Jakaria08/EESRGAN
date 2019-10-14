@@ -62,13 +62,13 @@ def visualize(annotations, category_id_to_name):
     'labels': [tensor([1])], 'label_car_type': [tensor([0])], 'idx': [1670]}
     '''
     img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
-    annotations['labels'] = annotations['labels'].numpy()
+    annotations['labels'] = annotations['labels'][0].numpy()
     length = np.shape(annotations['labels'])[1]
     print(annotations['labels'].squeeze())
     if length == 1:
-        img = visualize_bbox(img, annotations['bboxes'].squeeze().numpy(), int(annotations['labels'].squeeze()), category_id_to_name)
+        img = visualize_bbox(img, annotations['bboxes'][0].squeeze().numpy(), int(annotations['labels'].squeeze()), category_id_to_name)
     else:
-        for idx, bbox in enumerate(annotations['bboxes'].squeeze().numpy()):
+        for idx, bbox in enumerate(annotations['bboxes'][0].squeeze().numpy()):
           img = visualize_bbox(img, bbox, annotations['labels'].squeeze()[idx], category_id_to_name)
 
     plt.figure(figsize=(12, 12))
