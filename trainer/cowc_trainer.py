@@ -53,7 +53,8 @@ class COWCTrainer(BaseTrainer):
             '''
 
             if dataset_dict['object'][0] == 0:
-                visualize(dataset_dict, category_id_to_name)
+                print(dataset_dict)
+                #visualize(dataset_dict, category_id_to_name)
         '''
             data, target = data.to(self.device), target.to(self.device)
 
