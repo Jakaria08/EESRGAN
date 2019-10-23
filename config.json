@@ -9,7 +9,7 @@
     "data_loader": {
         "type": "COWCDataLoader",
         "args":{
-            "data_dir": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/",
+            "data_dir": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Train-Mixed-class-2/",
             "batch_size": 10,
             "shuffle": true,
             "validation_split": 0.1,
