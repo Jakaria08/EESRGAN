@@ -53,8 +53,8 @@ class COWCTrainer(BaseTrainer):
         for batch_idx, dataset_dict in enumerate(self.data_loader):
             #print(dataset_dict['image'].size())
 
-            data, target = dataset_dict['image'].to(self.device),
-                           dataset_dict['object'].to(self.device)
+            data, target = dataset_dict['image'].to(self.device), \
+            dataset_dict['object'].to(self.device)
 
             self.optimizer.zero_grad()
             output = self.model(data)
