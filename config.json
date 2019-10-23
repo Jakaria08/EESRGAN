@@ -1,9 +1,9 @@
 {
-    "name": "Mnist_LeNet",
+    "name": "ImagePatchClassifier_TinyNet",
     "n_gpu": 1,
 
     "arch": {
-        "type": "MnistModel",
+        "type": "ImagePatchClassifier",
         "args": {}
     },
     "data_loader": {
