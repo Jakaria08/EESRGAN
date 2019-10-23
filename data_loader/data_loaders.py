@@ -36,6 +36,7 @@ class COWCDataLoader(BaseDataLoader):
         #satellite image 0.5 is good otherwise calculate mean and std for the whole dataset.
         #calculted mean and std using method from util
         data_transforms = Compose([
+            Resize(256, 256)
             HorizontalFlip(),
             OneOf([
                     IAAAdditiveGaussianNoise(),
@@ -48,11 +49,10 @@ class COWCDataLoader(BaseDataLoader):
                     RandomBrightnessContrast(),
                 ], p=0.3),
                 HueSaturationValue(p=0.3),
-            Normalize( #mean std for potsdam dataset from COWC
+            Normalize( #mean std for potsdam dataset from COWC [Calculate also for spot6]
                 mean=[0.3442, 0.3708, 0.3476],
                 std=[0.1232, 0.1230, 0.1284]
-                ),
-            Resize(256, 256)
+                )
         ],
             bbox_params=BboxParams(
              format='pascal_voc',

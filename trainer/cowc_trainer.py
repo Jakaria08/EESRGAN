@@ -43,7 +43,7 @@ class COWCTrainer(BaseTrainer):
                 visualize(dataset_dict, category_id_to_name) --> see this method in util
 
         image size: torch.Size([10, 3, 256, 256]) if batch_size = 10
-        
+
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
@@ -51,9 +51,10 @@ class COWCTrainer(BaseTrainer):
         self.model.train()
         self.train_metrics.reset()
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            print(dataset_dict['image'].size())
-        '''
-            data, target = data.to(self.device), target.to(self.device)
+            #print(dataset_dict['image'].size())
+
+            data, target = dataset_dict['image'].to(self.device),
+                                                    dataset_dict['object'].to(self.device)
 
             self.optimizer.zero_grad()
             output = self.model(data)
@@ -84,7 +85,7 @@ class COWCTrainer(BaseTrainer):
         if self.lr_scheduler is not None:
             self.lr_scheduler.step()
         return log
-        '''
+
     def _valid_epoch(self, epoch):
         """
         Validate after training an epoch
