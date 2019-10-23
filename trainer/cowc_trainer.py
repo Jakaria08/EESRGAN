@@ -96,8 +96,9 @@ class COWCTrainer(BaseTrainer):
         self.model.eval()
         self.valid_metrics.reset()
         with torch.no_grad():
-            for batch_idx, (data, target) in enumerate(self.valid_data_loader):
-                data, target = data.to(self.device), target.to(self.device)
+            for batch_idx, dataset_dict in enumerate(self.valid_data_loader):
+                data, target = dataset_dict['image'].to(self.device), \
+                dataset_dict['object'].to(self.device)
 
                 output = self.model(data)
                 loss = self.criterion(output, target)
