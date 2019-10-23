@@ -48,9 +48,9 @@ conv3x3 = partial(Conv2dAuto, kernel_size=3, bias=False)
 #dict of activation function
 def activation_func(activation):
     return  nn.ModuleDict([
-        ['relu', nn.ReLU(inplace=True)],
-        ['leaky_relu', nn.LeakyReLU(negative_slope=0.01, inplace=True)],
-        ['selu', nn.SELU(inplace=True)],
+        ['relu', nn.ReLU(inplace=False)], #sometimes you will see inplace gradient calculation operation error, just change it to false
+        ['leaky_relu', nn.LeakyReLU(negative_slope=0.01, inplace=False)],
+        ['selu', nn.SELU(inplace=False)],
         ['none', nn.Identity()]
     ])[activation]
 '''
