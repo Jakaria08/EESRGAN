@@ -122,6 +122,19 @@ def collate_fn(batch):
     return target
 
 '''
+cubic() method is taken from ESRGAN(BasicSR) GitHub Repo.
+Didn't go through the process of the methods. Take a look for good understanding.
+Link: https://github.com/xinntao/BasicSR/blob/master/codes/data/util.py
+'''
+def cubic(x):
+    absx = torch.abs(x)
+    absx2 = absx**2
+    absx3 = absx**3
+    return (1.5 * absx3 - 2.5 * absx2 + 1) * (
+        (absx <= 1).type_as(absx)) + (-0.5 * absx3 + 2.5 * absx2 - 4 * absx + 2) * ((
+            (absx > 1) * (absx <= 2)).type_as(absx))
+
+'''
 calculate_weights_indices() method is taken from ESRGAN(BasicSR) GitHub Repo.
 Didn't go through the process of the methods. Take a look for good understanding.
 Link: https://github.com/xinntao/BasicSR/blob/master/codes/data/util.py
