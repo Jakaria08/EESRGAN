@@ -1,3 +1,10 @@
+'''
+This script is taken from https://github.com/xinntao/BasicSR/blob/master/codes/scripts/generate_mod_LR_bic.py
+Need to understand, but for now using for generating Low res ang bicubic upscale images.
+Can be done using much simpler code.
+This code is useful for variable size of images but my images are square, so don't Need
+this now but useful for later use cases.
+'''
 import os
 import sys
 import cv2
@@ -16,6 +23,7 @@ def generate_mod_LR_bic():
     mod_scale = 4
     # set data dir
     # directory structure on sunray server pc
+    # Need to change later when refactoring, code cleaning and testing.
     sourcedir = '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS'
     savedir = '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS'
 
