@@ -422,3 +422,7 @@ class VGGFeatureExtractor(nn.Module):
             x = (x - self.mean) / self.std
         output = self.features(x)
         return output
+
+'''
+Create 
+'''

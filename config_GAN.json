@@ -1,0 +1,84 @@
+{
+    "name": "RRDB_ESRGANx4",
+    "n_gpu": 1,
+    "model": "srgan",
+    "distortion": "sr",
+    "scale": 4,
+
+    "network_G": {
+        "which_model_G": "RRDBNet",
+        "in_nc": 3,
+        "out_nc": 3,
+
+        "nf": 64,
+        "nb": 23,
+        "args": {}
+    },
+    "network_D": {
+        "which_model_G": "discriminator_vgg_128",
+        "in_nc": 3,
+        "nf": 64,
+        "args": {}
+    },
+    "data_loader": {
+        "type": "COWCGANDataLoader",
+        "args":{
+            "mode": "LQGT",
+            "data_dir_GT": "",
+            "data_dir_LQ": "",
+
+            "batch_size": 10,
+            "shuffle": true,
+            "validation_split": 0.1,
+            "num_workers": 2
+        }
+    },
+    "optimizer": {
+        "type": "SGD",
+        "args":{
+        "lr_G": 1e-4,
+        "weight_decay_G": 0,
+        "beta1_G": 0.9,
+        "beta2_G": 0.99,
+
+        "lr_D": 1e-4,
+        "weight_decay_D": 0,
+        "beta1_D": 0.9,
+        "beta2_D": 0.99
+        }
+    },
+    "loss": "cross_entropy",
+    "metrics": [
+        "accuracy"
+    ],
+    "lr_scheduler": {
+        "type": "MultiStepLR",
+        "args": {
+            "lr_steps": [50000, 100000, 200000, 300000],
+            "lr_gamma": 0.5
+        }
+    },
+    "trainer": {
+        "epochs": 400000,
+        "pixel_criterion": "l1",
+        "pixel_weight": 1e-2,
+        "feature_criterion": "l1",
+        "feature_weight": 1,
+
+        "gan_type": "ragan",
+        "gan_weight": 5e-3,
+        "D_update_ratio": 1,
+        "D_init_iters": 0,
+        "manual_seed": 10,
+        "val_freq": 5e3,
+
+        "save_dir": "saved/",
+        "save_period": 1,
+        "verbosity": 2,
+
+        "monitor": "min val_loss",
+        "early_stop": 10,
+
+        "tensorboard": true
+    }
+}
