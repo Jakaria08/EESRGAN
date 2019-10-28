@@ -98,7 +98,7 @@ class COWCGANDataset(Dataset):
         return target
 
   def __len__(self):
-    return len(self.img_lq)
+    return len(self.imgs_lq)
 
   def convert_to_tensor(self, **target):
       #convert to tensor
