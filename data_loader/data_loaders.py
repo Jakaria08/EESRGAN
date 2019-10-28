@@ -95,6 +95,7 @@ class COWCGANDataLoader(BaseDataLoader):
 
         self.data_dir_gt = data_dir_GT
         self.data_dir_lq = data_dir_LQ
+        print(self.data_dir_lq)
         self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_gan)
         for img, annot in zip(self.dataset.imgs_lq, self.dataset.annotation):
             if os.path.splitext(img)[0] != os.path.splitext(annot)[0]:
