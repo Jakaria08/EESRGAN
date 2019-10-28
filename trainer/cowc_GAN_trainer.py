@@ -24,7 +24,7 @@ class COWCGANTrainer:
 
         for visualization use the following code (use batch size = 1):
         '''
-        print(self.data_loader)
+        print(len(self.data_loader))
         category_id_to_name = {1: 'car'}
         for dataset_dict in self.data_loader:
             print(dataset_dict['idx'])
