@@ -3,7 +3,7 @@ import functools
 import torchvision
 import torch.nn as nn
 import torch.nn.functional as F
-import module_util as mutil
+import utils as mutil
 from functools import partial
 from dataclasses import dataclass
 from collections import OrderedDict
@@ -424,5 +424,5 @@ class VGGFeatureExtractor(nn.Module):
         return output
 
 '''
-Create 
+Create
 '''
