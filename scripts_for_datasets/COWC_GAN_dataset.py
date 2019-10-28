@@ -15,21 +15,26 @@ warnings.filterwarnings("ignore")
 
 class COWCGANDataset(Dataset):
   def __init__(self, data_dir_gt, data_dir_lq, image_height=256, image_width=256, transform = None):
-    self.root = root
+    self.data_dir_gt = data_dir_gt
+    self.data_dir_lq = data_dir_lq
     #take all under same folder for train and test split.
     self.transform = transform
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
-    self.imgs = list(sorted(set(glob.glob(self.root+"*.jpg")) - set(glob.glob(self.root+"*check.jpg"))))
-    self.annotation = list(sorted(glob.glob(self.root+"*.txt")))
+    self.imgs_gt = list(sorted(glob.glob(self.data_dir_gt+"*.jpg")))
+    self.imgs_lq = list(sorted(glob.glob(self.data_dir_lq+"*.jpg")))
+    self.annotation = list(sorted(glob.glob(self.data_dir_lq+"*.txt")))
 
   def __getitem__(self, idx):
     #get the paths
-    img_path = os.path.join(self.root, self.imgs[idx])
-    annotation_path = os.path.join(self.root, self.annotation[idx])
-    img = cv2.imread(img_path,1) #read color image height*width*channel=3
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img_path_gt = os.path.join(self.data_dir_gt, self.imgs_gt[idx])
+    img_path_lq = os.path.join(self.data_dir_lq, self.imgs_lq[idx])
+    annotation_path = os.path.join(self.data_dir_lq, self.annotation[idx])
+    img_gt = cv2.imread(img_path_gt,1) #read color image height*width*channel=3
+    img_lq = cv2.imread(img_path_lq,1) #read color image height*width*channel=3
+    img_gt = cv2.cvtColor(img_gt, cv2.COLOR_BGR2RGB)
+    img_lq = cv2.cvtColor(img_lq, cv2.COLOR_BGR2RGB)
     #get the bounding box
     boxes = list()
     label_car_type = list()
@@ -47,7 +52,8 @@ class COWCGANDataset(Dataset):
                 #create dictionary to access the values
                 target = {}
                 target['object'] = 0
-                target['image'] = img
+                target['image_gt'] = img_gt
+                target['image_lq'] = img_lq
                 target['bboxes'] = boxes
                 target['labels'] = labels
                 target['label_car_type'] = label_car_type
@@ -73,7 +79,8 @@ class COWCGANDataset(Dataset):
         #create dictionary to access the values
         target = {}
         target['object'] = 1
-        target['image'] = img
+        target['image_gt'] = img_gt
+        target['image_lq'] = img_lq
         target['bboxes'] = boxes
         target['labels'] = labels
         target['label_car_type'] = label_car_type
@@ -91,12 +98,13 @@ class COWCGANDataset(Dataset):
         return target
 
   def __len__(self):
-    return len(self.imgs)
+    return len(self.img_lq)
 
   def convert_to_tensor(self, **target):
       #convert to tensor
       target['object'] = torch.tensor(target['object'], dtype=torch.int64)
-      target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
+      target['image_gt'] = torch.from_numpy(target['image_gt'].transpose((2, 0, 1)))
+      target['image_lq'] = torch.from_numpy(target['image_lq'].transpose((2, 0, 1)))
       target['bboxes'] = torch.as_tensor(target['bboxes'], dtype=torch.int64)
       target['labels'] = torch.ones(len(target['bboxes']), dtype=torch.int64)
       target['label_car_type'] = torch.as_tensor(target['label_car_type'], dtype=torch.int64)
