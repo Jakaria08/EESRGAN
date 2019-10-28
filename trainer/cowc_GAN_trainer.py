@@ -3,7 +3,9 @@ import torch
 from torchvision.utils import make_grid
 from base import BaseTrainer
 from utils import inf_loop, MetricTracker, visualize_bbox, visualize
-
+'''
+python train.py -c config_GAN.json
+'''
 
 class COWCGANTrainer:
     """
@@ -24,7 +26,7 @@ class COWCGANTrainer:
         '''
         category_id_to_name = {1: 'car'}
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            if dataset_dict['idx'] == 10
+            if dataset_dict['idx'] == 10:
                 print(dataset_dict)
                 visualize(dataset_dict, category_id_to_name) #--> see this method in util
 

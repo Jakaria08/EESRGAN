@@ -9,7 +9,9 @@ import model.model as module_arch
 from parse_config import ConfigParser
 from trainer import COWCTrainer
 from trainer import COWCGANTrainer
-
+'''
+python train.py -c config_GAN.json
+'''
 
 # fix random seeds for reproducibility
 SEED = 123
