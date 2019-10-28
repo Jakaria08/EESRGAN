@@ -24,8 +24,8 @@
         "type": "COWCGANDataLoader",
         "args":{
             "mode": "LQGT",
-            "data_dir_GT": "",
-            "data_dir_LQ": "",
+            "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4",
+            "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4",
 
             "batch_size": 10,
             "shuffle": true,

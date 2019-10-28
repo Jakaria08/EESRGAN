@@ -61,6 +61,39 @@ class COWCDataLoader(BaseDataLoader):
              label_fields=['labels'])
         )
 
+
         self.data_dir = data_dir
         self.dataset = COWCDataset(self.data_dir, transform=data_transforms)
+        super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
+
+class COWCGANDataLoader(BaseDataLoader):
+    """
+    COWC data loading using BaseDataLoader
+    """
+    def __init__(self, data_dir_GT, data_dir_LQ, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
+        #data transformation
+        #According to this link: https://discuss.pytorch.org/t/normalization-of-input-image/34814/8
+        #satellite image 0.5 is good otherwise calculate mean and std for the whole dataset.
+        #calculted mean and std using method from util
+        '''
+        Data transform for GAN training
+        '''
+        data_transforms_gan = Compose([
+            Resize(256, 256),
+            HorizontalFlip(),
+            Normalize( #mean std for potsdam dataset from COWC [Calculate also for spot6]
+                mean=[0.3442, 0.3708, 0.3476],
+                std=[0.1232, 0.1230, 0.1284]
+                )
+        ],
+            bbox_params=BboxParams(
+             format='pascal_voc',
+             min_area=0,
+             min_visibility=0,
+             label_fields=['labels'])
+        )
+
+        self.data_dir_gt = data_dir_GT
+        self.data_dir_lq = data_dir_LQ
+        self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_gan)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
