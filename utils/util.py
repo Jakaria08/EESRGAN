@@ -61,6 +61,7 @@ def visualize(annotations, category_id_to_name):
     std = np.array([0.1232, 0.1230, 0.1284])
     img = std * img + mean
     img = np.clip(img, 0, 1)
+    img = img*255
     annotations['labels'] = annotations['labels'][0].numpy()
     length = len(annotations['labels'])
     if length == 1:
