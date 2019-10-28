@@ -1,6 +1,6 @@
 from torchvision import datasets, transforms
 from base import BaseDataLoader
-from scripts_for_datasets import COWCDataset
+from scripts_for_datasets import COWCDataset, COWCGANDataset
 from utils import collate_fn
 from albumentations import (
     HorizontalFlip, IAAPerspective, ShiftScaleRotate, CLAHE, RandomRotate90,
