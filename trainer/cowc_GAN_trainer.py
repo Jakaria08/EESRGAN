@@ -24,10 +24,9 @@ class COWCGANTrainer:
 
         for visualization use the following code (use batch size = 1):
         '''
-        print('DEBUG')
         category_id_to_name = {1: 'car'}
         for batch_idx, dataset_dict in enumerate(self.data_loader):
-            if dataset_dict['idx'] == 10:
+            if dataset_dict['idx'].squeeze() == 10:
                 print(dataset_dict)
                 visualize(dataset_dict, category_id_to_name) #--> see this method in util
 
