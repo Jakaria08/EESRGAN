@@ -53,7 +53,7 @@ class COWCGANDataset(Dataset):
                 target = {}
                 target['object'] = 0
                 target['image_gt'] = img_gt
-                target['image_lq'] = img_lq
+                target['image'] = img_lq
                 target['bboxes'] = boxes
                 target['labels'] = labels
                 target['label_car_type'] = label_car_type
@@ -80,7 +80,7 @@ class COWCGANDataset(Dataset):
         target = {}
         target['object'] = 1
         target['image_gt'] = img_gt
-        target['image_lq'] = img_lq
+        target['image'] = img_lq
         target['bboxes'] = boxes
         target['labels'] = labels
         target['label_car_type'] = label_car_type
@@ -104,7 +104,7 @@ class COWCGANDataset(Dataset):
       #convert to tensor
       target['object'] = torch.tensor(target['object'], dtype=torch.int64)
       target['image_gt'] = torch.from_numpy(target['image_gt'].transpose((2, 0, 1)))
-      target['image_lq'] = torch.from_numpy(target['image_lq'].transpose((2, 0, 1)))
+      target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
       target['bboxes'] = torch.as_tensor(target['bboxes'], dtype=torch.int64)
       target['labels'] = torch.ones(len(target['bboxes']), dtype=torch.int64)
       target['label_car_type'] = torch.as_tensor(target['label_car_type'], dtype=torch.int64)
