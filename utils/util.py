@@ -108,6 +108,7 @@ def collate_fn(batch):
     target = {}
     target['object'] = list()
     target['image'] = list()
+    target['image_gt'] = list()
     target['bboxes'] = list()
     target['labels'] = list()
     target['label_car_type'] = list()
@@ -116,6 +117,7 @@ def collate_fn(batch):
     for b in batch:
         target['object'].append(b['object'])
         target['image'].append(b['image'])
+        target['image_gt'].append(b['image_gt'])
         target['bboxes'].append(b['bboxes'])
         target['labels'].append(b['labels'])
         target['label_car_type'].append(b['label_car_type'])
@@ -123,6 +125,7 @@ def collate_fn(batch):
 
     target['object'] = torch.stack(target['object'], dim=0)
     target['image'] = torch.stack(target['image'], dim=0)
+    target['image_gt'] = torch.stack(target['image_gt'], dim=0)
 
     return target
 
