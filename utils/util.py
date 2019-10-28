@@ -56,7 +56,7 @@ def visualize(annotations, category_id_to_name):
     This is the desired format: 'bboxes': [tensor([[255,   0, 256,   1]])],
     'labels': [tensor([1])], 'label_car_type': [tensor([0])], 'idx': [1670]
     '''
-    img = annotations['image'].squeeze().numpy().transpose(1,2,0).copy()
+    img = annotations['image_gt'].squeeze().numpy().transpose(1,2,0).copy()
     mean = np.array([0.3442, 0.3708, 0.3476])
     std = np.array([0.1232, 0.1230, 0.1284])
     img = std * img + mean
