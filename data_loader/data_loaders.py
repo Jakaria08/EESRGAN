@@ -98,8 +98,5 @@ class COWCGANDataLoader(BaseDataLoader):
 
         self.data_dir_gt = data_dir_GT
         self.data_dir_lq = data_dir_LQ
-
         self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_gan)
-        print(len(self.dataset.annotation))
-        assert len(self.dataset.imgs_lq) == len(a.annotation), "NOT equal"
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
