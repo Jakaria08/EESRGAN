@@ -25,7 +25,7 @@
         "args":{
             "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/",
             "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/",
-            "batch_size": 1,
+            "batch_size": 10,
             "shuffle": true,
             "validation_split": 0.1,
             "num_workers": 2
@@ -56,8 +56,9 @@
             "lr_gamma": 0.5
         }
     },
-    "trainer": {
-        "epochs": 400000,
+    "train": {
+        "niter": 400000,
+        "warmup_iter": -1,
         "pixel_criterion": "l1",
         "pixel_weight": 1e-2,
         "feature_criterion": "l1",
