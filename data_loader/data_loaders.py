@@ -87,7 +87,7 @@ class COWCGANDataLoader(BaseDataLoader):
                 )
         ],
             additional_targets={
-             'image_gt:image'
+             'image_gt':'image'
             },
             bbox_params=BboxParams(
              format='pascal_voc',
