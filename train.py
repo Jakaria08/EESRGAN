@@ -25,7 +25,6 @@ def main(config):
 
     # setup data_loader instances
     data_loader = config.init_obj('data_loader', module_data)
-    print(len(data_loader))
     valid_data_loader = data_loader.split_validation()
 
     # build model architecture, then print to console

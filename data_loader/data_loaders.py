@@ -100,4 +100,10 @@ class COWCGANDataLoader(BaseDataLoader):
         self.data_dir_lq = data_dir_LQ
 
         self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_gan)
+
+        for img, annot in zip(self.dataset.imgs_lq, self.dataset.annotation):
+            if os.path.splitext(img)[0] != os.path.splitext(annot)[0]:
+                print("problem")
+        print(len(self.dataset.annotation))
+        assert len(self.dataset.imgs_lq) == len(a.annotation), "NOT equal"
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
