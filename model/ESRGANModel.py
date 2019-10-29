@@ -29,21 +29,21 @@ class ESRGANModel:
                 self.cri_pix = nn.MSELoss().to(self.device)
             else:
                 raise NotImplementedError('Loss type [{:s}] not recognized.'.format(l_pix_type))
-            self.l_pix_w = train_opt['pixel_weight']
+            self.l_pix_w = self.configT['pixel_weight']
         else:
             self.cri_pix = None
 
         # G feature loss
-        print(train_opt['feature_weight']+1)
-        if train_opt['feature_weight'] > 0:
-            l_fea_type = train_opt['feature_criterion']
+        print(self.configT['feature_weight']+1)
+        if self.configT['feature_weight'] > 0:
+            l_fea_type = self.configT['feature_criterion']
             if l_fea_type == 'l1':
                 self.cri_fea = nn.L1Loss().to(self.device)
             elif l_fea_type == 'l2':
                 self.cri_fea = nn.MSELoss().to(self.device)
             else:
                 raise NotImplementedError('Loss type [{:s}] not recognized.'.format(l_fea_type))
-            self.l_fea_w = train_opt['feature_weight']
+            self.l_fea_w = self.configT['feature_weight']
         else:
             self.cri_fea = None
         if self.cri_fea:  # load VGG perceptual loss
