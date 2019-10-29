@@ -26,7 +26,7 @@ class COWCGANTrainer:
         self.total_iters = int(config['train']['niter'])
         self.total_epochs = int(math.ceil(self.total_iters / self.train_size))
         print(self.total_epochs)
-        self.model = ESRGAN.ESRGANModel(config)
+        self.model = ESRGAN.ESRGANModel(config,self.device)
 
 
     def train(self):
