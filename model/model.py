@@ -405,9 +405,9 @@ class VGGFeatureExtractor(nn.Module):
         else:
             model = torchvision.models.vgg19(pretrained=True)
         if self.use_input_norm:
-            mean = torch.Tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1).to(device)
+            mean = torch.Tensor([0.3442, 0.3708, 0.3476]).view(1, 3, 1, 1).to(device)# for cowc dataset
             # [0.485 - 1, 0.456 - 1, 0.406 - 1] if input in range [-1, 1]
-            std = torch.Tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1).to(device)
+            std = torch.Tensor([0.1232, 0.1230, 0.1284]).view(1, 3, 1, 1).to(device)# for cowc dataset
             # [0.229 * 2, 0.224 * 2, 0.225 * 2] if input in range [-1, 1]
             self.register_buffer('mean', mean)
             self.register_buffer('std', std)
