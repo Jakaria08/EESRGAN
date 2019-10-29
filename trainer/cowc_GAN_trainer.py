@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import math
+import model.ESRGANModel as ESRGAN
 from scripts_for_datasets import COWCDataset, COWCGANDataset
 from torchvision.utils import make_grid
 from base import BaseTrainer
@@ -25,7 +26,7 @@ class COWCGANTrainer:
         self.total_iters = int(config['train']['niter'])
         self.total_epochs = int(math.ceil(self.total_iters / self.train_size))
         print(self.total_epochs)
-        self.model = ESRGANModel(config)
+        self.model = ESRGAN.ESRGANModel(config)
 
 
     def train(self):
