@@ -8,6 +8,7 @@ from model.loss import GANLoss
 class ESRGANModel:
     def __init__(self, config, device):
         self.optimizers = []
+        self.schedulers = []
         self.configG = config['network_G']
         self.configD = config['network_D']
         self.configT = config['train']
