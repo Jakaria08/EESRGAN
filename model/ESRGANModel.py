@@ -7,4 +7,4 @@ from model.loss import GANLoss
 
 class ESRGANModel:
     def __init__(self, config):
-        pass
+        print(config['train'])
