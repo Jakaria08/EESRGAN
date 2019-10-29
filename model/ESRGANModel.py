@@ -7,6 +7,7 @@ from model.loss import GANLoss
 
 class ESRGANModel:
     def __init__(self, config, device):
+        self.optimizers = []
         self.configG = config['network_G']
         self.configD = config['network_D']
         self.configT = config['train']
@@ -21,7 +22,7 @@ class ESRGANModel:
 
         self.netG.train()
         self.netD.train()
-        print(self.configT['pixel_weight'])
+        #print(self.configT['pixel_weight'])
         # G pixel loss
         if self.configT['pixel_weight'] > 0.0:
             l_pix_type = self.configT['pixel_criterion']
@@ -36,7 +37,7 @@ class ESRGANModel:
             self.cri_pix = None
 
         # G feature loss
-        print(self.configT['feature_weight']+1)
+        #print(self.configT['feature_weight']+1)
         if self.configT['feature_weight'] > 0:
             l_fea_type = self.configT['feature_criterion']
             if l_fea_type == 'l1':
