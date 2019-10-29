@@ -1,7 +1,7 @@
 from collections import OrderedDict
 import torch
 import torch.nn as nn
-import model.model as networks
+import model.model as model
 import model.lr_scheduler as lr_scheduler
 from model.loss import GANLoss
 
