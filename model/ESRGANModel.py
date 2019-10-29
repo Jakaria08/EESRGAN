@@ -19,7 +19,7 @@ class ESRGANModel:
 
         self.netG.train()
         self.netD.train()
-        print(float(self.configT['pixel_weight']))
+        #print(float(self.configT['pixel_weight']))
         # G pixel loss
         if float(self.configT['pixel_weight']) > 0.0:
             l_pix_type = self.configT['pixel_criterion']
@@ -51,3 +51,10 @@ class ESRGANModel:
                                           use_input_norm=True, device=self.device)
             self.netF = self.netF.to(self.device)
             self.netF.eval()
+
+        # GD gan loss
+        self.cri_gan = GANLoss(self.configT['gan_type'], 1.0, 0.0).to(self.device)
+        self.l_gan_w = float(self.configT['gan_weight'])
+        # D_update_ratio and D_init_iters
+        self.D_update_ratio = self.configT['D_update_ratio'] if self.configT['D_update_ratio'] else 1
+        self.D_init_iters = self.configT['D_init_iters'] if self.configT['D_init_iters'] else 0
