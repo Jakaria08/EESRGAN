@@ -58,6 +58,7 @@ class COWCGANDataset(Dataset):
                 target['labels'] = labels
                 target['label_car_type'] = label_car_type
                 target['idx'] = idx
+                target['LQ_path'] = img_path
                 break
             else:
                 #get coordinates withing height width range
@@ -85,6 +86,7 @@ class COWCGANDataset(Dataset):
         target['labels'] = labels
         target['label_car_type'] = label_car_type
         target['idx'] = idx
+        target['LQ_path'] = img_path
 
     if self.transform is None:
         #convert to tensor
