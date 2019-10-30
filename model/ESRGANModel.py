@@ -164,11 +164,11 @@ class ESRGANModel(BaseModel):
         l_d_total = 0
         pred_d_real = self.netD(self.var_ref)
         pred_d_fake = self.netD(self.fake_H.detach()) #to avoid BP to Generator
-        if self.configT['gan_type'] = 'gan':
+        if self.configT['gan_type'] == 'gan':
             l_d_real = self.cri_gan(pred_d_real, True)
             l_d_fake = self.cri_gan(pred_d_fake, False)
             l_d_total = l_d_real + l_d_fake
-        elif self.configT['gan_type'] = 'ragan':
+        elif self.configT['gan_type'] == 'ragan':
             l_d_real = self.cri_gan(pred_d_real - torch.mean(pred_d_fake), True)
             l_d_fake = self.cri_gan(pred_d_fake - torch.mean(pred_d_real), False)
             l_d_total = (l_d_real + l_d_fake) / 2
