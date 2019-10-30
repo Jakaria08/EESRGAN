@@ -87,7 +87,7 @@
     },
     "path": {
         "models": "saved/pretrained_models",
-        "pretrain_model_G": "",
+        "pretrain_model_G": "saved/pretrained_models/RRDB_PSNR_x4.pth",
         "pretrain_model_D": "",
         "training_state": "saved/training_state",
         "strict_load": true,
