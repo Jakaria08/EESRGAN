@@ -52,8 +52,8 @@ class COWCGANDataset(Dataset):
                 #create dictionary to access the values
                 target = {}
                 target['object'] = 0
-                target['image_gt'] = img_gt
-                target['image'] = img_lq
+                target['image_lq'] = img_lq
+                target['image'] = img_gt
                 target['bboxes'] = boxes
                 target['labels'] = labels
                 target['label_car_type'] = label_car_type
@@ -80,8 +80,8 @@ class COWCGANDataset(Dataset):
         #create dictionary to access the values
         target = {}
         target['object'] = 1
-        target['image_gt'] = img_gt
-        target['image'] = img_lq
+        target['image_lq'] = img_lq
+        target['image'] = img_gt
         target['bboxes'] = boxes
         target['labels'] = labels
         target['label_car_type'] = label_car_type
@@ -105,7 +105,7 @@ class COWCGANDataset(Dataset):
   def convert_to_tensor(self, **target):
       #convert to tensor
       target['object'] = torch.tensor(target['object'], dtype=torch.int64)
-      target['image_gt'] = torch.from_numpy(target['image_gt'].transpose((2, 0, 1)))
+      target['image_lq'] = torch.from_numpy(target['image_lq'].transpose((2, 0, 1)))
       target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
       target['bboxes'] = torch.as_tensor(target['bboxes'], dtype=torch.int64)
       target['labels'] = torch.ones(len(target['bboxes']), dtype=torch.int64)

@@ -120,9 +120,9 @@ class ESRGANModel(BaseModel):
     Might change my code if problem happens
     '''
     def feed_data(self, data):
-        self.var_L = data['image'].to(self.device)
-        self.var_H = data['image_gt'].to(self.device)
-        input_ref = data['ref'] if 'ref' in data else data['image_gt']
+        self.var_L = data['image_lq'].to(self.device)
+        self.var_H = data['image'].to(self.device)
+        input_ref = data['ref'] if 'ref' in data else data['image']
         self.var_ref = input_ref.to(self.device)
 
     def optimize_parameters(self, step):
