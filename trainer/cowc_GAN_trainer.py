@@ -76,7 +76,7 @@ class COWCGANTrainer:
                     for k, v in logs.items():
                         message += '{:s}: {:.4e} '.format(k, v)
                         # tensorboard logger
-                        if self.config['use_tb_logger'] and 'debug' not in opt['name']:
+                        if self.config['use_tb_logger'] and 'debug' not in self.config['name']:
                             tb_logger.add_scalar(k, v, current_step)
 
                     logger.info(message)
