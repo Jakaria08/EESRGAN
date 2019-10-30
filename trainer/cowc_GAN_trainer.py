@@ -50,7 +50,16 @@ class COWCGANTrainer:
                     self.data_loader.length, self.train_size))
         logger.info('Total epochs needed: {:d} for iters {:,d}'.format(
                     self.total_epochs, self.total_iters))
-        tb_logger = SummaryWriter(log_dir='saved/tb_logger/' + config['name'])
+        # tensorboard logger
+        if config['use_tb_logger'] and 'debug' not in config['name']:
+            version = float(torch.__version__[0:3])
+            if version >= 1.1:  # PyTorch 1.1
+                from torch.utils.tensorboard import SummaryWriter
+            else:
+                logger.info(
+                    'You are using PyTorch {}. Tensorboard will use [tensorboardX]'.format(version))
+                from tensorboardX import SummaryWriter
+            tb_logger = SummaryWriter(log_dir='saved/tb_logger/' + config['name'])
 
         current_step = 0
         start_epoch = 0
