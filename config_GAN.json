@@ -4,6 +4,7 @@
     "model": "srgan",
     "distortion": "sr",
     "scale": 4,
+    "use_tb_logger": true,
 
     "network_G": {
         "which_model_G": "RRDBNet",
@@ -83,5 +84,18 @@
         "early_stop": 10,
 
         "tensorboard": true
+    },
+    "path": {
+        "models": "saved/pretrained_models",
+        "pretrain_model_G": "",
+        "pretrain_model_D": "",
+        "training_state": "saved/training_state",
+        "strict_load": true,
+        "resume_state": "~",
+        "val_images": "saved/val_images"
+    },
+    "logger": {
+      "print_freq": 100,
+      "save_checkpoint_freq": 5000
     }
 }

@@ -396,7 +396,7 @@ class Discriminator_VGG_128(nn.Module):
 
 
 class VGGFeatureExtractor(nn.Module):
-    def __init__(self, feature_layer=34, use_bn=False, use_input_norm=True,
+    def __init__(self, feature_layer=34, use_bn=False, use_input_norm=False,#data already normalized, need checking
                  device=torch.device('cpu')):
         super(VGGFeatureExtractor, self).__init__()
         self.use_input_norm = use_input_norm

@@ -9,6 +9,7 @@ import model.model as module_arch
 from parse_config import ConfigParser
 from trainer import COWCTrainer
 from trainer import COWCGANTrainer
+from utils import setup_logger, dict2str
 '''
 python train.py -c config_GAN.json
 '''
@@ -21,7 +22,24 @@ torch.backends.cudnn.benchmark = False
 np.random.seed(SEED)
 
 def main(config):
-    logger = config.get_logger('train')
+    #logger = config.get_logger('train')
+    # config loggers. Before it, the log will not work
+    setup_logger('base', opt['path']['log'], 'train_' + config['name'], level=logging.INFO,
+                      screen=True, tofile=True)
+    setup_logger('val', opt['path']['log'], 'val_' + config['name'], level=logging.INFO,
+                      screen=True, tofile=True)
+    logger = logging.getLogger('base')
+    logger.info(option.dict2str(config))
+    # tensorboard logger
+    if opt['use_tb_logger'] and 'debug' not in config['name']:
+        version = float(torch.__version__[0:3])
+        if version >= 1.1:  # PyTorch 1.1
+            from torch.utils.tensorboard import SummaryWriter
+        else:
+            logger.info(
+                'You are using PyTorch {}. Tensorboard will use [tensorboardX]'.format(version))
+            from tensorboardX import SummaryWriter
+        tb_logger = SummaryWriter(log_dir='../tb_logger/' + config['name'])
 
     # setup data_loader instances
     data_loader = config.init_obj('data_loader', module_data)
