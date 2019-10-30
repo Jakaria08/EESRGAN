@@ -31,7 +31,7 @@ def main(config):
     setup_logger('val', config['path']['log'], 'val_' + config['name'], level=logging.INFO,
                       screen=True, tofile=True)
     logger = logging.getLogger('base')
-    logger.info(option.dict2str(config))
+    logger.info(dict2str(config))
     # tensorboard logger
     if opt['use_tb_logger'] and 'debug' not in config['name']:
         version = float(torch.__version__[0:3])

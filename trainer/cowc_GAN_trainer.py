@@ -6,7 +6,7 @@ import model.ESRGANModel as ESRGAN
 from scripts_for_datasets import COWCDataset, COWCGANDataset
 from torchvision.utils import make_grid
 from base import BaseTrainer
-from utils import inf_loop, MetricTracker, visualize_bbox, visualize
+from utils import inf_loop, MetricTracker, visualize_bbox, visualize, calculate_psnr, save_img, tensor2img, mkdir
 
 logger = logging.getLogger('base')
 '''
@@ -119,11 +119,11 @@ class COWCGANTrainer:
                     logger_val.info('<epoch:{:3d}, iter:{:8,d}> psnr: {:.4e}'.format(
                         epoch, current_step, avg_psnr))
                     # tensorboard logger
-                    if opt['use_tb_logger'] and 'debug' not in opt['name']:
+                    if self.config['use_tb_logger'] and 'debug' not in opt['name']:
                         tb_logger.add_scalar('psnr', avg_psnr, current_step)
 
                 #### save models and training states
-                if current_step % opt['logger']['save_checkpoint_freq'] == 0:
+                if current_step % self.config['logger']['save_checkpoint_freq'] == 0:
                     logger.info('Saving models and training states.')
                     model.save(current_step)
                     model.save_training_state(epoch, current_step)
