@@ -79,7 +79,6 @@ class COWCGANDataLoader(BaseDataLoader):
         Data transform for GAN training
         '''
         data_transforms_gan = Compose([
-            Resize(128, 128),
             HorizontalFlip(),
             Normalize( #mean std for potsdam dataset from COWC [Calculate also for spot6]
                 mean=[0.3442, 0.3708, 0.3476],
