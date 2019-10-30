@@ -92,7 +92,7 @@ class COWCGANTrainer:
                     logger.info(message)
 
                 # validation
-                if current_step % self.config['train']['val_freq'] == 0 and rank <= 0:
+                if current_step % self.config['train']['val_freq'] == 0:
                     avg_psnr = 0.0
                     idx = 0
                     for val_data in val_loader:
@@ -129,7 +129,7 @@ class COWCGANTrainer:
                     logger_val.info('<epoch:{:3d}, iter:{:8,d}> psnr: {:.4e}'.format(
                         epoch, current_step, avg_psnr))
                     # tensorboard logger
-                    if self.config['use_tb_logger'] and 'debug' not in opt['name']:
+                    if self.config['use_tb_logger'] and 'debug' not in self.config['name']:
                         tb_logger.add_scalar('psnr', avg_psnr, current_step)
 
                 #### save models and training states
