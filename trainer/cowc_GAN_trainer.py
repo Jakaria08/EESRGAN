@@ -76,7 +76,7 @@ class COWCGANTrainer:
                     for k, v in logs.items():
                         message += '{:s}: {:.4e} '.format(k, v)
                         # tensorboard logger
-                        if opt['use_tb_logger'] and 'debug' not in opt['name']:
+                        if self.config['use_tb_logger'] and 'debug' not in opt['name']:
                             tb_logger.add_scalar(k, v, current_step)
 
                     logger.info(message)
@@ -88,7 +88,7 @@ class COWCGANTrainer:
                     for val_data in val_loader:
                         idx += 1
                         img_name = os.path.splitext(os.path.basename(val_data['LQ_path'][0]))[0]
-                        img_dir = os.path.join(opt['path']['val_images'], img_name)
+                        img_dir = os.path.join(self.config['path']['val_images'], img_name)
                         mkdir(img_dir)
 
                         self.model.feed_data(val_data)
@@ -104,7 +104,7 @@ class COWCGANTrainer:
                         save_img(sr_img, save_img_path)
 
                         # calculate PSNR
-                        crop_size = opt['scale']
+                        crop_size = self.config['scale']
                         gt_img = gt_img / 255.
                         sr_img = sr_img / 255.
                         cropped_sr_img = sr_img[crop_size:-crop_size, crop_size:-crop_size, :]
