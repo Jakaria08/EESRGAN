@@ -10,6 +10,7 @@ from pathlib import Path
 from itertools import repeat
 from collections import OrderedDict
 import logging
+import os
 
 BOX_COLOR = (255, 0, 0)
 TEXT_COLOR = (255, 255, 255)
