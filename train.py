@@ -41,7 +41,7 @@ def main(config):
             logger.info(
                 'You are using PyTorch {}. Tensorboard will use [tensorboardX]'.format(version))
             from tensorboardX import SummaryWriter
-        tb_logger = SummaryWriter(log_dir='../tb_logger/' + config['name'])
+        tb_logger = SummaryWriter(log_dir='saved/tb_logger/' + config['name'])
 
     # setup data_loader instances
     data_loader = config.init_obj('data_loader', module_data)
