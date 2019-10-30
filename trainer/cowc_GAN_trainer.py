@@ -62,17 +62,17 @@ class COWCGANTrainer:
                 if current_step > self.total_iters:
                     break
                 #### update learning rate
-                model.update_learning_rate(current_step, warmup_iter=self.config['train']['warmup_iter'])
+                self.model.update_learning_rate(current_step, warmup_iter=self.config['train']['warmup_iter'])
 
                 #### training
-                model.feed_data(train_data)
-                model.optimize_parameters(current_step)
+                self.model.feed_data(train_data)
+                self.model.optimize_parameters(current_step)
 
                 #### log
                 if current_step % self.config['logger']['print_freq'] == 0:
-                    logs = model.get_current_log()
+                    logs = self.model.get_current_log()
                     message = '<epoch:{:3d}, iter:{:8,d}, lr:{:.3e}> '.format(
-                        epoch, current_step, model.get_current_learning_rate())
+                        epoch, current_step, self.model.get_current_learning_rate())
                     for k, v in logs.items():
                         message += '{:s}: {:.4e} '.format(k, v)
                         # tensorboard logger
@@ -91,10 +91,10 @@ class COWCGANTrainer:
                         img_dir = os.path.join(opt['path']['val_images'], img_name)
                         mkdir(img_dir)
 
-                        model.feed_data(val_data)
-                        model.test()
+                        self.model.feed_data(val_data)
+                        self.model.test()
 
-                        visuals = model.get_current_visuals()
+                        visuals = self.model.get_current_visuals()
                         sr_img = tensor2img(visuals['SR'])  # uint8
                         gt_img = tensor2img(visuals['GT'])  # uint8
 
@@ -125,10 +125,10 @@ class COWCGANTrainer:
                 #### save models and training states
                 if current_step % self.config['logger']['save_checkpoint_freq'] == 0:
                     logger.info('Saving models and training states.')
-                    model.save(current_step)
-                    model.save_training_state(epoch, current_step)
+                    self.model.save(current_step)
+                    self.model.save_training_state(epoch, current_step)
 
 
         logger.info('Saving the final model.')
-        model.save('latest')
+        self.model.save('latest')
         logger.info('End of training.')
