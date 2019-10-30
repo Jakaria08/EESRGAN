@@ -33,7 +33,7 @@ def main(config):
     logger = logging.getLogger('base')
     #logger.info(dict2str(config))
     # tensorboard logger
-    if opt['use_tb_logger'] and 'debug' not in config['name']:
+    if confit['use_tb_logger'] and 'debug' not in config['name']:
         version = float(torch.__version__[0:3])
         if version >= 1.1:  # PyTorch 1.1
             from torch.utils.tensorboard import SummaryWriter
