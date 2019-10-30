@@ -21,7 +21,7 @@ class ConfigParser:
         # load config file and apply modification
         self._config = _update_config(config, modification)
         self.resume = resume
-
+        '''
         # set save_dir where trained model and log will be saved.
         save_dir = Path(self.config['train']['save_dir'])
 
@@ -38,7 +38,7 @@ class ConfigParser:
 
         # save updated config file to the checkpoint dir
         write_json(self.config, self.save_dir / 'config.json')
-
+        '''
         # configure logging module
         setup_logging(self.log_dir)
         self.log_levels = {
