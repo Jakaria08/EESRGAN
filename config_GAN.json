@@ -92,7 +92,8 @@
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
-        "val_images": "saved/val_images"
+        "val_images": "saved/val_images",
+        "log": "saved/logs"
     },
     "logger": {
       "print_freq": 100,

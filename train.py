@@ -24,9 +24,9 @@ np.random.seed(SEED)
 def main(config):
     #logger = config.get_logger('train')
     # config loggers. Before it, the log will not work
-    setup_logger('base', opt['path']['log'], 'train_' + config['name'], level=logging.INFO,
+    setup_logger('base', config['path']['log'], 'train_' + config['name'], level=logging.INFO,
                       screen=True, tofile=True)
-    setup_logger('val', opt['path']['log'], 'val_' + config['name'], level=logging.INFO,
+    setup_logger('val', config['path']['log'], 'val_' + config['name'], level=logging.INFO,
                       screen=True, tofile=True)
     logger = logging.getLogger('base')
     logger.info(option.dict2str(config))
