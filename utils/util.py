@@ -363,7 +363,6 @@ def tensor2img(tensor, out_type=np.uint8, min_max=(0, 1)):
         std = np.array([0.1232, 0.1230, 0.1284])
         img_np = std * img_np + mean
         img_np = np.clip(img_np, 0, 1)
-        img_np = img_np*255
     elif n_dim == 2:
         img_np = tensor.numpy()
     else:
