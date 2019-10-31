@@ -93,7 +93,7 @@ def image_correction():
     for file in files:
         image = cv2.imread(file)
         image = (image/255).round
-        image = np.clip(image, 0, 255)
+        #image = np.clip(image, 0, 255)
         cv2.imwrite(image,file)
 
 if __name__ == "__main__":
