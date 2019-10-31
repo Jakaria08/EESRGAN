@@ -8,7 +8,6 @@ this now but useful for later use cases.
 import os
 import sys
 import cv2
-import glob
 import numpy as np
 
 try:
@@ -17,9 +16,7 @@ try:
 except ImportError:
     pass
 
-'''
-See the main() method, important
-'''
+
 def generate_mod_LR_bic():
     # set parameters
     up_scale = 4
@@ -88,17 +85,6 @@ def generate_mod_LR_bic():
         cv2.imwrite(os.path.join(saveLRpath, filename), image_LR)
         cv2.imwrite(os.path.join(saveBicpath, filename), image_Bic)
 
-def image_correction():
-    files = glob.glob('saved/val_images' + '/**/*.png', recursive=True)
-    for file in files:
-        print(file)
-        image = cv2.imread(file)
-        print(image)
-        image = (image/255).round
-        #print(image)
-        #image = np.clip(image, 0, 255)
-        #cv2.imwrite(image,file)
 
 if __name__ == "__main__":
-    #generate_mod_LR_bic()
-    image_correction()
+    generate_mod_LR_bic()
