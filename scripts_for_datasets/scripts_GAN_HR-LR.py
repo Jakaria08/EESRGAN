@@ -91,10 +91,12 @@ def generate_mod_LR_bic():
 def image_correction():
     files = glob.glob('saved/val_images' + '/**/*.png', recursive=True)
     for file in files:
+        print(file)
         image = cv2.imread(file)
         image = (image/255).round
+        print(image)
         #image = np.clip(image, 0, 255)
-        cv2.imwrite(image,file)
+        #cv2.imwrite(image,file)
 
 if __name__ == "__main__":
     #generate_mod_LR_bic()
