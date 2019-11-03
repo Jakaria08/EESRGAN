@@ -92,8 +92,9 @@ def copy_folder_name_for_valid_image():
     Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
 
     for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/"):
-        file = os.path.basename(file[:-1]+'.jpg')
-        print(file)
+        #file = os.path.basename(file[:-1]+'.jpg')
+        file = os.path.basename(file[:-1]+'.txt')
+        #print(file)
         sourceH = os.path.join(Dir_HR,file)
         destinationH = os.path.join(Dir_HR, 'valid_img', file)
         shutil.move(sourceH, destinationH)
