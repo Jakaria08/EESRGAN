@@ -91,4 +91,5 @@ def copy_folder_name_for_valid_image():
         print(file[:-1])
 
 if __name__ == "__main__":
-    generate_mod_LR_bic()
+    #generate_mod_LR_bic()
+    copy_folder_name_for_valid_image()
