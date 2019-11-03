@@ -10,6 +10,7 @@ import sys
 import cv2
 import numpy as np
 import glob
+import shutil
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -87,9 +88,19 @@ def generate_mod_LR_bic():
         cv2.imwrite(os.path.join(saveBicpath, filename), image_Bic)
 
 def copy_folder_name_for_valid_image():
+    Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/"
+    Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+
     for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/"):
         file = os.path.basename(file[:-1]+'.jpg')
         print(file)
+        sourceH = os.path.join(Dir_HR,file)
+        destinationH = os.path.join(Dir_HR, 'valid_img', file)
+        shutil.move(sourceH, destinationH)
+        sourceB = os.path.join(Dir_Bic,file)
+        destinationB = os.path.join(Dir_Bic, 'valid_img', file)
+        shutil.move(sourceB, destinationB)
+
 
 if __name__ == "__main__":
     #generate_mod_LR_bic()
