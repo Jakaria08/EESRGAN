@@ -88,7 +88,8 @@ def generate_mod_LR_bic():
 
 def copy_folder_name_for_valid_image():
     for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/"):
-        print(file[:-1])
+        file = file[:-1]
+        print(file)
 
 if __name__ == "__main__":
     #generate_mod_LR_bic()
