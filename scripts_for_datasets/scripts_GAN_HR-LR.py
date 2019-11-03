@@ -9,6 +9,7 @@ import os
 import sys
 import cv2
 import numpy as np
+import glob
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -85,6 +86,9 @@ def generate_mod_LR_bic():
         cv2.imwrite(os.path.join(saveLRpath, filename), image_LR)
         cv2.imwrite(os.path.join(saveBicpath, filename), image_Bic)
 
+def copy_folder_name_for_valid_image():
+    for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/"):
+        print(file[:-1])
 
 if __name__ == "__main__":
     generate_mod_LR_bic()
