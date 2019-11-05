@@ -534,21 +534,23 @@ class FinalConv(nn.Module):
 
         return x
 
-class EESN(nn.Module):
-  def __init__(self):
+class ESRGAN_EESN(nn.Module):
+  def __init__(self, in_nc, out_nc, nf, nb):
     super(EESN, self).__init__()
+    self.RRDB = RRDBNet(in_nc, out_nc, nf, nb)
     self.beginEdgeConv = BeginEdgeConv() #  Output 64*64*64 input 3*64*64
     self.denseNet = EESNRRDBNet(64, 256, 64, 4) # RRDB densenet with 64 in kernel, 256 out kernel and 64 intermediate kernel, output: 256*64*64
     self.maskConv = MaskConv() # Output 256*64*64
     self.finalConv = FinalConv() # Output 3*256*256
   def forward(self, x):
-    x = kornia.laplacian(x,3) # see kornia laplacian kernel
-    x1 = self.beginEdgeConv(x)
+    x_base = self.RRDB(x) # add bicubic
+    x_lap = kornia.laplacian(x_base,3) # see kornia laplacian kernel
+    x1 = self.beginEdgeConv(x_lap)
     x2 = self.denseNet(x1)
     x3 = self.maskConv(x1)
     x4 = x3*x2 + x2
     x5 = self.finalConv(x4)
-    x = x5 - x
-    # Also add the output from ESRGAN: 3*256*256 and create another tensor to return
+    x_sr = x5 + x_base - x_lap
+    x_wt_base = x5 - x_lap
 
-    return x
+    return x_base, x_wt_base, x_sr
