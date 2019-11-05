@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import model.model as model
 import model.lr_scheduler as lr_scheduler
-from model.loss import GANLoss
+from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel
 
@@ -32,6 +32,8 @@ class ESRGANModel(BaseModel):
         self.netG.train()
         self.netD.train()
         #print(self.configT['pixel_weight'])
+        # G CharbonnierLoss for final output SR and GT HR
+        self.cri_charbonnier = CharbonnierLoss().to(device)
         # G pixel loss
         if self.configT['pixel_weight'] > 0.0:
             l_pix_type = self.configT['pixel_criterion']
@@ -130,7 +132,7 @@ class ESRGANModel(BaseModel):
         for p in self.netD.parameters():
             p.requires_grad = False
         self.optimizer_G.zero_grad()
-        self.fake_H = self.netG(self.var_L)
+        self.fake_H, self.SR_fake_H = self.netG(self.var_L)
 
         l_g_total = 0
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
@@ -142,6 +144,9 @@ class ESRGANModel(BaseModel):
                 fake_fea = self.netF(self.fake_H) #In netF normalize=False, check it
                 l_g_fea = self.l_fea_w * self.cri_fea(fake_fea, real_fea)
                 l_g_total += l_g_fea
+            if self.cri_charbonnier: # charbonnier pixel loss HR and SR
+                l_g_charbonnier = 0.5 * self.cri_charbonnier(self.SR_fake_H, self.var_H) #change the weight to empirically
+                l_g_total += l_g_charbonnier
 
             pred_g_fake = self.netD(self.fake_H)
             if self.configT['gan_type'] == 'gan':
@@ -183,6 +188,7 @@ class ESRGANModel(BaseModel):
             if self.cri_fea:
                 self.log_dict['l_g_fea'] = l_g_fea.item()
             self.log_dict['l_g_gan'] = l_g_gan.item()
+            self.log_dict['l_g_charbonnier'] = l_g_charbonnier.item()
 
         self.log_dict['l_d_real'] = l_d_real.item()
         self.log_dict['l_d_fake'] = l_d_fake.item()
@@ -201,7 +207,8 @@ class ESRGANModel(BaseModel):
     def get_current_visuals(self, need_GT=True):
         out_dict = OrderedDict()
         out_dict['LQ'] = self.var_L.detach()[0].float().cpu()
-        out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
+        #out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
+        out_dict['SR'] = self.SR_fake_H.detach()[0].float().cpu()
         if need_GT:
             out_dict['GT'] = self.var_H.detach()[0].float().cpu()
         return out_dict
