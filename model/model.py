@@ -536,7 +536,7 @@ class FinalConv(nn.Module):
 
 class ESRGAN_EESN(nn.Module):
   def __init__(self, in_nc, out_nc, nf, nb):
-    super(EESN, self).__init__()
+    super(ESRGAN_EESN, self).__init__()
     self.RRDB = RRDBNet(in_nc, out_nc, nf, nb)
     self.beginEdgeConv = BeginEdgeConv() #  Output 64*64*64 input 3*64*64
     self.denseNet = EESNRRDBNet(64, 256, 64, 3) # RRDB densenet with 64 in kernel, 256 out kernel and 64 intermediate kernel, output: 256*64*64
