@@ -504,7 +504,7 @@ class MaskConv(nn.Module):
         self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
 
         # initialization
-        initialize_weights([self.conv_layer1, self.conv_layer2, self.conv_layer3], 0.1)
+        mutil.initialize_weights([self.conv_layer1, self.conv_layer2, self.conv_layer3], 0.1)
 
     def forward(self, x):
       x = self.lrelu(self.conv_layer1(x))
