@@ -104,9 +104,6 @@ def copy_folder_name_for_valid_image():
         destinationB = os.path.join(Dir_Bic, 'valid_img', file)
         shutil.move(sourceB, destinationB)
         '''
-        image = cv2.imread(os.path.join(Dir_HR,'Potsdam_2_10_RGB.14.9.jpg'))
-        image_LR = imresize_np(image, 1 / 4, True)
-        cv2.imwrite(Dir_LR)
 
         sourceL = os.path.join(Dir_LR,img_file)
         destinationL = os.path.join(Dir_LR, 'valid_img', img_file)
