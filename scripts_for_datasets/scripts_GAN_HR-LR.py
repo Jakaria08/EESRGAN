@@ -90,10 +90,12 @@ def generate_mod_LR_bic():
 def copy_folder_name_for_valid_image():
     Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/"
     Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+    Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/"
 
-    for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/"):
-        #file = os.path.basename(file[:-1]+'.jpg')
-        file = os.path.basename(file[:-1]+'.txt')
+    for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/val_images/*/"):
+        file = os.path.basename(file[:-1]+'.jpg')
+        txt_file = os.path.basename(file[:-1]+'.txt')
+        '''
         #print(file)
         sourceH = os.path.join(Dir_HR,file)
         destinationH = os.path.join(Dir_HR, 'valid_img', file)
@@ -101,6 +103,15 @@ def copy_folder_name_for_valid_image():
         sourceB = os.path.join(Dir_Bic,file)
         destinationB = os.path.join(Dir_Bic, 'valid_img', file)
         shutil.move(sourceB, destinationB)
+        '''
+        sourceL = os.path.join(Dir_LR,file)
+        destinationL = os.path.join(Dir_LR, 'valid_img', file)
+        shutil.move(sourceL, destinationL)
+
+        sourceLtxt = os.path.join(Dir_LR,txt_file)
+        destinationLtxt = os.path.join(Dir_LR, 'valid_img', txt_file)
+        shutil.move(sourceLtxt, destinationLtxt)
+
 
 
 if __name__ == "__main__":
