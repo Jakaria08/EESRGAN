@@ -10,7 +10,7 @@ from torch.nn.parallel import DataParallel
 
 logger = logging.getLogger('base')
 # Taken from ESRGAN BASICSR repository and modified
-class ESRGANModel(BaseModel):
+class ESRGAN_EESN_Model(BaseModel):
     def __init__(self, config, device):
         super(ESRGANModel, self).__init__(config, device)
         self.configG = config['network_G']
