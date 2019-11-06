@@ -145,7 +145,7 @@ class ESRGAN_EESN_Model(BaseModel):
                 l_g_fea = self.l_fea_w * self.cri_fea(fake_fea, real_fea)
                 l_g_total += l_g_fea
             if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-                l_g_charbonnier = 0.5 * self.cri_charbonnier(self.SR_fake_H, self.var_H) #change the weight to empirically
+                l_g_charbonnier = self.cri_charbonnier(self.SR_fake_H, self.var_H) #change the weight to empirically
                 l_g_total += l_g_charbonnier
 
             pred_g_fake = self.netD(self.fake_H)
