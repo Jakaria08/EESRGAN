@@ -12,7 +12,7 @@ logger = logging.getLogger('base')
 # Taken from ESRGAN BASICSR repository and modified
 class ESRGAN_EESN_Model(BaseModel):
     def __init__(self, config, device):
-        super(ESRGANModel, self).__init__(config, device)
+        super(ESRGAN_EESN_Model, self).__init__(config, device)
         self.configG = config['network_G']
         self.configD = config['network_D']
         self.configT = config['train']
