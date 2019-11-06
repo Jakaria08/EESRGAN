@@ -99,7 +99,7 @@ class COWCGANTrainer:
                     idx = 0
                     for val_data in self.valid_data_loader:
                         idx += 1
-                        print(val_data)
+                        #print(val_data)
                         img_name = os.path.splitext(os.path.basename(val_data['LQ_path'][0]))[0]
                         img_dir = os.path.join(self.config['path']['val_images'], img_name)
                         mkdir(img_dir)
