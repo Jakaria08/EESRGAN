@@ -93,7 +93,7 @@ def copy_folder_name_for_valid_image():
     Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/"
 
     for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/val_images/*/"):
-        file = os.path.basename(file[:-1]+'.jpg')
+        img_file = os.path.basename(file[:-1]+'.jpg')
         txt_file = os.path.basename(file[:-1]+'.txt')
         '''
         #print(file)
@@ -104,8 +104,8 @@ def copy_folder_name_for_valid_image():
         destinationB = os.path.join(Dir_Bic, 'valid_img', file)
         shutil.move(sourceB, destinationB)
         '''
-        sourceL = os.path.join(Dir_LR,file)
-        destinationL = os.path.join(Dir_LR, 'valid_img', file)
+        sourceL = os.path.join(Dir_LR,img_file)
+        destinationL = os.path.join(Dir_LR, 'valid_img', img_file)
         shutil.move(sourceL, destinationL)
 
         sourceLtxt = os.path.join(Dir_LR,txt_file)
