@@ -198,7 +198,7 @@ class ESRGAN_EESN_Model(BaseModel):
     def test(self):
         self.netG.eval()
         with torch.no_grad():
-            self.fake_H = self.netG(self.var_L)
+            self.fake_H, self.SR_fake_H = self.netG(self.var_L)
         self.netG.train()
 
     def get_current_log(self):
