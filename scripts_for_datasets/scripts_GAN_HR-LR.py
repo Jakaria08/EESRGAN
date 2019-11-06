@@ -95,15 +95,23 @@ def copy_folder_name_for_valid_image():
     for file in glob.glob("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/val_images/*/"):
         img_file = os.path.basename(file[:-1]+'.jpg')
         txt_file = os.path.basename(file[:-1]+'.txt')
-        '''
+
         #print(file)
-        sourceH = os.path.join(Dir_HR,file)
-        destinationH = os.path.join(Dir_HR, 'valid_img', file)
+        sourceH = os.path.join(Dir_HR,img_file)
+        destinationH = os.path.join(Dir_HR, 'valid_img', img_file)
         shutil.move(sourceH, destinationH)
-        sourceB = os.path.join(Dir_Bic,file)
-        destinationB = os.path.join(Dir_Bic, 'valid_img', file)
+
+        sourceHtxt = os.path.join(Dir_HR,txt_file)
+        destinationHtxt = os.path.join(Dir_HR, 'valid_img', txt_file)
+        shutil.move(sourceHtxt, destinationHtxt)
+
+        sourceB = os.path.join(Dir_Bic,img_file)
+        destinationB = os.path.join(Dir_Bic, 'valid_img', img_file)
         shutil.move(sourceB, destinationB)
-        '''
+
+        sourceBtxt = os.path.join(Dir_Bic,txt_file)
+        destinationBtxt = os.path.join(Dir_Bic, 'valid_img', txt_file)
+        shutil.move(sourceBtxt, destinationBtxt)
 
         sourceL = os.path.join(Dir_LR,img_file)
         destinationL = os.path.join(Dir_LR, 'valid_img', img_file)
@@ -113,8 +121,6 @@ def copy_folder_name_for_valid_image():
         destinationLtxt = os.path.join(Dir_LR, 'valid_img', txt_file)
         shutil.move(sourceLtxt, destinationLtxt)
 
-
-
 if __name__ == "__main__":
-    #generate_mod_LR_bic()
-    copy_folder_name_for_valid_image()
+    generate_mod_LR_bic()
+    #copy_folder_name_for_valid_image()

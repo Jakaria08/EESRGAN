@@ -19,7 +19,7 @@ class CharbonnierLoss(nn.Module):
 
     def forward(self, x, y):
         diff = x - y
-        loss = torch.sum(torch.sqrt(diff * diff + self.eps)) / (65536*2) # 256*256 image and batch 2, so loss for each pixel calculated, can be done automatically later.
+        loss = torch.mean(torch.sqrt(diff * diff + self.eps))
         return loss
 
 
