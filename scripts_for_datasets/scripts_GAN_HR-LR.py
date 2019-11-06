@@ -122,5 +122,5 @@ def copy_folder_name_for_valid_image():
         shutil.move(sourceLtxt, destinationLtxt)
 
 if __name__ == "__main__":
-    generate_mod_LR_bic()
-    #copy_folder_name_for_valid_image()
+    #generate_mod_LR_bic()
+    copy_folder_name_for_valid_image()
