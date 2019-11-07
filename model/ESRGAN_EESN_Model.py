@@ -176,19 +176,19 @@ class ESRGAN_EESN_Model(BaseModel):
             l_g_total.backward()
             self.optimizer_G.step()
 
-            #EESN calculate loss for real edge and fake edge and enhance, slightly different from EEGAN
-            for p in self.netG.parameters():
-                p.requires_grad = False
-            for p in self.netE.parameters():
-                p.requires_grad = True
-            self.optimizer_E.zero_grad()
-            self.x_learned_lap_fake, _ = self.netE(self.fake_H)
-            self.x_learned_lap_real, _ = self.netE(self.var_H)
+        #EESN calculate loss for real edge and fake edge and enhance, slightly different from EEGAN
+        for p in self.netG.parameters():
+            p.requires_grad = False
+        for p in self.netE.parameters():
+            p.requires_grad = True
+        self.optimizer_E.zero_grad()
+        self.x_learned_lap_fake, _ = self.netE(self.fake_H)
+        self.x_learned_lap_real, _ = self.netE(self.var_H)
 
-            if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-                l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.x_learned_lap_real) #change the weight to empirically
-                l_e_charbonnier.backward()
-                self.optimizer_E.step()
+        if self.cri_charbonnier: # charbonnier pixel loss HR and SR
+            l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.x_learned_lap_real) #change the weight to empirically
+            l_e_charbonnier.backward()
+            self.optimizer_E.step()
 
         #descriminator
         for p in self.netG.parameters():
