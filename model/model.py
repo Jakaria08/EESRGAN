@@ -561,7 +561,7 @@ Only EESN
 '''
 class EESN(nn.Module):
   def __init__(self):
-    super(ESRGAN_EESN, self).__init__()
+    super(EESN, self).__init__()
     self.beginEdgeConv = BeginEdgeConv() #  Output 64*64*64 input 3*64*64
     self.denseNet = EESNRRDBNet(64, 256, 64, 3) # RRDB densenet with 64 in kernel, 256 out kernel and 64 intermediate kernel, output: 256*64*64
     self.maskConv = MaskConv() # Output 256*64*64
