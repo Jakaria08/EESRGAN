@@ -182,8 +182,8 @@ class ESRGAN_EESN_Model(BaseModel):
             for p in self.netE.parameters():
                 p.requires_grad = True
             self.optimizer_E.zero_grad()
-            self.x_learned_lap_fake, _ = self.netF(self.fake_H)
-            self.x_learned_lap_real, _ = self.netF(self.var_H)
+            self.x_learned_lap_fake, _ = self.netE(self.fake_H)
+            self.x_learned_lap_real, _ = self.netE(self.var_H)
 
             if self.cri_charbonnier: # charbonnier pixel loss HR and SR
                 l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.x_learned_lap_real) #change the weight to empirically
@@ -302,7 +302,11 @@ class ESRGAN_EESN_Model(BaseModel):
         if load_path_D:
             logger.info('Loading model for D [{:s}] ...'.format(load_path_D))
             self.load_network(load_path_D, self.netD, self.config['path']['strict_load'])
+        if load_path_E:
+            logger.info('Loading model for E [{:s}] ...'.format(load_path_E))
+            self.load_network(load_path_E, self.netE, self.config['path']['strict_load'])
 
     def save(self, iter_step):
         self.save_network(self.netG, 'G', iter_step)
         self.save_network(self.netD, 'D', iter_step)
+        self.save_network(self.netE, 'E', iter_step)

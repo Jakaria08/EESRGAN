@@ -87,8 +87,9 @@
     },
     "path": {
         "models": "saved/pretrained_models",
-        "pretrain_model_G": "",
-        "pretrain_model_D": "",
+        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models/300000_G.pth",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models/300000_D.pth",
+        "pretrain_model_E": "",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
