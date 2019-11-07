@@ -104,6 +104,7 @@ ENV/
 data/
 input/
 saved/
+saved_ESRGAN/
 datasets/
 
 # editor, os cache directory
