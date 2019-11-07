@@ -302,6 +302,7 @@ class ESRGAN_EESN_Model(BaseModel):
         if load_path_D:
             logger.info('Loading model for D [{:s}] ...'.format(load_path_D))
             self.load_network(load_path_D, self.netD, self.config['path']['strict_load'])
+        load_path_E = self.config['path']['pretrain_model_E']
         if load_path_E:
             logger.info('Loading model for E [{:s}] ...'.format(load_path_E))
             self.load_network(load_path_E, self.netE, self.config['path']['strict_load'])
