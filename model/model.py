@@ -556,3 +556,23 @@ class ESRGAN_EESN(nn.Module):
     #x_wt_base = x5 - x_lap
 
     return x_base, x_sr
+'''
+Only EESN
+'''
+class EESN(nn.Module):
+  def __init__(self):
+    super(ESRGAN_EESN, self).__init__()
+    self.beginEdgeConv = BeginEdgeConv() #  Output 64*64*64 input 3*64*64
+    self.denseNet = EESNRRDBNet(64, 256, 64, 3) # RRDB densenet with 64 in kernel, 256 out kernel and 64 intermediate kernel, output: 256*64*64
+    self.maskConv = MaskConv() # Output 256*64*64
+    self.finalConv = FinalConv() # Output 3*256*256
+
+  def forward(self, x):
+    x_lap = kornia.laplacian(x_base,3) # see kornia laplacian kernel
+    x1 = self.beginEdgeConv(x_lap)
+    x2 = self.denseNet(x1)
+    x3 = self.maskConv(x1)
+    x4 = x3*x2 + x2
+    x_learned_lap = self.finalConv(x4)
+
+    return x_learned_lap, x_lap

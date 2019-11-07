@@ -20,10 +20,15 @@ class ESRGAN_EESN_Model(BaseModel):
         self.configS = config['lr_scheduler']
         self.device = device
         #Generator
-        self.netG = model.ESRGAN_EESN(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
+        self.netG = model.RRDBNet(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
                                     nf=self.configG['nf'], nb=self.configG['nb'])
         self.netG = self.netG.to(self.device)
         self.netG = DataParallel(self.netG)
+        #EESN
+        self.netE = model.RRDBNet(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
+                                    nf=self.configG['nf'], nb=self.configG['nb'])
+        self.netE = self.netG.to(self.device)
+        self.netE = DataParallel(self.netG)
         #descriminator
         self.netD = model.Discriminator_VGG_128(in_nc=self.configD['in_nc'], nf=self.configD['nf'])
         self.netD = self.netD.to(self.device)
