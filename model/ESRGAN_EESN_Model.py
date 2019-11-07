@@ -176,6 +176,7 @@ class ESRGAN_EESN_Model(BaseModel):
             l_g_total.backward()
             self.optimizer_G.step()
 
+            '''
             #EESN calculate loss for real edge and fake edge and enhance, slightly different from EEGAN
             for p in self.netG.parameters():
                 p.requires_grad = False
@@ -190,7 +191,7 @@ class ESRGAN_EESN_Model(BaseModel):
 
             l_e_charbonnier.backward()
             self.optimizer_E.step()
-
+            '''
         #descriminator
         for p in self.netG.parameters():
             p.requires_grad = True
