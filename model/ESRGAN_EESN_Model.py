@@ -176,19 +176,19 @@ class ESRGAN_EESN_Model(BaseModel):
             l_g_total.backward()
             self.optimizer_G.step()
 
-        #EESN calculate loss for real edge and fake edge and enhance, slightly different from EEGAN
-        for p in self.netG.parameters():
-            p.requires_grad = False
-        for p in self.netE.parameters():
-            p.requires_grad = True
-        self.optimizer_E.zero_grad()
-        self.x_learned_lap_fake, _ = self.netE(self.fake_H)
-        self.x_learned_lap_real, _ = self.netE(self.var_H)
+            #EESN calculate loss for real edge and fake edge and enhance, slightly different from EEGAN
+            for p in self.netG.parameters():
+                p.requires_grad = False
+            for p in self.netE.parameters():
+                p.requires_grad = True
+            self.optimizer_E.zero_grad()
+            self.x_learned_lap_fake, _ = self.netE(self.fake_H)
+            self.x_learned_lap_real, _ = self.netE(self.var_H)
 
-        if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-            l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.x_learned_lap_real) #change the weight to empirically
-            l_e_charbonnier.backward()
-            self.optimizer_E.step()
+            if self.cri_charbonnier: # charbonnier pixel loss HR and SR
+                l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.x_learned_lap_real) #change the weight to empirically
+                l_e_charbonnier.backward()
+                self.optimizer_E.step()
 
         #descriminator
         for p in self.netG.parameters():
@@ -265,6 +265,17 @@ class ESRGAN_EESN_Model(BaseModel):
             net_struc_str = '{}'.format(self.netG.__class__.__name__)
 
         logger.info('Network G structure: {}, with parameters: {:,d}'.format(net_struc_str, n))
+        logger.info(s)
+
+        # EESN
+        s, n = self.get_network_description(self.netE)
+        if isinstance(self.netE, nn.DataParallel) or isinstance(self.netE, DistributedDataParallel):
+            net_struc_str = '{} - {}'.format(self.netE.__class__.__name__,
+                                             self.netE.module.__class__.__name__)
+        else:
+            net_struc_str = '{}'.format(self.netE.__class__.__name__)
+
+        logger.info('Network EESN structure: {}, with parameters: {:,d}'.format(net_struc_str, n))
         logger.info(s)
 
         # Discriminator
