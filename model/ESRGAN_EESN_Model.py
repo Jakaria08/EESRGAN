@@ -181,18 +181,18 @@ class ESRGAN_EESN_Model(BaseModel):
                 p.requires_grad = False
             for p in self.netE.parameters():
                 p.requires_grad = True
-            '''
+
             self.optimizer_E.zero_grad()
             self.x_learned_lap_fake, _ = self.netE(self.fake_H)
             with torch.no_grad():
                 _, self.lap_HR = self.netE(self.var_H)
 
             if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-                l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR) #change the weight to empirically
+                l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR.detach()) #change the weight to empirically
 
             l_e_charbonnier.backward()
             self.optimizer_E.step()
-            '''
+
 
         #descriminator
         for p in self.netG.parameters():
