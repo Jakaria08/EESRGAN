@@ -183,7 +183,7 @@ class ESRGAN_EESN_Model(BaseModel):
                 p.requires_grad = True
 
             self.optimizer_E.zero_grad()
-            self.x_learned_lap_fake, _ = self.netE(self.fake_H)
+            self.x_learned_lap_fake, _ = self.netE(self.fake_H.detach())
             with torch.no_grad():
                 _, self.lap_HR = self.netE(self.var_H)
 
