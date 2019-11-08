@@ -183,11 +183,11 @@ class ESRGAN_EESN_Model(BaseModel):
                 p.requires_grad = True
             self.optimizer_E.zero_grad()
             self.x_learned_lap_fake, _ = self.netE(self.fake_H)
-            self.x_learned_lap_real, _ = self.netE(self.var_H)
-            self.x_learned_lap_real.detach()
+            with toch.no_grad():
+                _, self.lap_HR = self.netE(self.var_H)
 
             if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-                l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.x_learned_lap_real) #change the weight to empirically
+                l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR) #change the weight to empirically
 
             l_e_charbonnier.backward()
             self.optimizer_E.step()
@@ -247,9 +247,8 @@ class ESRGAN_EESN_Model(BaseModel):
         out_dict = OrderedDict()
         out_dict['LQ'] = self.var_L.detach()[0].float().cpu()
         #out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
-        out_dict['SR'] = self.SR_fake_H.detach()[0].float().cpu()
+        out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
         out_dict['lap_learned'] = self.x_learned_lap_fake.detach()[0].float().cpu()
-        out_dict['lap_HR'] = self.x_learned_lap_fake.detach()[0].float().cpu()
         out_dict['lap'] = self.x_lap.detach()[0].float().cpu()
         out_dict['lap_HR'] = self.x_lap_HR.detach()[0].float().cpu()
         out_dict['final_SR'] = out_dict['SR'] - out_dict['lap'] + out_dict['lap_learned']
