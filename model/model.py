@@ -568,11 +568,11 @@ class EESN(nn.Module):
     self.finalConv = FinalConv() # Output 3*256*256
 
   def forward(self, x):
-    x_lap = kornia.laplacian(x,3) # see kornia laplacian kernel
+    x_lap = kornia.laplacian(x, 3) # see kornia laplacian kernel
     x1 = self.beginEdgeConv(x_lap)
     x2 = self.denseNet(x1)
     x3 = self.maskConv(x1)
     x4 = x3*x2 + x2
     x_learned_lap = self.finalConv(x4)
 
-    return x_learned_lap
+    return x_learned_lap, x_lap
