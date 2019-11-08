@@ -575,4 +575,4 @@ class EESN(nn.Module):
     x4 = x3*x2 + x2
     x_learned_lap = self.finalConv(x4)
 
-    return x_learned_lap, x_lap
+    return x_learned_lap
