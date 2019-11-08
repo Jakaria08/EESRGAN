@@ -183,7 +183,7 @@ class ESRGAN_EESN_Model(BaseModel):
                 p.requires_grad = True
             self.optimizer_E.zero_grad()
             self.x_learned_lap_fake, _ = self.netE(self.fake_H)
-            self.x_learned_lap_real, _ = self.netE(self.var_H.detach())
+            self.x_learned_lap_real.detach(), _ = self.netE(self.var_H)
 
             if self.cri_charbonnier: # charbonnier pixel loss HR and SR
                 l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.x_learned_lap_real) #change the weight to empirically
