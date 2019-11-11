@@ -143,7 +143,7 @@ def merge_edge():
         img_final_SR_enhanced = std * img_final_SR_enhanced + mean
         img_final_SR_enhanced = np.clip(img_final_SR_enhanced, 0, 1)
 
-        img_final_SR_enhanced = (img_final_SR_enhanced * 255.0).round()
+        img_final_SR_enhanced = (img_final_SR_enhanced * 255.0).round().astype(np.uint8)
 
         folder_name = os.path.dirname(i)
         file_name = os.path.basename(folder_name)
