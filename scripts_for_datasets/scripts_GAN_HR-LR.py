@@ -121,6 +121,28 @@ def copy_folder_name_for_valid_image():
         destinationLtxt = os.path.join(Dir_LR, 'valid_img', txt_file)
         shutil.move(sourceLtxt, destinationLtxt)
 
+def merge_edge():
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
+    img_final_SR = sorted(glob.glob(dir+'_160000_final_SR.png'))
+    img_lap = sorted(glob.glob(dir+'_160000_lap.png'))
+    for i, j in zip(img_final_SR, img_lap):
+        print(i+'____'+j)
+        '''
+        img_final_SR_1 = cv2.imread(i)
+        img_lap_1 = cv2.imread(j)
+        img_final_SR_enhanced = img_final_SR_1 + img_lap_1
+        img_final_SR_enhanced = np.clip(img_final_SR_enhanced, 0, 255)
+        '''
+        folder_name = os.path.dirname(i)
+        file_name = os.path.basename(folder_name)
+        img_path = os.path.join(folder_name,file_name+'_160000_img_final_SR_enhanced.png')
+        print('_____'+img_path)
+        '''
+        img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(img_path, img_final_SR_enhanced)
+        '''
+
 if __name__ == "__main__":
     #generate_mod_LR_bic()
-    copy_folder_name_for_valid_image()
+    #copy_folder_name_for_valid_image()
+    merge_edge()
