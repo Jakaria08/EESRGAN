@@ -150,7 +150,7 @@ def merge_edge():
         img_path = os.path.join(folder_name,file_name+'_160000_img_final_SR_enhanced.png')
         #print('_____'+img_path)
 
-        img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
+        #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
         cv2.imwrite(img_path, img_final_SR_enhanced)
 
 if __name__ == "__main__":
