@@ -125,12 +125,25 @@ def merge_edge():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
     img_final_SR = sorted(glob.glob(dir+'_160000_final_SR.png'))
     img_lap = sorted(glob.glob(dir+'_160000_lap.png'))
+    mean = np.array([0.3442, 0.3708, 0.3476])
+    std = np.array([0.1232, 0.1230, 0.1284])
+
     for i, j in zip(img_final_SR, img_lap):
         #print(i+'____'+j)
-        img_final_SR_1 = cv2.imread(i)
-        img_lap_1 = cv2.imread(j)
+        img_final_SR_1 = cv2.imread(i) / 255
+        img_lap_1 = cv2.imread(j) / 255
+
+        img_final_SR_1 = np.clip(img_final_SR_1, 0, 1)
+        img_lap_1 = np.clip(img_lap_1, 0, 1)
+
+        img_final_SR_1 = (img_final_SR_1 - mean) / std
+        img_lap_1 = (img_lap_1 - mean) / std
+
         img_final_SR_enhanced = img_final_SR_1 + img_lap_1
-        img_final_SR_enhanced = np.clip(img_final_SR_enhanced, 0, 255)
+        img_final_SR_enhanced = std * img_final_SR_enhanced + mean
+        img_final_SR_enhanced = np.clip(img_final_SR_enhanced, 0, 1)
+
+        img_final_SR_enhanced = (img_final_SR_enhanced * 255.0).round()
 
         folder_name = os.path.dirname(i)
         file_name = os.path.basename(folder_name)
