@@ -11,11 +11,10 @@ import cv2
 import numpy as np
 import glob
 import shutil
-from utils import calculate_psnr, calculate_ssim
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    from utils import imresize_np
+    from utils import imresize_np, calculate_psnr, calculate_ssim
 except ImportError:
     pass
 
