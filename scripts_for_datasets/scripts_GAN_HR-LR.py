@@ -160,11 +160,46 @@ def calculate_psnr_ssim():
     img_final_SR = sorted(glob.glob(dir+'_160000_final_SR.png'))
     img_SR = sorted(glob.glob(dir+'_160000_SR.png'))
 
+    psnr_enhanced = 0
+    psnr_final = 0
+    psnr_SR = 0
+
+    ssim_enhanced = 0
+    ssim_final = 0
+    ssim_SR = 0
+    total = len(img_SR)
+
     for im_gt, im_enhanced, im_final, im_SR in zip(img_GT, img_final_SR_enhanced,
                                                     img_final_SR, img_SR):
 
-        pass
+        image_gt = cv2.imread(im_gt)
+        image_enhanced = cv2.imread(im_enhanced)
+        image_final = cv2.imread(im_final)
+        image_SR = cv2.imread(im_SR)
 
+        psnr_enhanced += calculate_psnr(image_gt, image_enhanced)
+        psnr_final += calculate_psnr(image_gt, image_final)
+        psnr_SR += calculate_psnr(image_gt, image_SR)
+
+        ssim_enhanced += calculate_ssim(image_gt, image_enhanced)
+        ssim_final += calculate_ssim(image_gt, image_final)
+        ssim_SR += calculate_ssim(image_gt, image_SR)
+
+    avg_psnr_enhanced, avg_psnr_final, avg_psnr_SR = (psnr_enhanced / total,
+                                                        psnr_final / total,
+                                                        psnr_SR / total)
+
+    avg_ssim_enhanced, avg_ssim_final, avg_ssim_SR = (ssim_enhanced / total,
+                                                        ssim_final / total,
+                                                        ssim_SR / total)
+
+    print("Enhanced PSNR: %4.2f"%avg_psnr_enhanced)
+    print("Final PSNR: %4.2f"%avg_psnr_final)
+    print("SR PSNR: %4.2f"%avg_psnr_SR)
+
+    print("Enhanced SSIM: %5.4f"%avg_ssim_enhanced)
+    print("Final SSIM: %5.4f"%avg_ssim_final)
+    print("SR SSIM: %5.4f"%avg_ssim_SR)
 
 if __name__ == "__main__":
     #generate_mod_LR_bic()
