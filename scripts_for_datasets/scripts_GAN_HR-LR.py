@@ -155,51 +155,68 @@ def merge_edge():
 
 def calculate_psnr_ssim():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
+    bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
     img_GT = sorted(glob.glob(dir+'_160000_GT.png'))
     img_final_SR_enhanced = sorted(glob.glob(dir+'_160000_img_final_SR_enhanced.png'))
     img_final_SR = sorted(glob.glob(dir+'_160000_final_SR.png'))
     img_SR = sorted(glob.glob(dir+'_160000_SR.png'))
+    img_Bic = sorted(glob.glob(dir+'.png'))
+
 
     psnr_enhanced = 0
     psnr_final = 0
     psnr_SR = 0
+    psnr_Bic = 0
 
     ssim_enhanced = 0
     ssim_final = 0
     ssim_SR = 0
-    total = len(img_SR)
+    ssim_Bic = 0
 
-    for im_gt, im_enhanced, im_final, im_SR in zip(img_GT, img_final_SR_enhanced,
-                                                    img_final_SR, img_SR):
+    total = len(img_SR)
+    i = 0
+
+    for im_gt, im_enhanced, im_final, im_SR, im_Bic in zip(img_GT, img_final_SR_enhanced,
+                                                    img_final_SR, img_SR, img_Bic):
 
         image_gt = cv2.imread(im_gt)
         image_enhanced = cv2.imread(im_enhanced)
         image_final = cv2.imread(im_final)
         image_SR = cv2.imread(im_SR)
+        image_Bic = cv2.imread(im_Bic)
 
         psnr_enhanced += calculate_psnr(image_gt, image_enhanced)
         psnr_final += calculate_psnr(image_gt, image_final)
         psnr_SR += calculate_psnr(image_gt, image_SR)
+        psnr_Bic += calculate_psnr(image_gt, image_Bic)
 
         ssim_enhanced += calculate_ssim(image_gt, image_enhanced)
         ssim_final += calculate_ssim(image_gt, image_final)
         ssim_SR += calculate_ssim(image_gt, image_SR)
+        ssim_Bic += calculate_ssim(image_gt, image_Bic)
 
-    avg_psnr_enhanced, avg_psnr_final, avg_psnr_SR = (psnr_enhanced / total,
-                                                        psnr_final / total,
-                                                        psnr_SR / total)
+        i += 1
+        print(i)
 
-    avg_ssim_enhanced, avg_ssim_final, avg_ssim_SR = (ssim_enhanced / total,
-                                                        ssim_final / total,
-                                                        ssim_SR / total)
+    avg_psnr_enhanced, avg_psnr_final, avg_psnr_SR, avg_psnr_Bic = (psnr_enhanced / total,
+                                                                      psnr_final / total,
+                                                                      psnr_SR / total,
+                                                                      psnr_Bic / total)
+
+    avg_ssim_enhanced, avg_ssim_final, avg_ssim_SR, avg_ssim_Bic = (ssim_enhanced / total,
+                                                                      ssim_final / total,
+                                                                      ssim_SR / total,
+                                                                      ssim_Bic / total)
 
     print("Enhanced PSNR: %4.2f"%avg_psnr_enhanced)
     print("Final PSNR: %4.2f"%avg_psnr_final)
     print("SR PSNR: %4.2f"%avg_psnr_SR)
+    print("Bic PSNR: %4.2f"%avg_psnr_Bic)
 
     print("Enhanced SSIM: %5.4f"%avg_ssim_enhanced)
     print("Final SSIM: %5.4f"%avg_ssim_final)
     print("SR SSIM: %5.4f"%avg_ssim_SR)
+    print("Bic SSIM: %5.4f"%avg_ssim_Bic)
 
 if __name__ == "__main__":
     #generate_mod_LR_bic()
