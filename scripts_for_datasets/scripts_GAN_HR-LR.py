@@ -173,7 +173,7 @@ def calculate_psnr_ssim():
     ssim_SR = 0
     ssim_Bic = 0
 
-    total = len(img_SR)
+    total = len(img_Bic)
     print(total)
     i = 0
 
