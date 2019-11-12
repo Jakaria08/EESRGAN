@@ -160,7 +160,7 @@ def calculate_psnr_ssim():
     img_final_SR_enhanced = sorted(glob.glob(dir+'_210000_img_final_SR_enhanced.png'))
     img_final_SR = sorted(glob.glob(dir+'_210000_final_SR.png'))
     img_SR = sorted(glob.glob(dir+'_210000_SR.png'))
-    img_Bic = sorted(glob.glob(bicubic_DIR+'.png'))
+    img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
 
 
     psnr_enhanced = 0
@@ -173,8 +173,9 @@ def calculate_psnr_ssim():
     ssim_SR = 0
     ssim_Bic = 0
 
-    total = len(img_Bic)
+    total = len(img_SR)
     print(total)
+
     i = 0
 
     for im_gt, im_enhanced, im_final, im_SR, im_Bic in zip(img_GT, img_final_SR_enhanced,
