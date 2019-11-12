@@ -225,5 +225,5 @@ def calculate_psnr_ssim():
 if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
-    merge_edge()
+    #merge_edge()
     calculate_psnr_ssim()
