@@ -11,6 +11,7 @@ import cv2
 import numpy as np
 import glob
 import shutil
+from utils import calculate_psnr, calculate_ssim
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -153,7 +154,21 @@ def merge_edge():
         #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
         cv2.imwrite(img_path, img_final_SR_enhanced)
 
+def calculate_psnr_ssim():
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
+    img_GT = sorted(glob.glob(dir+'_160000_GT.png'))
+    img_final_SR_enhanced = sorted(glob.glob(dir+'_160000_img_final_SR_enhanced.png'))
+    img_final_SR = sorted(glob.glob(dir+'_160000_final_SR.png'))
+    img_SR = sorted(glob.glob(dir+'_160000_SR.png'))
+
+    for im_gt, im_enhanced, im_final, im_SR in zip(img_GT, img_final_SR_enhanced,
+                                                    img_final_SR, img_SR):
+
+        pass
+
+
 if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
-    merge_edge()
+    #merge_edge()
+    calculate_psnr_ssim()
