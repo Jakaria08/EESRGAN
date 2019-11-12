@@ -123,8 +123,8 @@ def copy_folder_name_for_valid_image():
 
 def merge_edge():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
-    img_final_SR = sorted(glob.glob(dir+'_160000_final_SR.png'))
-    img_lap = sorted(glob.glob(dir+'_160000_lap.png'))
+    img_final_SR = sorted(glob.glob(dir+'_210000_final_SR.png'))
+    img_lap = sorted(glob.glob(dir+'_210000_lap.png'))
     mean = np.array([0.3442, 0.3708, 0.3476])
     std = np.array([0.1232, 0.1230, 0.1284])
 
@@ -147,7 +147,7 @@ def merge_edge():
 
         folder_name = os.path.dirname(i)
         file_name = os.path.basename(folder_name)
-        img_path = os.path.join(folder_name,file_name+'_160000_img_final_SR_enhanced.png')
+        img_path = os.path.join(folder_name,file_name+'_210000_img_final_SR_enhanced.png')
         #print('_____'+img_path)
 
         #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
@@ -156,10 +156,10 @@ def merge_edge():
 def calculate_psnr_ssim():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
     bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
-    img_GT = sorted(glob.glob(dir+'_160000_GT.png'))
-    img_final_SR_enhanced = sorted(glob.glob(dir+'_160000_img_final_SR_enhanced.png'))
-    img_final_SR = sorted(glob.glob(dir+'_160000_final_SR.png'))
-    img_SR = sorted(glob.glob(dir+'_160000_SR.png'))
+    img_GT = sorted(glob.glob(dir+'_210000_GT.png'))
+    img_final_SR_enhanced = sorted(glob.glob(dir+'_210000_img_final_SR_enhanced.png'))
+    img_final_SR = sorted(glob.glob(dir+'_210000_final_SR.png'))
+    img_SR = sorted(glob.glob(dir+'_210000_SR.png'))
     img_Bic = sorted(glob.glob(dir+'.png'))
 
 
@@ -174,10 +174,14 @@ def calculate_psnr_ssim():
     ssim_Bic = 0
 
     total = len(img_SR)
+    print(total)
     i = 0
 
     for im_gt, im_enhanced, im_final, im_SR, im_Bic in zip(img_GT, img_final_SR_enhanced,
                                                     img_final_SR, img_SR, img_Bic):
+        print(os.path.basename(im_gt)+'--', os.path.basename(im_enhanced)+'--',
+        os.path.basename(im_final)+'--', os.path.basename(im_SR)+'--',
+        os.path.basename(im_Bic))
 
         image_gt = cv2.imread(im_gt)
         image_enhanced = cv2.imread(im_enhanced)
@@ -221,5 +225,5 @@ def calculate_psnr_ssim():
 if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
-    #merge_edge()
+    merge_edge()
     calculate_psnr_ssim()
