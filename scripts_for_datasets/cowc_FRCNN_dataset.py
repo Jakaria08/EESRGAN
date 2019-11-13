@@ -7,7 +7,7 @@ import cv2
 from torch.utils.data import Dataset, DataLoader
 
 class COWCFRCNNDataset(Dataset):
-  def __init__(self, root=root_dir, image_height=256, image_width=256, transform = None):
+  def __init__(self, root=None, image_height=256, image_width=256, transform = None):
     self.root = root
     #take all under same folder for train and test split.
     self.transform = transform
