@@ -104,5 +104,5 @@ class COWCFRCNNTrainer:
             # evaluate on the test dataset
             if epoch % 10 == 0:
                 evaluate(model, data_loader_test, device=self.device)
-            if epoch % 10 == 0:
+            if epoch % 500 == 0:
                 self.save_model(model, 'FRCNN', epoch)
