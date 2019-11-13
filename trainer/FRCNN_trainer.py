@@ -22,7 +22,7 @@ class COWCFRCNNTrainer:
         n_gpu = torch.cuda.device_count()
         self.device = torch.device('cuda:0' if n_gpu > 0 else 'cpu')
 
-    def get_transform(train):
+    def get_transform(self, train):
         transforms = []
         # converts the image, a PIL image, into a PyTorch Tensor
         transforms.append(T.ToTensor())
@@ -32,7 +32,7 @@ class COWCFRCNNTrainer:
             transforms.append(T.RandomHorizontalFlip(0.5))
         return T.Compose(transforms)
 
-    def data_loaders():
+    def data_loaders(self):
         # use our dataset and defined transformations
         dataset = COWCDataset(root=config['data_loader']['args']['data_dir_GT'],
                     transform=get_transform(train=True))
@@ -92,7 +92,7 @@ class COWCFRCNNTrainer:
                                                        step_size=3,
                                                        gamma=0.1)
 
-        data_loader, data_loader_test = data_loaders()
+        data_loader, data_loader_test = self.data_loaders()
         # let's train it for 10 epochs
         num_epochs = 10000
 
@@ -105,4 +105,4 @@ class COWCFRCNNTrainer:
             if epoch % 10 == 0:
                 evaluate(model, data_loader_test, device=device)
             if epoch % 10 == 0:
-                save_model(model, 'FRCNN', epoch)
+                self.save_model(model, 'FRCNN', epoch)
