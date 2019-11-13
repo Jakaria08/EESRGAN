@@ -11,6 +11,7 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms as T, utils
 from detection.engine import train_one_epoch, evaluate
 from detection.utils import collate_fn
+from scripts_for_datasets import COWCFRCNNDataset
 
 class COWCFRCNNTrainer:
     """
@@ -34,9 +35,9 @@ class COWCFRCNNTrainer:
 
     def data_loaders(self):
         # use our dataset and defined transformations
-        dataset = COWCDataset(root=config['data_loader']['args']['data_dir_GT'],
+        dataset = COWCFRCNNDataset(root=config['data_loader']['args']['data_dir_GT'],
                     transform=get_transform(train=True))
-        dataset_test = COWCDataset(root=config['data_loader']['args']['data_dir_Valid'],
+        dataset_test = COWCFRCNNDataset(root=config['data_loader']['args']['data_dir_Valid'],
                          transform=get_transform(train=False))
 
         # split the dataset in train and test set
