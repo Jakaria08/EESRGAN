@@ -61,8 +61,7 @@ class COWCFRCNNTrainer:
     def save_model(self, network, network_labe, iter_label):
         save_filename = '{}_{}.pth'.format(iter_label, network_label)
         save_path = os.path.join(self.config['path']['FRCNN_model'], save_filename)
-        if isinstance(network, nn.DataParallel) or isinstance(network, DistributedDataParallel):
-            network = network.module
+
         state_dict = network.state_dict()
         for key, param in state_dict.items():
             state_dict[key] = param.cpu()
@@ -81,7 +80,6 @@ class COWCFRCNNTrainer:
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         model.to(self.device)
-        model = DataParallel(model)
 
         # construct an optimizer
         params = [p for p in model.parameters() if p.requires_grad]
