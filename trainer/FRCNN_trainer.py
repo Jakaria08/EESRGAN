@@ -37,9 +37,9 @@ class COWCFRCNNTrainer:
     def data_loaders(self):
         # use our dataset and defined transformations
         dataset = COWCFRCNNDataset(root=self.config['data_loader']['args']['data_dir_GT'],
-                    transform=self.get_transform(train=True))
+                    transforms=self.get_transform(train=True))
         dataset_test = COWCFRCNNDataset(root=self.config['data_loader']['args']['data_dir_Valid'],
-                         transform=self.get_transform(train=False))
+                         transforms=self.get_transform(train=False))
 
         # split the dataset in train and test set
         torch.manual_seed(1)
