@@ -52,7 +52,7 @@ class COWCFRCNNTrainer:
 
         return data_loader, data_loader_test
 
-    def save_model(self, network, network_labe, iter_label):
+    def save_model(self, network, network_label, iter_label):
         save_filename = '{}_{}.pth'.format(iter_label, network_label)
         save_path = os.path.join(self.config['path']['FRCNN_model'], save_filename)
 
