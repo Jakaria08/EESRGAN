@@ -41,12 +41,6 @@ class COWCFRCNNTrainer:
         dataset_test = COWCFRCNNDataset(root=self.config['data_loader']['args']['data_dir_Valid'],
                          transforms=self.get_transform(train=False))
 
-        # split the dataset in train and test set
-        torch.manual_seed(1)
-        indices = torch.randperm(len(dataset)).tolist()
-        dataset = torch.utils.data.Subset(dataset, indices[:-20])
-        dataset_test = torch.utils.data.Subset(dataset_test, indices[-20:])
-
         # define training and validation data loaders
         data_loader = torch.utils.data.DataLoader(
             dataset, batch_size=2, shuffle=True, num_workers=4,
