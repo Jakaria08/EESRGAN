@@ -98,7 +98,7 @@ class COWCFRCNNTrainer:
 
         for epoch in range(num_epochs):
             # train for one epoch, printing every 10 iterations
-            train_one_epoch(model, optimizer, data_loader, self.device, epoch, print_freq=10)
+            #train_one_epoch(model, optimizer, data_loader, self.device, epoch, print_freq=10)
             # update the learning rate
             lr_scheduler.step()
             # evaluate on the test dataset
