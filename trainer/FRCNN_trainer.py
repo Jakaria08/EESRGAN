@@ -89,7 +89,7 @@ class COWCFRCNNTrainer:
 
         data_loader, data_loader_test = self.data_loaders()
         # let's train it for 10 epochs
-        num_epochs = 10000
+        num_epochs = 1000
 
         for epoch in range(num_epochs):
             # train for one epoch, printing every 10 iterations
@@ -99,5 +99,5 @@ class COWCFRCNNTrainer:
             # evaluate on the test dataset
             if epoch % 10 == 0:
                 evaluate(model, data_loader_test, device=self.device)
-            if epoch != 0 and epoch % 500 == 0:
+            if epoch % 30 == 0:
                 self.save_model(model, 'FRCNN', epoch)
