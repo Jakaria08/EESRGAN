@@ -7,10 +7,10 @@ import cv2
 from torch.utils.data import Dataset, DataLoader
 
 class COWCFRCNNDataset(Dataset):
-  def __init__(self, root=None, image_height=256, image_width=256, transform = None):
+  def __init__(self, root=None, image_height=256, image_width=256, transforms = None):
     self.root = root
     #take all under same folder for train and test split.
-    self.transform = transform
+    self.transforms = transforms
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
@@ -58,8 +58,8 @@ class COWCFRCNNDataset(Dataset):
     target["area"] = area
     target["iscrowd"] = iscrowd
 
-    if self.transform is not None:
-      img, target = self.transform(img, target)
+    if self.transforms is not None:
+      img, target = self.transforms(img, target)
 
     return img, target
 

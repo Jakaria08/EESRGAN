@@ -8,10 +8,11 @@ import torchvision
 from torch.nn.parallel import DataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms as T, utils
+from torchvision import utils
 from detection.engine import train_one_epoch, evaluate
 from detection.utils import collate_fn
 from scripts_for_datasets import COWCFRCNNDataset
+from detection.transforms import ToTensor, RandomHorizontalFlip, Compose
 
 class COWCFRCNNTrainer:
     """
@@ -26,12 +27,12 @@ class COWCFRCNNTrainer:
     def get_transform(self, train):
         transforms = []
         # converts the image, a PIL image, into a PyTorch Tensor
-        transforms.append(T.ToTensor())
+        transforms.append(ToTensor())
         if train:
             # during training, randomly flip the training images
             # and ground-truth for data augmentation
-            transforms.append(T.RandomHorizontalFlip(0.5))
-        return T.Compose(transforms)
+            transforms.append(RandomHorizontalFlip(0.5))
+        return Compose(transforms)
 
     def data_loaders(self):
         # use our dataset and defined transformations
