@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import torchvision
+from torch.nn.parallel import DataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms as T, utils
@@ -33,8 +34,10 @@ class COWCFRCNNTrainer:
 
     def data_loaders():
         # use our dataset and defined transformations
-        dataset = COWCDataset(transform=get_transform(train=True))
-        dataset_test = COWCDataset(transform=get_transform(train=False))
+        dataset = COWCDataset(root=config['data_loader']['args']['data_dir_GT'],
+                    transform=get_transform(train=True))
+        dataset_test = COWCDataset(root=config['data_loader']['args']['data_dir_Valid'],
+                         transform=get_transform(train=False))
 
         # split the dataset in train and test set
         torch.manual_seed(1)
@@ -53,6 +56,16 @@ class COWCFRCNNTrainer:
 
         return data_loader, data_loader_test
 
+    def save_model(self, network, network_labe, iter_label):
+        save_filename = '{}_{}.pth'.format(iter_label, network_label)
+        save_path = os.path.join(self.config['path']['FRCNN_model'], save_filename)
+        if isinstance(network, nn.DataParallel) or isinstance(network, DistributedDataParallel):
+            network = network.module
+        state_dict = network.state_dict()
+        for key, param in state_dict.items():
+            state_dict[key] = param.cpu()
+        torch.save(state_dict, save_path)
+
     def train(self):
         # load a model pre-trained pre-trained on COCO
         model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
@@ -66,6 +79,7 @@ class COWCFRCNNTrainer:
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         model.to(self.device)
+        model = DataParallel(model)
 
         # construct an optimizer
         params = [p for p in model.parameters() if p.requires_grad]
@@ -88,4 +102,7 @@ class COWCFRCNNTrainer:
             # update the learning rate
             lr_scheduler.step()
             # evaluate on the test dataset
-            evaluate(model, data_loader_test, device=device)
+            if epoch % 10 = 0:
+                evaluate(model, data_loader_test, device=device)
+            if epoch % 10 == 0:
+                save_model(model, 'FRCNN', epoch)
