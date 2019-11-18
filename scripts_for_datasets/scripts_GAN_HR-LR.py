@@ -124,27 +124,28 @@ def copy_folder_name_for_valid_image():
 
 def merge_edge():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/val_images/*/*"
-    img_final_SR = sorted(glob.glob(dir+'_400000_final_SR.png'))
-    img_lap = sorted(glob.glob(dir+'_400000_lap.png'))
-    img_lap_learned = sorted(glob.glob(dir+'_400000_lap_learned.png'))
+    img_SR = sorted(glob.glob(dir+'_15000_SR.png'))
+    img_lap = sorted(glob.glob(dir+'_15000_lap.png'))
+    img_lap_learned = sorted(glob.glob(dir+'_15000_lap_learned.png'))
     mean = np.array([0.3442, 0.3708, 0.3476])
     std = np.array([0.1232, 0.1230, 0.1284])
 
-    for i, j, k in zip(img_final_SR, img_lap, img_lap_learned):
+    for i, j, k in zip(img_SR, img_lap, img_lap_learned):
         #print(i+'____'+j)
-        img_final_SR_1 = cv2.imread(i) / 255
+        img_SR_1 = cv2.imread(i) / 255
         img_lap_1 = cv2.imread(j) / 255
         img_lap_learned_1 = cv2.imread(k) / 255
 
-        img_final_SR_1 = np.clip(img_final_SR_1, 0, 1)
+        img_SR_1 = np.clip(img_SR_1, 0, 1)
         img_lap_1 = np.clip(img_lap_1, 0, 1)
         img_lap_learned_1 = np.clip(img_lap_learned_1, 0, 1)
 
-        img_final_SR_1 = (img_final_SR_1 - mean) / std
+        img_SR_1 = (img_SR_1 - mean) / std
         img_lap_1 = (img_lap_1 - mean) / std
         img_lap_learned_1 = (img_lap_learned_1 - mean) / std
 
-        img_final_SR_enhanced = img_final_SR_1 + (img_lap_1 - img_lap_learned_1)
+        #img_final_SR_enhanced = img_SR_1 + (img_lap_1 - img_lap_learned_1)
+        img_final_SR_enhanced = img_SR_1 + (img_lap_learned_1 - img_lap_1)
         img_final_SR_enhanced = std * img_final_SR_enhanced + mean
         img_final_SR_enhanced = np.clip(img_final_SR_enhanced, 0, 1)
 
@@ -152,19 +153,19 @@ def merge_edge():
 
         folder_name = os.path.dirname(i)
         file_name = os.path.basename(folder_name)
-        img_path = os.path.join(folder_name,file_name+'_400000_img_final_SR_enhanced.png')
+        img_path = os.path.join(folder_name,file_name+'_15000_img_final_SR_enhanced.png')
         #print('_____'+img_path)
 
         #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
         cv2.imwrite(img_path, img_final_SR_enhanced)
 
 def calculate_psnr_ssim():
-    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/val_images/*/*"
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
     bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
-    img_GT = sorted(glob.glob(dir+'_400000_GT.png'))
-    img_final_SR_enhanced = sorted(glob.glob(dir+'_400000_img_final_SR_enhanced.png'))
-    img_final_SR = sorted(glob.glob(dir+'_400000_final_SR.png'))
-    img_SR = sorted(glob.glob(dir+'_400000_SR.png'))
+    img_GT = sorted(glob.glob(dir+'_15000_GT.png'))
+    img_final_SR_enhanced = sorted(glob.glob(dir+'_15000_img_final_SR_enhanced.png'))
+    img_final_SR = sorted(glob.glob(dir+'_15000_final_SR.png'))
+    img_SR = sorted(glob.glob(dir+'_15000_SR.png'))
     img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
 
 
@@ -218,24 +219,24 @@ def calculate_psnr_ssim():
                                                                       ssim_SR / total,
                                                                       ssim_Bic / total)
 
-    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/Output.txt", "a")
+    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Output.txt", "a")
     print("Enhanced PSNR: %4.2f" % avg_psnr_enhanced)
-    text_file.write("Enhanced PSNR: %4.2f" % avg_psnr_enhanced)
+    text_file.write("Enhanced PSNR: %4.2f \n" % avg_psnr_enhanced)
     print("Final PSNR: %4.2f"%avg_psnr_final)
-    text_file.write("Final PSNR: %4.2f"%avg_psnr_final)
+    text_file.write("Final PSNR: %4.2f \n"%avg_psnr_final)
     print("SR PSNR: %4.2f"%avg_psnr_SR)
-    text_file.write("SR PSNR: %4.2f"%avg_psnr_SR)
+    text_file.write("SR PSNR: %4.2f \n"%avg_psnr_SR)
     print("Bic PSNR: %4.2f"%avg_psnr_Bic)
-    text_file.write("Bic PSNR: %4.2f"%avg_psnr_Bic)
+    text_file.write("Bic PSNR: %4.2f \n"%avg_psnr_Bic)
 
     print("Enhanced SSIM: %5.4f"%avg_ssim_enhanced)
-    text_file.write("Enhanced SSIM: %5.4f"%avg_ssim_enhanced)
+    text_file.write("Enhanced SSIM: %5.4f \n"%avg_ssim_enhanced)
     print("Final SSIM: %5.4f"%avg_ssim_final)
-    text_file.write("Final SSIM: %5.4f"%avg_ssim_final)
+    text_file.write("Final SSIM: %5.4f \n"%avg_ssim_final)
     print("SR SSIM: %5.4f"%avg_ssim_SR)
-    text_file.write("SR SSIM: %5.4f"%avg_ssim_SR)
+    text_file.write("SR SSIM: %5.4f \n"%avg_ssim_SR)
     print("Bic SSIM: %5.4f"%avg_ssim_Bic)
-    text_file.write("Bic SSIM: %5.4f"%avg_ssim_Bic)
+    text_file.write("Bic SSIM: %5.4f \n"%avg_ssim_Bic)
     text_file.close()
 
 if __name__ == "__main__":
