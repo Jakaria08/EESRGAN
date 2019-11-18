@@ -259,6 +259,10 @@ def calculate_psnr_ssim_ESRGAN():
         im_gt = os.path.join(HR_DIR, im_gt)
         print(im_gt)
 
+        image_SR = cv2.imread(im_SR)
+        image_SR = cv2.cvtColor(image_SR, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(im_SR, image_SR)
+
         image_gt = cv2.imread(im_gt)
         image_SR = cv2.imread(im_SR)
 
