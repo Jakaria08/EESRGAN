@@ -256,7 +256,7 @@ def calculate_psnr_ssim_ESRGAN():
         print(os.path.basename(im_SR)+'--')
         im_gt = os.path.basename(im_SR)
         im_gt = im_gt.rsplit('_', 1)[0]+".jpg"
-        im_gt = os.path.join(HR_DIR, img_gt)
+        im_gt = os.path.join(HR_DIR, im_gt)
         print(im_gt)
 
         image_gt = cv2.imread(im_gt)
