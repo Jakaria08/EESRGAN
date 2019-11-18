@@ -20,21 +20,16 @@ class ESRGAN_EESN_Model(BaseModel):
         self.configS = config['lr_scheduler']
         self.device = device
         #Generator
-        self.netG = model.RRDBNet(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
-                                    nf=self.configG['nf'], nb=self.configG['nb'])
+        self.netG = model.ESRGAN_EESN()
         self.netG = self.netG.to(self.device)
         self.netG = DataParallel(self.netG)
-        #EESN
-        self.netE = model.EESN()
-        self.netE = self.netE.to(self.device)
-        self.netE = DataParallel(self.netE)
+
         #descriminator
         self.netD = model.Discriminator_VGG_128(in_nc=self.configD['in_nc'], nf=self.configD['nf'])
         self.netD = self.netD.to(self.device)
         self.netD = DataParallel(self.netD)
 
         self.netG.train()
-        self.netE.train()
         self.netD.train()
         #print(self.configT['pixel_weight'])
         # G CharbonnierLoss for final output SR and GT HR
@@ -92,17 +87,7 @@ class ESRGAN_EESN_Model(BaseModel):
                                             weight_decay=wd_G,
                                             betas=(self.configO['beta1_G'], self.configO['beta2_G']))
         self.optimizers.append(self.optimizer_G)
-        #EESN
-        wd_E = self.configO['weight_decay_G'] if self.configO['weight_decay_G'] else 0
-        optim_paramsE = []
-        for k, v in self.netE.named_parameters():  # can optimize for a part of the model
-            if v.requires_grad:
-                optim_paramsE.append(v)
-        #use configuration as same as generator
-        self.optimizer_E = torch.optim.Adam(optim_paramsE, lr=self.configO['lr_G'],
-                                            weight_decay=wd_E,
-                                            betas=(self.configO['beta1_G'], self.configO['beta2_G']))
-        self.optimizers.append(self.optimizer_E)
+
         # D
         wd_D = self.configO['weight_decay_D'] if self.configO['weight_decay_D'] else 0
         self.optimizer_D = torch.optim.Adam(self.netD.parameters(), lr=self.configO['lr_D'],
@@ -147,10 +132,8 @@ class ESRGAN_EESN_Model(BaseModel):
         #Generator
         for p in self.netD.parameters():
             p.requires_grad = False
-        for p in self.netG.parameters():
-            p.requires_grad = True
         self.optimizer_G.zero_grad()
-        self.fake_H = self.netG(self.var_L)
+        self.fake_H, self.final_SR, _, _ = self.netG(self.var_L)
 
         l_g_total = 0
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
@@ -172,35 +155,17 @@ class ESRGAN_EESN_Model(BaseModel):
                 self.cri_gan(pred_d_real - torch.mean(pred_g_fake), False) +
                 self.cri_gan(pred_g_fake - torch.mean(pred_d_real), True)) / 2
             l_g_total += l_g_gan
+            #EESN calculate loss
+            if self.cri_charbonnier: # charbonnier pixel loss HR and SR
+                l_e_charbonnier = 5 * self.cri_charbonnier(self.final_SR, self.var_H) #change the weight to empirically
+            l_g_total += l_e_charbonnier
 
             l_g_total.backward()
             self.optimizer_G.step()
 
-            #EESN calculate loss for real edge and fake edge and enhance, slightly different from EEGAN
-            for p in self.netG.parameters():
-                p.requires_grad = False
-            for p in self.netE.parameters():
-                p.requires_grad = True
-
-            self.optimizer_E.zero_grad()
-            self.x_learned_lap_fake, _ = self.netE(self.fake_H.detach())
-            with torch.no_grad():
-                _, self.lap_HR = self.netE(self.var_H)
-
-            if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-                l_e_charbonnier = self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR.detach()) #change the weight to empirically
-
-            l_e_charbonnier.backward()
-            self.optimizer_E.step()
-
-
         #descriminator
-        for p in self.netG.parameters():
-            p.requires_grad = True
         for p in self.netD.parameters():
             p.requires_grad = True
-        for p in self.netE.parameters():
-            p.requires_grad = False
 
         self.optimizer_D.zero_grad()
         l_d_total = 0
@@ -213,7 +178,7 @@ class ESRGAN_EESN_Model(BaseModel):
         elif self.configT['gan_type'] == 'ragan':
             l_d_real = self.cri_gan(pred_d_real - torch.mean(pred_d_fake), True)
             l_d_fake = self.cri_gan(pred_d_fake - torch.mean(pred_d_real), False)
-            l_d_total = (l_d_real + l_d_fake) / 2
+            l_d_total = (l_d_real + l_d_fake) / 2 # thinking of adding final sr d loss
 
         l_d_total.backward()
         self.optimizer_D.step()
@@ -234,13 +199,10 @@ class ESRGAN_EESN_Model(BaseModel):
 
     def test(self):
         self.netG.eval()
-        self.netE.eval()
         with torch.no_grad():
-            self.fake_H = self.netG(self.var_L)
-            self.x_learned_lap_fake, self.x_lap = self.netE(self.fake_H)
-            _, self.x_lap_HR = self.netE(self.var_H)
+            self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
+            _, _, _, self.x_lap_HR = self.netG(self.var_H)
         self.netG.train()
-        self.netE.train()
 
     def get_current_log(self):
         return self.log_dict
@@ -253,7 +215,7 @@ class ESRGAN_EESN_Model(BaseModel):
         out_dict['lap_learned'] = self.x_learned_lap_fake.detach()[0].float().cpu()
         out_dict['lap'] = self.x_lap.detach()[0].float().cpu()
         out_dict['lap_HR'] = self.x_lap_HR.detach()[0].float().cpu()
-        out_dict['final_SR'] = out_dict['SR'] - out_dict['lap'] + out_dict['lap_learned']
+        out_dict['final_SR'] = self.final_SR.detach()[0].float().cpu()
         if need_GT:
             out_dict['GT'] = self.var_H.detach()[0].float().cpu()
         return out_dict
@@ -268,17 +230,6 @@ class ESRGAN_EESN_Model(BaseModel):
             net_struc_str = '{}'.format(self.netG.__class__.__name__)
 
         logger.info('Network G structure: {}, with parameters: {:,d}'.format(net_struc_str, n))
-        logger.info(s)
-
-        # EESN
-        s, n = self.get_network_description(self.netE)
-        if isinstance(self.netE, nn.DataParallel) or isinstance(self.netE, DistributedDataParallel):
-            net_struc_str = '{} - {}'.format(self.netE.__class__.__name__,
-                                             self.netE.module.__class__.__name__)
-        else:
-            net_struc_str = '{}'.format(self.netE.__class__.__name__)
-
-        logger.info('Network EESN structure: {}, with parameters: {:,d}'.format(net_struc_str, n))
         logger.info(s)
 
         # Discriminator
@@ -311,7 +262,7 @@ class ESRGAN_EESN_Model(BaseModel):
         load_path_G = self.config['path']['pretrain_model_G']
         if load_path_G:
             logger.info('Loading model for G [{:s}] ...'.format(load_path_G))
-            self.load_network(load_path_G, self.netG, self.config['path']['strict_load'])
+            self.load_network(load_path_G, self.netG.netRG, self.config['path']['strict_load'])
         load_path_D = self.config['path']['pretrain_model_D']
         if load_path_D:
             logger.info('Loading model for D [{:s}] ...'.format(load_path_D))
@@ -319,9 +270,8 @@ class ESRGAN_EESN_Model(BaseModel):
         load_path_E = self.config['path']['pretrain_model_E']
         if load_path_E:
             logger.info('Loading model for E [{:s}] ...'.format(load_path_E))
-            self.load_network(load_path_E, self.netE, self.config['path']['strict_load'])
+            self.load_network(load_path_E, self.netG.netE, self.config['path']['strict_load'])
 
     def save(self, iter_step):
         self.save_network(self.netG, 'G', iter_step)
         self.save_network(self.netD, 'D', iter_step)
-        self.save_network(self.netE, 'E', iter_step)
