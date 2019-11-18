@@ -96,7 +96,7 @@
         "resume_state": "~",
         "val_images": "saved/val_images",
         "log": "saved/logs",
-        "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/",
+        "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/"
     },
     "logger": {
       "print_freq": 100,
