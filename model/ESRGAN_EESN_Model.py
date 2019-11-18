@@ -20,7 +20,8 @@ class ESRGAN_EESN_Model(BaseModel):
         self.configS = config['lr_scheduler']
         self.device = device
         #Generator
-        self.netG = model.ESRGAN_EESN()
+        self.netG = model.ESRGAN_EESN(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
+                                    nf=self.configG['nf'], nb=self.configG['nb'])
         self.netG = self.netG.to(self.device)
         self.netG = DataParallel(self.netG)
 
