@@ -242,7 +242,7 @@ def calculate_psnr_ssim():
 def calculate_psnr_ssim_ESRGAN():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/val_images/*/*"
     HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/"
-    img_SR = sorted(glob.glob(dir+'_305000.png'))
+    img_SR = sorted(glob.glob(dir+'_300000.png'))
 
     psnr_SR = 0
     ssim_SR = 0
