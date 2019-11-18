@@ -123,7 +123,7 @@ def copy_folder_name_for_valid_image():
         shutil.move(sourceLtxt, destinationLtxt)
 
 def merge_edge():
-    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/val_images/*/*"
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
     img_SR = sorted(glob.glob(dir+'_15000_SR.png'))
     img_lap = sorted(glob.glob(dir+'_15000_lap.png'))
     img_lap_learned = sorted(glob.glob(dir+'_15000_lap_learned.png'))
