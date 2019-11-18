@@ -239,8 +239,45 @@ def calculate_psnr_ssim():
     text_file.write("Bic SSIM: %5.4f \n"%avg_ssim_Bic)
     text_file.close()
 
+def calculate_psnr_ssim_ESRGAN():
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/val_images/*/*"
+    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*"
+    img_SR = sorted(glob.glob(dir+'_305000.png'))
+    img_HR = sorted(glob.glob(HR_DIR+'.png'))
+
+    psnr_SR = 0
+    ssim_SR = 0
+
+    total = len(img_SR)
+    print(total)
+
+    i = 0
+
+    for im_gt, im_SR in zip(img_HR, img_SR):
+        print(os.path.basename(im_gt)+'--', os.path.basename(im_SR))
+
+        image_gt = cv2.imread(im_gt)
+        image_SR = cv2.imread(im_SR)
+
+        psnr_SR += calculate_psnr(image_gt, image_SR)
+        ssim_SR += calculate_ssim(image_gt, image_SR)
+
+        i += 1
+        print(i)
+
+    avg_psnr_SR = psnr_SR / total
+    avg_ssim_SR = ssim_SR / total
+
+    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/Output.txt", "a")
+    print("SR PSNR: %4.2f"%avg_psnr_SR)
+    text_file.write("SR PSNR: %4.2f \n"%avg_psnr_SR)
+    print("SR SSIM: %5.4f"%avg_ssim_SR)
+    text_file.write("SR SSIM: %5.4f \n"%avg_ssim_SR)
+
+
 if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
-    merge_edge()
-    calculate_psnr_ssim()
+    #merge_edge()
+    #calculate_psnr_ssim()
+    calculate_psnr_ssim_ESRGAN()
