@@ -11,6 +11,7 @@ from albumentations import (
 )
 
 from albumentations.pytorch import ToTensor
+from utils import collate_fn
 
 
 class MnistDataLoader(BaseDataLoader):
