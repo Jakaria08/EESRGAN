@@ -105,6 +105,7 @@ data/
 input/
 saved/
 saved_ESRGAN/
+saved_EEGAN_separate/
 datasets/
 
 # editor, os cache directory
