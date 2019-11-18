@@ -566,7 +566,7 @@ class ESRGAN_EESN(nn.Module):
     self.netE = EESN()
 
   def forward(self, x):
-    x_base = self.RRDB(x) # add bicubic according to the implementation by author but not stated in the paper
+    x_base = self.netRG(x) # add bicubic according to the implementation by author but not stated in the paper
     x5, x_lap = self.netE(x_base) # EESN net
     x_sr = x5 + x_base - x_lap
 

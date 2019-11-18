@@ -23,7 +23,7 @@ class ESRGAN_EESN_Model(BaseModel):
         self.netG = model.ESRGAN_EESN(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
                                     nf=self.configG['nf'], nb=self.configG['nb'])
         self.netG = self.netG.to(self.device)
-        #self.netG = DataParallel(self.netG)
+        self.netG = DataParallel(self.netG)
 
         #descriminator
         self.netD = model.Discriminator_VGG_128(in_nc=self.configD['in_nc'], nf=self.configD['nf'])
@@ -263,7 +263,7 @@ class ESRGAN_EESN_Model(BaseModel):
         load_path_G = self.config['path']['pretrain_model_G']
         if load_path_G:
             logger.info('Loading model for G [{:s}] ...'.format(load_path_G))
-            self.load_network(load_path_G, self.netG.netRG, self.config['path']['strict_load'])
+            self.load_network(load_path_G, self.netG.module.netRG, self.config['path']['strict_load'])
         load_path_D = self.config['path']['pretrain_model_D']
         if load_path_D:
             logger.info('Loading model for D [{:s}] ...'.format(load_path_D))
@@ -271,7 +271,7 @@ class ESRGAN_EESN_Model(BaseModel):
         load_path_E = self.config['path']['pretrain_model_E']
         if load_path_E:
             logger.info('Loading model for E [{:s}] ...'.format(load_path_E))
-            self.load_network(load_path_E, self.netG.netE, self.config['path']['strict_load'])
+            self.load_network(load_path_E, self.netG.module.netE, self.config['path']['strict_load'])
 
     def save(self, iter_step):
         self.save_network(self.netG, 'G', iter_step)
