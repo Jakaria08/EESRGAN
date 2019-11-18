@@ -6,7 +6,7 @@ import model.model as model
 import model.lr_scheduler as lr_scheduler
 from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
-from torch.nn.parallel import DataParallel
+from torch.nn.parallel import DataParallel, DistributedDataParallel
 
 logger = logging.getLogger('base')
 # Taken from ESRGAN BASICSR repository and modified
