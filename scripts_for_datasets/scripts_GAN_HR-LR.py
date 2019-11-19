@@ -287,4 +287,4 @@ if __name__ == "__main__":
     #copy_folder_name_for_valid_image()
     #merge_edge()
     #calculate_psnr_ssim()
-    calculate_psnr_ssim_ESRGAN()
+    calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
