@@ -9,6 +9,8 @@ from parse_config import ConfigParser
 
 
 def main(config):
+    
+    '''
     logger = config.get_logger('test')
 
     # setup data_loader instances
@@ -66,6 +68,7 @@ def main(config):
         met.__name__: total_metrics[i].item() / n_samples for i, met in enumerate(metric_fns)
     })
     logger.info(log)
+    '''
 
 
 if __name__ == '__main__':
