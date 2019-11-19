@@ -41,6 +41,14 @@ class COWCFRCNNTrainer:
                     transforms=self.get_transform(train=True))
         dataset_test = COWCFRCNNDataset(root=self.config['path']['data_dir_Valid'],
                          transforms=self.get_transform(train=False))
+        dataset_test_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_SR'],
+                         transforms=self.get_transform(train=False))
+        dataset_test_E_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_E_SR'],
+                         transforms=self.get_transform(train=False))
+        dataset_test_F_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_F_SR'],
+                         transforms=self.get_transform(train=False))
+        dataset_test_Bic = COWCFRCNNDataset(root=self.config['path']['data_dir_Bic'],
+                         transforms=self.get_transform(train=False))
 
         # define training and validation data loaders
         data_loader = torch.utils.data.DataLoader(
@@ -51,7 +59,24 @@ class COWCFRCNNTrainer:
             dataset_test, batch_size=1, shuffle=False, num_workers=4,
             collate_fn=collate_fn)
 
-        return data_loader, data_loader_test
+        data_loader_test_SR = torch.utils.data.DataLoader(
+            dataset_test_SR, batch_size=1, shuffle=False, num_workers=4,
+            collate_fn=collate_fn)
+
+        data_loader_test_E_SR = torch.utils.data.DataLoader(
+            dataset_test_E_SR, batch_size=1, shuffle=False, num_workers=4,
+            collate_fn=collate_fn)
+
+        data_loader_test_F_SR = torch.utils.data.DataLoader(
+            dataset_test_F_SR, batch_size=1, shuffle=False, num_workers=4,
+            collate_fn=collate_fn)
+
+        data_loader_test_Bic = torch.utils.data.DataLoader(
+            dataset_test_Bic, batch_size=1, shuffle=False, num_workers=4,
+            collate_fn=collate_fn)
+
+        return data_loader, data_loader_test, data_loader_test_SR, data_loader_test_E_SR,
+                data_loader_test_F_SR, data_loader_test_Bic
 
     def save_model(self, network, network_label, iter_label):
         save_filename = '{}_{}.pth'.format(iter_label, network_label)
@@ -61,6 +86,48 @@ class COWCFRCNNTrainer:
         for key, param in state_dict.items():
             state_dict[key] = param.cpu()
         torch.save(state_dict, save_path)
+
+    def load_model(self, load_path, network, strict=True):
+        if isinstance(network, nn.DataParallel) or isinstance(network, DistributedDataParallel):
+            network = network.module
+        load_net = torch.load(load_path)
+        load_net_clean = OrderedDict()  # remove unnecessary 'module.'
+        for k, v in load_net.items():
+            if k.startswith('module.'):
+                load_net_clean[k[7:]] = v
+            else:
+                load_net_clean[k] = v
+        network.load_state_dict(load_net_clean, strict=strict)
+
+    def test(self):
+        # load a model pre-trained pre-trained on COCO
+        model = torchvision.models.detection.fasterrcnn_resnet50_fpn()
+
+        # replace the classifier with a new one, that has
+        # num_classes which is user-defined
+        num_classes = 2  # 1 class (car) + background
+        # get number of input features for the classifier
+        in_features = model.roi_heads.box_predictor.cls_score.in_features
+        # replace the pre-trained head with a new one
+        model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+
+        model.to(self.device)
+
+        self.load_model(config['path']['pretrain_model_FRCNN'], model)
+
+        _, data_loader_test, data_loader_test_SR, data_loader_test_E_SR,
+                data_loader_test_F_SR, data_loader_test_Bic= self.data_loaders()
+
+        print("test HR images..............................")
+        evaluate(model, data_loader_test, device=self.device)
+        print("test SR images..............................")
+        evaluate(model, data_loader_test_SR, device=self.device)
+        print("test Enhanced SR images.....................")
+        evaluate(model, data_loader_test_E_SR, device=self.device)
+        print("test Final SR images.........................")
+        evaluate(model, data_loader_test_F_SR, device=self.device)
+        print("test Bicubic images..........................")
+        evaluate(model, data_loader_test_Bic, device=self.device)
 
     def train(self):
         # load a model pre-trained pre-trained on COCO
@@ -87,7 +154,7 @@ class COWCFRCNNTrainer:
                                                        step_size=3,
                                                        gamma=0.1)
 
-        data_loader, data_loader_test = self.data_loaders()
+        data_loader, data_loader_test, _, _, _, _ = self.data_loaders()
         # let's train it for 10 epochs
         num_epochs = 10000
 

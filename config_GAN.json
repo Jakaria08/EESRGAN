@@ -91,12 +91,17 @@
         "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/pretrained_models/400000_G.pth",
         "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/pretrained_models/400000_D.pth",
         "pretrain_model_E": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/pretrained_models/400000_E.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model/660_FRCNN.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
         "val_images": "saved/val_images",
         "log": "saved/logs",
-        "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/"
+        "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/",
+        "data_dir_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/SR_images/",
+        "data_dir_E_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images/",
+        "data_dir_F_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/final_SR_images/",
+        "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/"
     },
     "logger": {
       "print_freq": 100,
