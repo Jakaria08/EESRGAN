@@ -14,7 +14,7 @@ class COWCFRCNNDataset(Dataset):
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
-    print(len(list(glob.glob(self.root+".jpg"))))
+    print(glob.glob(self.root+".jpg"))
     if len(list(glob.glob(self.root+".jpg"))) > 0:
         self.imgs = list(sorted(set(glob.glob(self.root+"*.jpg")) - set(glob.glob(self.root+"*check.jpg"))))
     else:
