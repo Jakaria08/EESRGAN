@@ -120,6 +120,11 @@ class COWCFRCNNTrainer:
                 data_loader_test_F_SR, data_loader_test_Bic= self.data_loaders()
 
         print("test HR images..............................")
+        print(len(data_loader_test))
+        print(len(data_loader_test_SR))
+        print(len(data_loader_test_E_SR))
+        print(len(data_loader_test_F_SR))
+        print(len(data_loader_test_Bic))
         evaluate(model, data_loader_test, device=self.device)
         print("test SR images..............................")
         evaluate(model, data_loader_test_SR, device=self.device)
