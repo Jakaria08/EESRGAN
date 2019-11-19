@@ -27,7 +27,7 @@ class COWCGANTrainer:
         self.valid_data_loader = valid_data_loader
         self.do_validation = self.valid_data_loader is not None
         n_gpu = torch.cuda.device_count()
-        self.device = torch.device('cuda:1' if n_gpu > 0 else 'cpu')
+        self.device = torch.device('cuda:0' if n_gpu > 0 else 'cpu')
         self.train_size = int(math.ceil(self.data_loader.length / int(config['data_loader']['args']['batch_size'])))
         self.total_iters = int(config['train']['niter'])
         self.total_epochs = int(math.ceil(self.total_iters / self.train_size))

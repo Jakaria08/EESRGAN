@@ -23,12 +23,12 @@ class ESRGAN_EESN_Model(BaseModel):
         self.netG = model.ESRGAN_EESN(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
                                     nf=self.configG['nf'], nb=self.configG['nb'])
         self.netG = self.netG.to(self.device)
-        self.netG = DataParallel(self.netG, device_ids=[1,0])
+        self.netG = DataParallel(self.netG)
 
         #descriminator
         self.netD = model.Discriminator_VGG_128(in_nc=self.configD['in_nc'], nf=self.configD['nf'])
         self.netD = self.netD.to(self.device)
-        self.netD = DataParallel(self.netD, device_ids=[1,0])
+        self.netD = DataParallel(self.netD)
 
         self.netG.train()
         self.netD.train()
@@ -65,7 +65,7 @@ class ESRGAN_EESN_Model(BaseModel):
             self.netF = model.VGGFeatureExtractor(feature_layer=34,
                                           use_input_norm=True, device=self.device)
             self.netF = self.netF.to(self.device)
-            self.netF = DataParallel(self.netF, device_ids=[1,0])
+            self.netF = DataParallel(self.netF)
             self.netF.eval()
 
         # GD gan loss
@@ -124,10 +124,10 @@ class ESRGAN_EESN_Model(BaseModel):
     Might change my code if problem happens
     '''
     def feed_data(self, data):
-        self.var_L = data['image_lq'].to(self.device, dtype=torch.float)
-        self.var_H = data['image'].to(self.device, dtype=torch.float)
+        self.var_L = data['image_lq'].to(self.device)
+        self.var_H = data['image'].to(self.device)
         input_ref = data['ref'] if 'ref' in data else data['image']
-        self.var_ref = input_ref.to(self.device, dtype=torch.float)
+        self.var_ref = input_ref.to(self.device)
 
     def optimize_parameters(self, step):
         #Generator
