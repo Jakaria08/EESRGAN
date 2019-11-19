@@ -42,7 +42,7 @@ class COWCGANTrainer:
             img_name = os.path.splitext(os.path.basename(test_data['LQ_path'][0]))[0]
             img_dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
 
-            self.model.feed_data(val_data)
+            self.model.feed_data(test_data)
             self.model.test()
 
             visuals = self.model.get_current_visuals()
