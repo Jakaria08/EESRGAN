@@ -35,6 +35,7 @@ class COWCGANTrainer:
         self.model = ESRGAN_EESN.ESRGAN_EESN_Model(config,self.device)
 
     def test(self):
+        idx = 0
         for _, test_data in enumerate(self.data_loader):
             idx += 1
             #print(val_data)
