@@ -14,11 +14,9 @@ class COWCFRCNNDataset(Dataset):
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
-    print(glob.glob(self.root+".jpg"))
-    if len(list(glob.glob(self.root+".jpg"))) > 0:
-        self.imgs = list(sorted(set(glob.glob(self.root+"*.jpg")) - set(glob.glob(self.root+"*check.jpg"))))
-    else:
-        self.imgs = list(sorted(glob.glob(self.root+"*.png")))
+    self.imgs = list(sorted(set(glob.glob(self.root+"*.jpg") +
+                    glob.glob(self.root+"*.png")) -
+                    set(glob.glob(self.root+"*check.jpg"))))
     self.annotation = list(sorted(glob.glob(self.root+"*.txt")))
 
   def __getitem__(self, idx):
