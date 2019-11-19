@@ -124,10 +124,10 @@ class ESRGAN_EESN_Model(BaseModel):
     Might change my code if problem happens
     '''
     def feed_data(self, data):
-        self.var_L = data['image_lq'].to(self.device, dtype=torch.float)
-        self.var_H = data['image'].to(self.device, dtype=torch.float)
+        self.var_L = data['image_lq'].to(self.device)
+        self.var_H = data['image'].to(self.device)
         input_ref = data['ref'] if 'ref' in data else data['image']
-        self.var_ref = input_ref.to(self.device, dtype=torch.float)
+        self.var_ref = input_ref.to(self.device)
 
     def optimize_parameters(self, step):
         #Generator
@@ -263,18 +263,18 @@ class ESRGAN_EESN_Model(BaseModel):
         load_path_G = self.config['path']['pretrain_model_G']
         if load_path_G:
             logger.info('Loading model for G [{:s}] ...'.format(load_path_G))
-            self.load_network(load_path_G, self.netG, self.config['path']['strict_load'])
+            self.load_network(load_path_G, self.netG.module.netRG, self.config['path']['strict_load'])
         load_path_D = self.config['path']['pretrain_model_D']
         if load_path_D:
             logger.info('Loading model for D [{:s}] ...'.format(load_path_D))
             self.load_network(load_path_D, self.netD, self.config['path']['strict_load'])
-        '''
         load_path_E = self.config['path']['pretrain_model_E']
         if load_path_E:
             logger.info('Loading model for E [{:s}] ...'.format(load_path_E))
             self.load_network(load_path_E, self.netG.module.netE, self.config['path']['strict_load'])
-        '''
+
 
     def save(self, iter_step):
-        self.save_network(self.netG, 'G', iter_step)
+        self.save_network(self.netG.module.netRG, 'G', iter_step)
         self.save_network(self.netD, 'D', iter_step)
+        self.save_network(self.netG.module.netE, 'E', iter_step)
