@@ -295,9 +295,9 @@ def separate_generated_image_for_test():
         image_SR = cv2.imread(im_SR)
         image_enhanced_SR = cv2.imread(im_enhanced_SR)
 
-        image_final_SR = cv2.flip(image_final_SR, 0)
-        image_SR = cv2.flip(image_SR, 0)
-        image_enhanced_SR = cv2.flip(image_enhanced_SR, 0)
+        image_final_SR = cv2.flip(image_final_SR, 1)
+        image_SR = cv2.flip(image_SR, 1)
+        image_enhanced_SR = cv2.flip(image_enhanced_SR, 1)
 
         final_SR_Dir = os.path.basename(im_final_SR)
         final_SR_Dir = final_SR_Dir.rsplit('_', 3)[0]+".png"
