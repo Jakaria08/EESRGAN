@@ -76,7 +76,7 @@ class COWCFRCNNTrainer:
             collate_fn=collate_fn)
 
         return data_loader, data_loader_test, data_loader_test_SR, data_loader_test_E_SR,
-                data_loader_test_F_SR, data_loader_test_Bic
+            data_loader_test_F_SR, data_loader_test_Bic
 
     def save_model(self, network, network_label, iter_label):
         save_filename = '{}_{}.pth'.format(iter_label, network_label)
