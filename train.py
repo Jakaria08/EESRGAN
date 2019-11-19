@@ -39,7 +39,7 @@ def main(config):
     data_loader = config.init_obj('data_loader', module_data)
     #change later this valid_data_loader using init_obj
     valid_data_loader = module_data.COWCGANDataLoader('/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/',
-    '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/', 1)
+    '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/', 1, training = False)
 
     # build model architecture, then print to console
     #model = config.init_obj('arch', module_arch)
