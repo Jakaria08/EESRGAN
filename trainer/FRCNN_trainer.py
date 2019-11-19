@@ -6,6 +6,7 @@ import torch.nn as nn
 import numpy as np
 import torchvision
 import os
+from collections import OrderedDict
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torch.utils.data import Dataset, DataLoader
