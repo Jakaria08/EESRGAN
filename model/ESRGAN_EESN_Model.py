@@ -124,10 +124,10 @@ class ESRGAN_EESN_Model(BaseModel):
     Might change my code if problem happens
     '''
     def feed_data(self, data):
-        self.var_L = data['image_lq'].to(self.device)
-        self.var_H = data['image'].to(self.device)
+        self.var_L = data['image_lq'].to(self.device, dtype=torch.float)
+        self.var_H = data['image'].to(self.device, dtype=torch.float)
         input_ref = data['ref'] if 'ref' in data else data['image']
-        self.var_ref = input_ref.to(self.device)
+        self.var_ref = input_ref.to(self.device, dtype=torch.float)
 
     def optimize_parameters(self, step):
         #Generator
