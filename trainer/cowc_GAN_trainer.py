@@ -35,11 +35,9 @@ class COWCGANTrainer:
         self.model = ESRGAN_EESN.ESRGAN_EESN_Model(config,self.device)
 
     def test(self):
-        idx = 0
         for _, test_data in enumerate(self.data_loader):
-            idx += 1
             #print(val_data)
-            img_name = (os.path.basename(test_data['LQ_path'][0]))
+            img_name = os.path.splitext(os.path.basename(test_data['LQ_path'][0]))[0]
             img_dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
 
             self.model.feed_data(test_data)
@@ -50,10 +48,10 @@ class COWCGANTrainer:
             final_SR = tensor2img(visuals['final_SR']) # uint8
 
             # Save SR images for reference
-            save_img_path = os.path.join(img_dir, 'SR_images', img_name)
+            save_img_path = os.path.join(img_dir, 'SR_images', img_name+'.png')
             save_img(sr_img, save_img_path)
             # Save final_SR images for reference
-            save_img_path = os.path.join(img_dir, 'final_SR_images', img_name)
+            save_img_path = os.path.join(img_dir, 'final_SR_images', img_name+'.png')
             save_img(final_SR, save_img_path)
 
     def train(self):
