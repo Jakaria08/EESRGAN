@@ -39,7 +39,7 @@ class COWCGANTrainer:
         for _, test_data in enumerate(self.data_loader):
             idx += 1
             #print(val_data)
-            img_name = os.path.splitext(os.path.basename(test_data['LQ_path'][0]))[0]
+            img_name = (os.path.basename(test_data['LQ_path'][0]))
             img_dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
 
             self.model.feed_data(test_data)
