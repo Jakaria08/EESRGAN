@@ -286,8 +286,8 @@ def separate_generated_image_for_test():
     dir_ESRGAN = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/val_images/*/*"
     dir_save = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
 
-    img_final_SR = sorted(glob.glob(dir+'_20000_final_SR.png'))
-    img_SR = sorted(glob.glob(dir+'_20000_SR.png'))
+    img_final_SR = sorted(glob.glob(dir+'_25000_final_SR.png'))
+    img_SR = sorted(glob.glob(dir+'_25000_SR.png'))
     img_enhanced_SR = sorted(glob.glob(dir_ESRGAN+'_400000_img_final_SR_enhanced.png'))
 
     for im_final_SR, im_SR, im_enhanced_SR in zip(img_final_SR, img_SR, img_enhanced_SR):
@@ -297,7 +297,6 @@ def separate_generated_image_for_test():
 
         image_final_SR = cv2.flip(image_final_SR, 1)
         image_SR = cv2.flip(image_SR, 1)
-        image_enhanced_SR = cv2.flip(image_enhanced_SR, 1)
 
         final_SR_Dir = os.path.basename(im_final_SR)
         final_SR_Dir = final_SR_Dir.rsplit('_', 3)[0]+".png"
