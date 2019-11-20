@@ -253,10 +253,11 @@ class ESRGAN_EESN_Model(BaseModel):
         out_dict['lap_learned'] = self.x_learned_lap_fake.detach()[0].float().cpu()
         out_dict['lap'] = self.x_lap.detach()[0].float().cpu()
         out_dict['lap_HR'] = self.x_lap_HR.detach()[0].float().cpu()
-        out_dict['final_SR_1.5'] = out_dict['SR'] + 1.5*out_dict['lap_learned'] - out_dict['lap']
-        out_dict['final_SR_2'] = out_dict['SR'] + 2.0*out_dict['lap_learned'] - out_dict['lap']
-        out_dict['final_SR_2.5'] = out_dict['SR'] + 2.5*out_dict['lap_learned'] - out_dict['lap']
-        out_dict['final_SR_3'] = out_dict['SR'] + 3.0*out_dict['lap_learned'] - out_dict['lap']
+
+        out_dict['final_SR_1'] = (out_dict['SR'] - out_dict['lap']) + out_dict['lap_learned'] + (out_dict['lap_learned'] - out_dict['lap'])
+        out_dict['final_SR_2'] = (out_dict['SR'] - out_dict['lap']) + out_dict['lap_learned'] + (out_dict['lap'] - out_dict['lap_learned'])
+        out_dict['final_SR_3'] = (out_dict['SR'] - out_dict['lap']) + out_dict['lap_learned'] + out_dict['lap_learned']
+
         if need_GT:
             out_dict['GT'] = self.var_H.detach()[0].float().cpu()
         return out_dict
