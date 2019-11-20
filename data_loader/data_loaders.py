@@ -98,7 +98,7 @@ class COWCGANDataLoader(BaseDataLoader):
 
         self.data_dir_gt = data_dir_GT
         self.data_dir_lq = data_dir_LQ
-        if training = True:
+        if training == True:
             self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_gan)
         else:
             self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq)
