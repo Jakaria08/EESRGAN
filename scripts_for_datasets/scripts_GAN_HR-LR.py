@@ -160,13 +160,14 @@ def merge_edge():
         cv2.imwrite(img_path, img_final_SR_enhanced)
 
 def calculate_psnr_ssim():
-    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
+    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*
     bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
-    img_GT = sorted(glob.glob(dir+'_20000_GT.png'))
-    img_final_SR_enhanced = sorted(glob.glob(dir+'_20000_img_final_SR_enhanced.png'))
-    img_final_SR = sorted(glob.glob(dir+'_20000_final_SR.png'))
-    img_SR = sorted(glob.glob(dir+'_20000_SR.png'))
-    img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
+    img_GT = sorted(glob.glob(HR_DIR+'.jpg'))
+    img_final_SR_enhanced = sorted(glob.glob(dir+'/enhanced_SR_images_1.5/*.png'))
+    img_final_SR = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
+    img_SR = sorted(glob.glob(dir+'/enhanced_SR_images_2.5/*.png'))
+    img_Bic = sorted(glob.glob(dir+'/enhanced_SR_images_3/*.png'))
 
 
     psnr_enhanced = 0
