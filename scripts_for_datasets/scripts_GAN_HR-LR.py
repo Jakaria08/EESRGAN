@@ -316,6 +316,6 @@ if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
     #merge_edge()
-    #calculate_psnr_ssim()
+    calculate_psnr_ssim()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
-    separate_generated_image_for_test()
+    #separate_generated_image_for_test()
