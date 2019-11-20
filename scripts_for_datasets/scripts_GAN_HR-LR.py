@@ -158,26 +158,38 @@ def merge_edge():
 
         #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
         cv2.imwrite(img_path, img_final_SR_enhanced)
-
+'''
+very inefficient code, create a method to send two images at a time
+refactor it later..
+'''
 def calculate_psnr_ssim():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
     HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*"
     bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
     img_GT = sorted(glob.glob(HR_DIR+'.jpg'))
-    img_final_SR_enhanced = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
+    img_final_SR_enhanced_1 = sorted(glob.glob(dir+'/enhanced_SR_images_1/*.png'))
+    img_final_SR_enhanced_2 = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
+    img_final_SR_enhanced_3 = sorted(glob.glob(dir+'/enhanced_SR_images_3/*.png'))
     img_final_SR = sorted(glob.glob(dir+'/final_SR_images/*.png'))
     img_SR = sorted(glob.glob(dir+'/SR_images/*.png'))
+    img_SR_combined = sorted(glob.glob(dir+'/combined_SR_images/*.png'))
     img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
 
 
-    psnr_enhanced = 0
+    psnr_enhanced_1 = 0
+    psnr_enhanced_2 = 0
+    psnr_enhanced_3 = 0
     psnr_final = 0
     psnr_SR = 0
+    psnr_SR_combined = 0
     psnr_Bic = 0
 
-    ssim_enhanced = 0
+    ssim_enhanced_1 = 0
+    ssim_enhanced_2 = 0
+    ssim_enhanced_3 = 0
     ssim_final = 0
     ssim_SR = 0
+    ssim_SR_combined = 0
     ssim_Bic = 0
 
     total = len(img_SR)
@@ -185,57 +197,92 @@ def calculate_psnr_ssim():
 
     i = 0
 
-    for im_gt, im_enhanced, im_final, im_SR, im_Bic in zip(img_GT, img_final_SR_enhanced,
-                                                    img_final_SR, img_SR, img_Bic):
-        print(os.path.basename(im_gt)+'--', os.path.basename(im_enhanced)+'--',
+    for im_gt, im_enhanced_1, im_enhanced_2, im_enhanced_3, im_final, im_SR, \
+            im_SR_combined, im_Bic in zip(img_GT,
+                                            img_final_SR_enhanced_1,
+                                            img_final_SR_enhanced_2,
+                                            img_final_SR_enhanced_3,
+                                            img_final_SR, img_SR, img_SR_combined,
+                                            img_Bic):
+        print(os.path.basename(im_gt)+'--', os.path.basename(im_enhanced_1)+'--',
+        os.path.basename(im_enhanced_2)+'--', os.path.basename(im_enhanced_3)+'--',
         os.path.basename(im_final)+'--', os.path.basename(im_SR)+'--',
-        os.path.basename(im_Bic))
+        os.path.basename(im_SR_combined)+'--', os.path.basename(im_Bic))
 
         image_gt = cv2.imread(im_gt)
-        image_enhanced = cv2.imread(im_enhanced)
+        image_enhanced_1 = cv2.imread(im_enhanced_1)
+        image_enhanced_2 = cv2.imread(im_enhanced_2)
+        image_enhanced_3 = cv2.imread(im_enhanced_3)
         image_final = cv2.imread(im_final)
         image_SR = cv2.imread(im_SR)
+        image_SR_combined = cv2.imread(im_SR_combined)
         image_Bic = cv2.imread(im_Bic)
 
-        psnr_enhanced += calculate_psnr(image_gt, image_enhanced)
+        psnr_enhanced_1 += calculate_psnr(image_gt, image_enhanced_1)
+        psnr_enhanced_2 += calculate_psnr(image_gt, image_enhanced_2)
+        psnr_enhanced_3 += calculate_psnr(image_gt, image_enhanced_3)
         psnr_final += calculate_psnr(image_gt, image_final)
         psnr_SR += calculate_psnr(image_gt, image_SR)
+        psnr_SR_combined += calculate_psnr(image_gt, image_SR_combined)
         psnr_Bic += calculate_psnr(image_gt, image_Bic)
 
-        ssim_enhanced += calculate_ssim(image_gt, image_enhanced)
+        ssim_enhanced_1 += calculate_ssim(image_gt, image_enhanced_1)
+        ssim_enhanced_2 += calculate_ssim(image_gt, image_enhanced_2)
+        ssim_enhanced_3 += calculate_ssim(image_gt, image_enhanced_3)
         ssim_final += calculate_ssim(image_gt, image_final)
         ssim_SR += calculate_ssim(image_gt, image_SR)
+        ssim_SR_combined += calculate_ssim(image_gt, image_SR_combined)
         ssim_Bic += calculate_ssim(image_gt, image_Bic)
 
         i += 1
         print(i)
 
-    avg_psnr_enhanced, avg_psnr_final, avg_psnr_SR, avg_psnr_Bic = (psnr_enhanced / total,
-                                                                      psnr_final / total,
-                                                                      psnr_SR / total,
-                                                                      psnr_Bic / total)
+    avg_psnr_enhanced_1, avg_psnr_enhanced_2, avg_psnr_enhanced_3,  avg_psnr_final, \
+        avg_psnr_SR, avg_psnr_SR_combined, avg_psnr_Bic = (psnr_enhanced_1 / total,
+                                                           psnr_enhanced_2 / total,
+                                                           psnr_enhanced_3 / total,
+                                                           psnr_final / total,
+                                                           psnr_SR / total,
+                                                           psnr_SR_combined / total,
+                                                           psnr_Bic / total)
 
-    avg_ssim_enhanced, avg_ssim_final, avg_ssim_SR, avg_ssim_Bic = (ssim_enhanced / total,
-                                                                      ssim_final / total,
-                                                                      ssim_SR / total,
-                                                                      ssim_Bic / total)
+    avg_ssim_enhanced_1, avg_ssim_enhanced_2, avg_ssim_enhanced_3, avg_ssim_final, \
+        avg_ssim_SR, avg_ssim_SR_combined, avg_ssim_Bic = (ssim_enhanced_1 / total,
+                                                           ssim_enhanced_2 / total,
+                                                           ssim_enhanced_3 / total,
+                                                           ssim_final / total,
+                                                           ssim_SR / total,
+                                                           ssim_SR_combined / total,
+                                                           ssim_Bic / total)
 
     text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Output.txt", "a")
-    print("Enhanced PSNR: %4.2f" % avg_psnr_enhanced)
-    text_file.write("Enhanced PSNR: %4.2f \n" % avg_psnr_enhanced)
+    print("Enhanced PSNR_1: %4.2f" % avg_psnr_enhanced_1)
+    text_file.write("Enhanced PSNR_1: %4.2f \n" % avg_psnr_enhanced_1)
+    print("Enhanced PSNR_2: %4.2f" % avg_psnr_enhanced_2)
+    text_file.write("Enhanced PSNR_2: %4.2f \n" % avg_psnr_enhanced_2)
+    print("Enhanced PSNR_3: %4.2f" % avg_psnr_enhanced_3)
+    text_file.write("Enhanced PSNR_3: %4.2f \n" % avg_psnr_enhanced_3)
     print("Final PSNR: %4.2f"%avg_psnr_final)
     text_file.write("Final PSNR: %4.2f \n"%avg_psnr_final)
     print("SR PSNR: %4.2f"%avg_psnr_SR)
     text_file.write("SR PSNR: %4.2f \n"%avg_psnr_SR)
+    print("SR PSNR_combined: %4.2f"%avg_psnr_SR_combined)
+    text_file.write("SR PSNR_combined: %4.2f \n"%avg_psnr_SR_combined)
     print("Bic PSNR: %4.2f"%avg_psnr_Bic)
     text_file.write("Bic PSNR: %4.2f \n"%avg_psnr_Bic)
 
-    print("Enhanced SSIM: %5.4f"%avg_ssim_enhanced)
-    text_file.write("Enhanced SSIM: %5.4f \n"%avg_ssim_enhanced)
+    print("Enhanced SSIM_1: %5.4f"%avg_ssim_enhanced_1)
+    text_file.write("Enhanced SSIM_1: %5.4f \n"%avg_ssim_enhanced_1)
+    print("Enhanced SSIM_2: %5.4f"%avg_ssim_enhanced_2)
+    text_file.write("Enhanced SSIM_2: %5.4f \n"%avg_ssim_enhanced_2)
+    print("Enhanced SSIM_3: %5.4f"%avg_ssim_enhanced_3)
+    text_file.write("Enhanced SSIM_3: %5.4f \n"%avg_ssim_enhanced_3)
     print("Final SSIM: %5.4f"%avg_ssim_final)
     text_file.write("Final SSIM: %5.4f \n"%avg_ssim_final)
     print("SR SSIM: %5.4f"%avg_ssim_SR)
     text_file.write("SR SSIM: %5.4f \n"%avg_ssim_SR)
+    print("SR SSIM_combined: %5.4f"%avg_ssim_SR_combined)
+    text_file.write("SR SSIM_combined: %5.4f \n"%avg_ssim_SR_combined)
     print("Bic SSIM: %5.4f"%avg_ssim_Bic)
     text_file.write("Bic SSIM: %5.4f \n"%avg_ssim_Bic)
     text_file.close()
