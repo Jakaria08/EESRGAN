@@ -88,9 +88,8 @@
     "path": {
         "models": "saved/pretrained_models",
         "FRCNN_model": "saved/FRCNN_model",
-        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/pretrained_models/400000_G.pth",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/pretrained_models/400000_D.pth",
-        "pretrain_model_E": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/pretrained_models/400000_E.pth",
+        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models/20000_G.pth",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models/20000_D.pth",
         "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model/660_FRCNN.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
