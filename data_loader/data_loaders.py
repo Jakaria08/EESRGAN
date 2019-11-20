@@ -79,7 +79,7 @@ class COWCGANDataLoader(BaseDataLoader):
         '''
         Data transform for GAN training
         '''
-        data_transforms_gan = Compose([
+        data_transforms_train = Compose([
             HorizontalFlip(),
             Normalize( #mean std for potsdam dataset from COWC [Calculate also for spot6]
                 mean=[0.3442, 0.3708, 0.3476],
@@ -96,11 +96,21 @@ class COWCGANDataLoader(BaseDataLoader):
              label_fields=['labels'])
         )
 
+        data_transforms_test = Compose([
+            Normalize( #mean std for potsdam dataset from COWC [Calculate also for spot6]
+                mean=[0.3442, 0.3708, 0.3476],
+                std=[0.1232, 0.1230, 0.1284]
+                )],
+            additional_targets={
+                 'image_lq':'image'
+                })
+
         self.data_dir_gt = data_dir_GT
         self.data_dir_lq = data_dir_LQ
+
         if training == True:
-            self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_gan)
+            self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_train)
         else:
-            self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq)
+            self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_test)
         self.length = len(self.dataset)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)

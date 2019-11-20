@@ -44,12 +44,12 @@ class COWCGANTrainer:
             self.model.test()
 
             visuals = self.model.get_current_visuals()
-            sr_img = tensor2img(visuals['SR'])  # uint8
+            #sr_img = tensor2img(visuals['SR'])  # uint8
             final_SR = tensor2img(visuals['final_SR']) # uint8
 
             # Save SR images for reference
-            save_img_path = os.path.join(img_dir, 'SR_images', img_name+'.png')
-            save_img(sr_img, save_img_path)
+            #save_img_path = os.path.join(img_dir, 'SR_images', img_name+'.png')
+            #save_img(sr_img, save_img_path)
             # Save final_SR images for reference
             save_img_path = os.path.join(img_dir, 'final_SR_images', img_name+'.png')
             save_img(final_SR, save_img_path)

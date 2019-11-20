@@ -275,6 +275,6 @@ class ESRGAN_EESN_Model(BaseModel):
 
 
     def save(self, iter_step):
-        self.save_network(self.netG.module.netRG, 'G', iter_step)
+        self.save_network(self.netG, 'G', iter_step)
         self.save_network(self.netD, 'D', iter_step)
-        self.save_network(self.netG.module.netE, 'E', iter_step)
+        #self.save_network(self.netG.module.netE, 'E', iter_step)
