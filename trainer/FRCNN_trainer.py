@@ -136,7 +136,7 @@ class COWCFRCNNTrainer:
         self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
 
         _, data_loader_test, data_loader_test_SR, data_loader_test_SR_combined, \
-                data_loader_test_E_SR_1, data_loader_test_E_SR_2, data_loader_test_E_SR_3 \
+                data_loader_test_E_SR_1, data_loader_test_E_SR_2, data_loader_test_E_SR_3, \
                  data_loader_test_F_SR, data_loader_test_Bic = self.data_loaders()
 
         print("test lenghts of the data loaders.............")
