@@ -44,23 +44,23 @@ class COWCGANTrainer:
             self.model.test()
 
             visuals = self.model.get_current_visuals()
-            sr_img = tensor2img(visuals['SR'])  # uint8
+            #sr_img = tensor2img(visuals['SR'])  # uint8
             final_SR_15 = tensor2img(visuals['final_SR_1.5']) # uint8
             final_SR_2 = tensor2img(visuals['final_SR_2']) # uint8
             final_SR_25 = tensor2img(visuals['final_SR_2.5']) # uint8
             final_SR_3 = tensor2img(visuals['final_SR_3']) # uint8
 
             # Save SR images for reference
-            save_img_path = os.path.join(img_dir, 'SR_images', img_name+'.png')
-            save_img(sr_img, save_img_path)
+            #save_img_path = os.path.join(img_dir, 'SR_images', img_name+'.png')
+            #save_img(sr_img, save_img_path)
             # Save enhanced_SR images for reference
-            save_img_path = os.path.join(img_dir, 'final_SR_1.5', img_name+'.png')
+            save_img_path = os.path.join(img_dir, 'enhanced_SR_images_1.5', img_name+'.png')
             save_img(final_SR_15, save_img_path)
-            save_img_path = os.path.join(img_dir, 'final_SR_2', img_name+'.png')
+            save_img_path = os.path.join(img_dir, 'enhanced_SR_images_2', img_name+'.png')
             save_img(final_SR_2, save_img_path)
-            save_img_path = os.path.join(img_dir, 'final_SR_2.5', img_name+'.png')
+            save_img_path = os.path.join(img_dir, 'enhanced_SR_images_2.5', img_name+'.png')
             save_img(final_SR_25, save_img_path)
-            save_img_path = os.path.join(img_dir, 'final_SR_3', img_name+'.png')
+            save_img_path = os.path.join(img_dir, 'enhanced_SR_images_3', img_name+'.png')
             save_img(final_SR_3, save_img_path)
 
     def train(self):
