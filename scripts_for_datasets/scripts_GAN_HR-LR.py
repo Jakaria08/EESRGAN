@@ -161,7 +161,7 @@ def merge_edge():
 
 def calculate_psnr_ssim():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
-    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*
+    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*"
     bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
     img_GT = sorted(glob.glob(HR_DIR+'.jpg'))
     img_final_SR_enhanced = sorted(glob.glob(dir+'/enhanced_SR_images_1.5/*.png'))
