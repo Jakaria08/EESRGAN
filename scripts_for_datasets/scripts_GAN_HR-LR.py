@@ -287,20 +287,21 @@ def separate_generated_image_for_test():
     dir_ESRGAN = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/val_images/*/*"
     dir_save = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
 
-    img_final_SR = sorted(glob.glob(dir+'_25000_final_SR.png'))
-    img_SR = sorted(glob.glob(dir+'_25000_SR.png'))
-    img_enhanced_SR = sorted(glob.glob(dir_ESRGAN+'_400000_img_final_SR_enhanced.png'))
+    img_final_SR = sorted(glob.glob(dir+'_4000_final_SR.png'))
+    #img_SR = sorted(glob.glob(dir+'_25000_SR.png'))
+    #img_enhanced_SR = sorted(glob.glob(dir_ESRGAN+'_400000_img_final_SR_enhanced.png'))
 
-    for im_final_SR, im_SR, im_enhanced_SR in zip(img_final_SR, img_SR, img_enhanced_SR):
+    #for im_final_SR, im_SR, im_enhanced_SR in zip(img_final_SR, img_SR, img_enhanced_SR):
+    for im_final_SR in img_final_SR:
         image_final_SR = cv2.imread(im_final_SR)
-        image_SR = cv2.imread(im_SR)
-        image_enhanced_SR = cv2.imread(im_enhanced_SR)
+        #image_SR = cv2.imread(im_SR)
+        #image_enhanced_SR = cv2.imread(im_enhanced_SR)
 
         final_SR_Dir = os.path.basename(im_final_SR)
         final_SR_Dir = final_SR_Dir.rsplit('_', 3)[0]+".png"
         final_SR_Dir = os.path.join(dir_save, 'final_SR_images', final_SR_Dir)
         cv2.imwrite(final_SR_Dir, image_final_SR)
-
+        '''
         SR_Dir = os.path.basename(im_SR)
         SR_Dir = SR_Dir.rsplit('_', 2)[0]+".png"
         SR_Dir = os.path.join(dir_save, 'SR_images', SR_Dir)
@@ -310,12 +311,13 @@ def separate_generated_image_for_test():
         enhanced_SR_Dir = enhanced_SR_Dir.rsplit('_', 5)[0]+".png"
         enhanced_SR_Dir = os.path.join(dir_save, 'enhanced_SR_images', enhanced_SR_Dir)
         cv2.imwrite(enhanced_SR_Dir, image_enhanced_SR)
+        '''
 
 
 if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
     #merge_edge()
-    calculate_psnr_ssim()
+    #calculate_psnr_ssim()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
-    #separate_generated_image_for_test()
+    separate_generated_image_for_test()
