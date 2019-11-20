@@ -9,6 +9,11 @@ from parse_config import ConfigParser
 
 
 def main(config):
+    data_loader = module_data.COWCGANDataLoader('/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/',
+    '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/', 1, training=False)
+    tester = COWCGANTrainer(config=config, data_loader=data_loader)
+    tester.test()
+    '''
     logger = config.get_logger('test')
 
     # setup data_loader instances
@@ -66,7 +71,7 @@ def main(config):
         met.__name__: total_metrics[i].item() / n_samples for i, met in enumerate(metric_fns)
     })
     logger.info(log)
-
+    '''
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser(description='PyTorch Template')

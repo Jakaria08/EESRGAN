@@ -27,13 +27,32 @@ class COWCGANTrainer:
         self.valid_data_loader = valid_data_loader
         self.do_validation = self.valid_data_loader is not None
         n_gpu = torch.cuda.device_count()
-        self.device = torch.device('cuda:0' if n_gpu > 0 else 'cpu')
+        self.device = torch.device('cuda:1' if n_gpu > 0 else 'cpu')
         self.train_size = int(math.ceil(self.data_loader.length / int(config['data_loader']['args']['batch_size'])))
         self.total_iters = int(config['train']['niter'])
         self.total_epochs = int(math.ceil(self.total_iters / self.train_size))
         print(self.total_epochs)
         self.model = ESRGAN_EESN.ESRGAN_EESN_Model(config,self.device)
 
+    def test(self):
+        for _, test_data in enumerate(self.data_loader):
+            #print(val_data)
+            img_name = os.path.splitext(os.path.basename(test_data['LQ_path'][0]))[0]
+            img_dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
+
+            self.model.feed_data(test_data)
+            self.model.test()
+
+            visuals = self.model.get_current_visuals()
+            sr_img = tensor2img(visuals['SR'])  # uint8
+            final_SR = tensor2img(visuals['final_SR']) # uint8
+
+            # Save SR images for reference
+            save_img_path = os.path.join(img_dir, 'SR_images', img_name+'.png')
+            save_img(sr_img, save_img_path)
+            # Save final_SR images for reference
+            save_img_path = os.path.join(img_dir, 'final_SR_images', img_name+'.png')
+            save_img(final_SR, save_img_path)
 
     def train(self):
         '''
