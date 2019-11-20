@@ -164,10 +164,10 @@ def calculate_psnr_ssim():
     HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*"
     bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
     img_GT = sorted(glob.glob(HR_DIR+'.jpg'))
-    img_final_SR_enhanced = sorted(glob.glob(dir+'/enhanced_SR_images_1/*.png'))
-    img_final_SR = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
-    img_SR = sorted(glob.glob(dir+'/enhanced_SR_images_3/*.png'))
-    img_Bic = sorted(glob.glob(dir+'/SR_images/*.png'))
+    img_final_SR_enhanced = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
+    img_final_SR = sorted(glob.glob(dir+'/final_SR_images/*.png'))
+    img_SR = sorted(glob.glob(dir+'/SR_images/*.png'))
+    img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
 
 
     psnr_enhanced = 0
@@ -318,6 +318,6 @@ if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
     #merge_edge()
-    #calculate_psnr_ssim()
+    calculate_psnr_ssim()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
-    separate_generated_image_for_test()
+    #separate_generated_image_for_test()
