@@ -6,7 +6,9 @@ import model.loss as module_loss
 import model.metric as module_metric
 import model.model as module_arch
 from parse_config import ConfigParser
-
+'''
+python test.py -c config_GAN.json
+'''
 
 def main(config):
     data_loader = module_data.COWCGANDataLoader('/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/',
