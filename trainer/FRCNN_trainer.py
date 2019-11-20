@@ -44,8 +44,8 @@ class COWCFRCNNTrainer:
                          transforms=self.get_transform(train=False))
         dataset_test_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_SR'],
                          transforms=self.get_transform(train=False))
-        dataset_test_E_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_E_SR'],
-                         transforms=self.get_transform(train=False))
+        #dataset_test_E_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_E_SR'],
+                         #transforms=self.get_transform(train=False))
         dataset_test_F_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_F_SR'],
                          transforms=self.get_transform(train=False))
         dataset_test_Bic = COWCFRCNNDataset(root=self.config['path']['data_dir_Bic'],
@@ -63,11 +63,11 @@ class COWCFRCNNTrainer:
         data_loader_test_SR = torch.utils.data.DataLoader(
             dataset_test_SR, batch_size=1, shuffle=False, num_workers=4,
             collate_fn=collate_fn)
-
+        '''
         data_loader_test_E_SR = torch.utils.data.DataLoader(
             dataset_test_E_SR, batch_size=1, shuffle=False, num_workers=4,
             collate_fn=collate_fn)
-
+        '''
         data_loader_test_F_SR = torch.utils.data.DataLoader(
             dataset_test_F_SR, batch_size=1, shuffle=False, num_workers=4,
             collate_fn=collate_fn)
@@ -76,7 +76,7 @@ class COWCFRCNNTrainer:
             dataset_test_Bic, batch_size=1, shuffle=False, num_workers=4,
             collate_fn=collate_fn)
 
-        return data_loader, data_loader_test, data_loader_test_SR, data_loader_test_E_SR, \
+        return data_loader, data_loader_test, data_loader_test_SR, \
                 data_loader_test_F_SR, data_loader_test_Bic
 
     def save_model(self, network, network_label, iter_label):
@@ -116,13 +116,13 @@ class COWCFRCNNTrainer:
 
         self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
 
-        _, data_loader_test, data_loader_test_SR, data_loader_test_E_SR, \
+        _, data_loader_test, data_loader_test_SR, \
                 data_loader_test_F_SR, data_loader_test_Bic = self.data_loaders()
 
         print("test HR images..............................")
         print(len(data_loader_test))
         print(len(data_loader_test_SR))
-        print(len(data_loader_test_E_SR))
+        #print(len(data_loader_test_E_SR))
         print(len(data_loader_test_F_SR))
         print(len(data_loader_test_Bic))
         evaluate(model, data_loader_test, device=self.device)
@@ -160,7 +160,7 @@ class COWCFRCNNTrainer:
                                                        step_size=3,
                                                        gamma=0.1)
 
-        data_loader, data_loader_test, _, _, _, _ = self.data_loaders()
+        data_loader, data_loader_test, _, _, _ = self.data_loaders()
         # let's train it for 10 epochs
         num_epochs = 10000
 
