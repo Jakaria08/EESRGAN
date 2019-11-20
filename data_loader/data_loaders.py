@@ -100,7 +100,10 @@ class COWCGANDataLoader(BaseDataLoader):
             Normalize( #mean std for potsdam dataset from COWC [Calculate also for spot6]
                 mean=[0.3442, 0.3708, 0.3476],
                 std=[0.1232, 0.1230, 0.1284]
-                )])
+                )],
+            additional_targets={
+                 'image_lq':'image'
+                })
 
         self.data_dir_gt = data_dir_GT
         self.data_dir_lq = data_dir_LQ
