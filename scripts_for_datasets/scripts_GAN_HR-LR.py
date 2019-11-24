@@ -366,5 +366,5 @@ if __name__ == "__main__":
     #copy_folder_name_for_valid_image()
     #merge_edge()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
-    separate_generated_image_for_test()
-    calculate_psnr_ssim()
+    #separate_generated_image_for_test()
+    #calculate_psnr_ssim()
