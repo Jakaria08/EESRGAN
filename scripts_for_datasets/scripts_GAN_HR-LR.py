@@ -124,9 +124,9 @@ def copy_folder_name_for_valid_image():
 
 def merge_edge():
     dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
-    img_SR = sorted(glob.glob(dir+'_20000_SR.png'))
-    img_lap = sorted(glob.glob(dir+'_20000_lap.png'))
-    img_lap_learned = sorted(glob.glob(dir+'_20000_lap_learned.png'))
+    img_SR = sorted(glob.glob(dir+'_216000_SR.png'))
+    img_lap = sorted(glob.glob(dir+'_216000_lap.png'))
+    img_lap_learned = sorted(glob.glob(dir+'_216000_lap_learned.png'))
     mean = np.array([0.3442, 0.3708, 0.3476])
     std = np.array([0.1232, 0.1230, 0.1284])
 
@@ -153,7 +153,7 @@ def merge_edge():
 
         folder_name = os.path.dirname(i)
         file_name = os.path.basename(folder_name)
-        img_path = os.path.join(folder_name,file_name+'_20000_img_final_SR_enhanced.png')
+        img_path = os.path.join(folder_name,file_name+'_216000_img_final_SR_enhanced.png')
         #print('_____'+img_path)
 
         #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
@@ -170,9 +170,9 @@ def calculate_psnr_ssim():
     img_final_SR_enhanced_1 = sorted(glob.glob(dir+'/enhanced_SR_images_1/*.png'))
     img_final_SR_enhanced_2 = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
     img_final_SR_enhanced_3 = sorted(glob.glob(dir+'/enhanced_SR_images_3/*.png'))
-    img_final_SR = sorted(glob.glob(dir+'/final_SR_images/*.png'))
+    img_final_SR = sorted(glob.glob(dir+'/final_SR_images_216000/*.png'))
     img_SR = sorted(glob.glob(dir+'/SR_images/*.png'))
-    img_SR_combined = sorted(glob.glob(dir+'/combined_SR_images/*.png'))
+    img_SR_combined = sorted(glob.glob(dir+'/combined_SR_images_216000/*.png'))
     img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
 
 
@@ -255,7 +255,7 @@ def calculate_psnr_ssim():
                                                            ssim_SR_combined / total,
                                                            ssim_Bic / total)
 
-    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Output.txt", "a")
+    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Output_216000.txt", "a")
     print("Enhanced PSNR_1: %4.2f" % avg_psnr_enhanced_1)
     text_file.write("Enhanced PSNR_1: %4.2f \n" % avg_psnr_enhanced_1)
     print("Enhanced PSNR_2: %4.2f" % avg_psnr_enhanced_2)
@@ -334,26 +334,26 @@ def separate_generated_image_for_test():
     dir_ESRGAN = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/val_images/*/*"
     dir_save = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
 
-    img_final_SR = sorted(glob.glob(dir+'_4000_final_SR.png'))
-    #img_SR = sorted(glob.glob(dir+'_25000_SR.png'))
+    img_final_SR = sorted(glob.glob(dir+'_216000_final_SR.png'))
+    img_SR = sorted(glob.glob(dir+'_216000_SR.png'))
     #img_enhanced_SR = sorted(glob.glob(dir_ESRGAN+'_400000_img_final_SR_enhanced.png'))
 
-    #for im_final_SR, im_SR, im_enhanced_SR in zip(img_final_SR, img_SR, img_enhanced_SR):
-    for im_final_SR in img_final_SR:
+    for im_final_SR, im_SR in zip(img_final_SR, img_SR):
+    #for im_final_SR in img_final_SR:
         image_final_SR = cv2.imread(im_final_SR)
-        #image_SR = cv2.imread(im_SR)
+        image_SR = cv2.imread(im_SR)
         #image_enhanced_SR = cv2.imread(im_enhanced_SR)
 
         final_SR_Dir = os.path.basename(im_final_SR)
         final_SR_Dir = final_SR_Dir.rsplit('_', 3)[0]+".png"
-        final_SR_Dir = os.path.join(dir_save, 'final_SR_images', final_SR_Dir)
+        final_SR_Dir = os.path.join(dir_save, 'final_SR_images_216000', final_SR_Dir)
         cv2.imwrite(final_SR_Dir, image_final_SR)
-        '''
+
         SR_Dir = os.path.basename(im_SR)
         SR_Dir = SR_Dir.rsplit('_', 2)[0]+".png"
-        SR_Dir = os.path.join(dir_save, 'SR_images', SR_Dir)
+        SR_Dir = os.path.join(dir_save, 'combined_SR_images_216000', SR_Dir)
         cv2.imwrite(SR_Dir, image_SR)
-
+        '''
         enhanced_SR_Dir = os.path.basename(im_enhanced_SR)
         enhanced_SR_Dir = enhanced_SR_Dir.rsplit('_', 5)[0]+".png"
         enhanced_SR_Dir = os.path.join(dir_save, 'enhanced_SR_images', enhanced_SR_Dir)
@@ -365,6 +365,6 @@ if __name__ == "__main__":
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
     #merge_edge()
-    calculate_psnr_ssim()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
-    #separate_generated_image_for_test()
+    separate_generated_image_for_test()
+    calculate_psnr_ssim()
