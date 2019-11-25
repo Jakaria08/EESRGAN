@@ -113,11 +113,13 @@ def collate_fn(batch):
     target['object'] = list()
     target['image'] = list()
     target['image_lq'] = list()
-    target['bboxes'] = list()
+    target['boxes'] = list()
     target['labels'] = list()
     target['label_car_type'] = list()
-    target['idx'] = list()
+    target['image_id'] = list()
     target['LQ_path'] = list()
+    target["area"] = list()
+    target["iscrowd"] = list()
 
     for b in batch:
         target['object'].append(b['object'])
@@ -126,8 +128,10 @@ def collate_fn(batch):
         target['bboxes'].append(b['bboxes'])
         target['labels'].append(b['labels'])
         target['label_car_type'].append(b['label_car_type'])
-        target['idx'].append(b['idx'])
+        target['image_id'].append(b['idx'])
         target['LQ_path'].append(b['LQ_path'])
+        target['area'].append(b['area'])
+        target['iscrowd'].append(b['iscrowd'])
 
     target['object'] = torch.stack(target['object'], dim=0)
     target['image'] = torch.stack(target['image'], dim=0)
