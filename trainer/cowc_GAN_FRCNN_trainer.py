@@ -88,7 +88,7 @@ class COWCGANFrcnnTrainer:
         #### training
         logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
         for epoch in range(start_epoch, self.total_epochs + 1):
-            for _, image, targets in enumerate(self.data_loader):
+            for _, (image, targets) in enumerate(self.data_loader):
                 current_step += 1
                 if current_step > self.total_iters:
                     break
