@@ -145,6 +145,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.var_H = data['image'].to(self.device)
         input_ref = data['ref'] if 'ref' in data else data['image']
         self.var_ref = input_ref.to(self.device)
+        self.targets = [{k: v.to(device) for k, v in t.items()} for t in data]
 
     def optimize_parameters(self, step):
         #Generator
@@ -213,7 +214,20 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             p.requires_grad = False
         #Run FRCNN
         self.optimizer_FRCNN.zero_grad()
-        loss_dict = self.netFRCNN(images, targets)
+        loss_dict = self.netFRCNN(self.fake_H.detach(), self.targets)
+
+        losses = sum(loss for loss in loss_dict.values())
+
+        # reduce losses over all GPUs for logging purposes
+        loss_dict_reduced = reduce_dict(loss_dict)
+        losses_reduced = sum(loss for loss in loss_dict_reduced.values())
+
+        loss_value = losses_reduced.item()
+        if step % 100 == 0:
+            print("Loss of FRCNN: {}".format(loss_value))
+
+        losses.backward()
+        self.optimizer_FRCNN.step()
 
         # set log
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
@@ -229,11 +243,13 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.log_dict['D_real'] = torch.mean(pred_d_real.detach())
         self.log_dict['D_fake'] = torch.mean(pred_d_fake.detach())
 
-    def test(self):
+    def test(self, valid_data_loader):
         self.netG.eval()
+        self.netFRCNN.eval()
+        self.targets = valid_data_loader
         with torch.no_grad():
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
-            _, _, _, self.x_lap_HR = self.netG(self.var_H)
+            evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
 
     def get_current_log(self):
@@ -246,7 +262,6 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
         out_dict['lap_learned'] = self.x_learned_lap_fake.detach()[0].float().cpu()
         out_dict['lap'] = self.x_lap.detach()[0].float().cpu()
-        out_dict['lap_HR'] = self.x_lap_HR.detach()[0].float().cpu()
         out_dict['final_SR'] = self.final_SR.detach()[0].float().cpu()
         if need_GT:
             out_dict['GT'] = self.var_H.detach()[0].float().cpu()

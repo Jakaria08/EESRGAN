@@ -67,7 +67,7 @@ def main(config):
                      valid_data_loader=valid_data_loader
                      )
     '''
-    trainer = COWCGANTrainer(config=config, data_loader=data_loader,
+    trainer = COWCGANFrcnnTrainer(config=config, data_loader=data_loader,
                      valid_data_loader=valid_data_loader)
     trainer.train()
 
