@@ -125,7 +125,7 @@ def collate_fn(batch):
         target['object'].append(b['object'])
         target['image'].append(b['image'])
         target['image_lq'].append(b['image_lq'])
-        target['bboxes'].append(b['bboxes'])
+        target['boxes'].append(b['boxes'])
         target['labels'].append(b['labels'])
         target['label_car_type'].append(b['label_car_type'])
         target['image_id'].append(b['idx'])
