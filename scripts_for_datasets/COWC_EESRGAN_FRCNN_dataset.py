@@ -119,6 +119,6 @@ class COWCGANFrcnnDataset(Dataset):
       target['label_car_type'] = torch.as_tensor(target['label_car_type'], dtype=torch.int64)
       target['image_id'] = torch.tensor([target['image_id']])
       target["area"] = torch.tensor(target['area'])
-      target["iscrowd"] = torch.tensor([target['iscrowd']])
+      target["iscrowd"] = torch.tensor(target['iscrowd'])
 
       return target
