@@ -54,7 +54,7 @@ class COWCGANFrcnnDataset(Dataset):
                 target['object'] = 0
                 target['image_lq'] = img_lq
                 target['image'] = img_gt
-                target['boxes'] = boxes
+                target['bboxes'] = boxes
                 target['labels'] = labels
                 target['label_car_type'] = label_car_type
                 target['image_id'] = idx
@@ -87,7 +87,7 @@ class COWCGANFrcnnDataset(Dataset):
         target['object'] = 1
         target['image_lq'] = img_lq
         target['image'] = img_gt
-        target['boxes'] = boxes
+        target['bboxes'] = boxes
         target['labels'] = labels
         target['label_car_type'] = label_car_type
         target['image_id'] = idx
@@ -115,7 +115,7 @@ class COWCGANFrcnnDataset(Dataset):
       target['image_lq'] = torch.from_numpy(target['image_lq'].transpose((2, 0, 1)))
       target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
       target['boxes'] = torch.as_tensor(target['bboxes'], dtype=torch.int64)
-      target['labels'] = torch.ones(len(target['bboxes']), dtype=torch.int64)
+      target['labels'] = torch.ones(len(target['labels']), dtype=torch.int64)
       target['label_car_type'] = torch.as_tensor(target['label_car_type'], dtype=torch.int64)
       target['image_id'] = torch.tensor([target['image_id']])
       target["area"] = torch.tensor([target['area']])
