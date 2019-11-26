@@ -82,12 +82,13 @@ def evaluate(model_G, model_FRCNN, data_loader, device):
     iou_types = _get_iou_types(model_FRCNN)
     coco_evaluator = CocoEvaluator(coco, iou_types)
 
-    for targets in metric_logger.log_every(data_loader, 100, header):
+    for image, targets in metric_logger.log_every(data_loader, 100, header):
+        image['image_lq'] = image['image_lq'].to(device)
         targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
 
         torch.cuda.synchronize()
         model_time = time.time()
-        image = model_G(targets['image_lq'])
+        image = model_G(image['image_lq'])
         outputs = model_FRCNN(image)
 
         outputs = [{k: v.to(cpu_device) for k, v in t.items()} for t in outputs]

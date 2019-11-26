@@ -141,11 +141,12 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
     and also used np.ascontiguousarray()
     Might change my code if problem happens
     '''
-    def feed_data(self, data):
-        self.var_L = data['image_lq'].to(self.device)
-        self.var_H = data['image'].to(self.device)
-        input_ref = data['ref'] if 'ref' in data else data['image']
+    def feed_data(self, image, targets):
+        self.var_L = image['image_lq'].to(self.device)
+        self.var_H = image['image'].to(self.device)
+        input_ref = image['ref'] if 'ref' in image else image['image']
         self.var_ref = input_ref.to(self.device)
+        self.targets = targets
         print(data)
 
     def optimize_parameters(self, step):

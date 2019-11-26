@@ -88,7 +88,7 @@ class COWCGANFrcnnTrainer:
         #### training
         logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
         for epoch in range(start_epoch, self.total_epochs + 1):
-            for _, train_data in enumerate(self.data_loader):
+            for _, image, targets in enumerate(self.data_loader):
                 current_step += 1
                 if current_step > self.total_iters:
                     break
@@ -96,7 +96,7 @@ class COWCGANFrcnnTrainer:
                 self.model.update_learning_rate(current_step, warmup_iter=self.config['train']['warmup_iter'])
 
                 #### training
-                self.model.feed_data(train_data)
+                self.model.feed_data(image, targets)
                 self.model.optimize_parameters(current_step)
 
                 #### log
