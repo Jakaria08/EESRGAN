@@ -146,7 +146,9 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.var_H = image['image'].to(self.device)
         input_ref = image['ref'] if 'ref' in image else image['image']
         self.var_ref = input_ref.to(self.device)
-        print(targets)
+        for t in targets:
+            for k, v in t.items():
+                print(v)
         self.targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
 
 
