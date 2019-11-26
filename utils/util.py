@@ -128,7 +128,7 @@ def collate_fn(batch):
         target['boxes'].append(b['boxes'])
         target['labels'].append(b['labels'])
         target['label_car_type'].append(b['label_car_type'])
-        target['image_id'].append(b['idx'])
+        target['image_id'].append(b['image_id'])
         target['LQ_path'].append(b['LQ_path'])
         target['area'].append(b['area'])
         target['iscrowd'].append(b['iscrowd'])
