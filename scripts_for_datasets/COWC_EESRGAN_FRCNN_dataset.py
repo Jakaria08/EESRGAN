@@ -79,8 +79,8 @@ class COWCGANFrcnnDataset(Dataset):
 
     if obj_class != 0:
         labels = np.ones(len(boxes)) # all are cars
-        #boxes = torch.as_tensor(boxes, dtype=torch.float32)
-        area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
+        boxes_for_calc = torch.as_tensor(boxes, dtype=torch.int64)
+        area = (boxes_for_calc[:, 3] - boxes_for_calc[:, 1]) * (boxes_for_calc[:, 2] - boxes_for_calc[:, 0])
         iscrowd = torch.zeros((len(boxes),), dtype=torch.int64)
         #create dictionary to access the values
         target = {}
