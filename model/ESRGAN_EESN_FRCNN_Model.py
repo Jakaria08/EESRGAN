@@ -221,7 +221,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             p.requires_grad = False
         #Run FRCNN
         self.optimizer_FRCNN.zero_grad()
-        print(torch.size(self.fake_H.detach()))
+        print(torch.Size(self.fake_H.detach()))
         loss_dict = self.netFRCNN(self.fake_H.detach(), self.targets)
 
         losses = sum(loss for loss in loss_dict.values())
