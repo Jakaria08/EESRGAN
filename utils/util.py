@@ -136,7 +136,7 @@ def collate_fn(batch):
     target['object'] = torch.stack(target['object'], dim=0)
     target['image'] = torch.stack(target['image'], dim=0)
     target['image_lq'] = torch.stack(target['image_lq'], dim=0)
-    target['boxes'] = torch.stack(target['boxes'], dim=0)
+    #target['boxes'] = torch.stack(target['boxes'], dim=0)
     target['labels'] = torch.stack(target['labels'], dim=0)
     target['label_car_type'] = torch.stack(target['label_car_type'], dim=0)
     target['image_id'] = torch.stack(target['image_id'], dim=0)
