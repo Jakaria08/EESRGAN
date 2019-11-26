@@ -97,14 +97,14 @@ class COWCGANFrcnnDataset(Dataset):
 
     if self.transform is None:
         #convert to tensor
-        target = self.convert_to_tensor(**target)
-        return target
+        image, target = self.convert_to_tensor(**target)
+        return image, target
         #transform
     else:
         transformed = self.transform(**target)
         #print(transformed['image'], transformed['bboxes'], transformed['labels'], transformed['idx'])
-        target = self.convert_to_tensor(**transformed)
-        return target
+        image, target = self.convert_to_tensor(**transformed)
+        return image, target
 
   def __len__(self):
     return len(self.imgs_lq)
