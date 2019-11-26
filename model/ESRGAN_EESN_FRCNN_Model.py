@@ -147,7 +147,6 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         input_ref = data['ref'] if 'ref' in data else data['image']
         self.var_ref = input_ref.to(self.device)
         print(data)
-        self.targets = [{k: v.to(device) for k, v in t.items()} for t in data]
 
     def optimize_parameters(self, step):
         #Generator

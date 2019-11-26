@@ -121,4 +121,13 @@ class COWCGANFrcnnDataset(Dataset):
       target["area"] = torch.tensor(target['area'])
       target["iscrowd"] = torch.tensor(target['iscrowd'])
 
-      return target
+      image = {}
+      image['object'] = target['object']
+      image['image_lq'] = target['image_lq']
+      image['image'] = target['image']
+
+      target.pop('object')
+      target.pop('image_lq')
+      target.pop('image')
+
+      return image, target

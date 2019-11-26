@@ -109,43 +109,25 @@ def collate_fn(batch):
     Image have a different number of objects, we need a collate function
     (to be passed to the DataLoader).
     '''
-    target = {}
-    target['object'] = list()
-    target['image'] = list()
-    target['image_lq'] = list()
-    target['boxes'] = list()
-    target['labels'] = list()
-    target['label_car_type'] = list()
-    target['image_id'] = list()
-    target['LQ_path'] = list()
-    target["area"] = list()
-    target["iscrowd"] = list()
+    target = list()
+    image = {}
+    image['object'] = list()
+    image['image'] = list()
+    image['image_lq'] = list()
 
-    for b in batch:
-        target['object'].append(b['object'])
-        target['image'].append(b['image'])
-        target['image_lq'].append(b['image_lq'])
-        target['boxes'].append(b['boxes'])
-        target['labels'].append(b['labels'])
-        target['label_car_type'].append(b['label_car_type'])
-        target['image_id'].append(b['image_id'])
-        target['LQ_path'].append(b['LQ_path'])
-        target['area'].append(b['area'])
-        target['iscrowd'].append(b['iscrowd'])
+    for obj in batch:
+        b = obj[0]
+        image['object'].append(b['object'])
+        image['image'].append(b['image'])
+        image['image_lq'].append(b['image_lq'])
+        target.append(obj[1])
 
-    target['object'] = torch.stack(target['object'], dim=0)
-    target['image'] = torch.stack(target['image'], dim=0)
-    target['image_lq'] = torch.stack(target['image_lq'], dim=0)
-    '''
-    target['boxes'] = torch.stack(target['boxes'], dim=0)
-    target['labels'] = torch.stack(target['labels'], dim=0)
-    target['label_car_type'] = torch.stack(target['label_car_type'], dim=0)
-    target['image_id'] = torch.stack(target['image_id'], dim=0)
-    target['LQ_path'] = torch.stack(target['LQ_path'], dim=0)
-    target['area'] = torch.stack(target['area'], dim=0)
-    target['iscrowd'] = torch.stack(target['iscrowd'], dim=0)
-    '''
-    return target
+    target = tuple(zip(*batch))
+    image['object'] = torch.stack(image['object'], dim=0)
+    image['image'] = torch.stack(image['image'], dim=0)
+    image['image_lq'] = torch.stack(image['image_lq'], dim=0)
+
+    return image, target
 
 '''
 cubic() method is taken from ESRGAN(BasicSR) GitHub Repo.
