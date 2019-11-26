@@ -126,8 +126,8 @@ class COWCGANFrcnnDataset(Dataset):
       image['image_lq'] = target['image_lq']
       image['image'] = target['image']
 
-      target.pop('object')
-      target.pop('image_lq')
-      target.pop('image')
+      del target['object']
+      del target['image_lq']
+      del target['image']
 
       return image, target

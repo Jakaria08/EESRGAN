@@ -122,7 +122,6 @@ def collate_fn(batch):
         image['image_lq'].append(b['image_lq'])
         target.append(obj[1])
 
-    target = tuple(zip(*batch))
     image['object'] = torch.stack(image['object'], dim=0)
     image['image'] = torch.stack(image['image'], dim=0)
     image['image_lq'] = torch.stack(image['image_lq'], dim=0)
