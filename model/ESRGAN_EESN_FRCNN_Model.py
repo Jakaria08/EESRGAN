@@ -149,7 +149,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         for t in targets:
             for k, v in t.items():
                 print(v)
-        self.targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
+        self.targets = [{k: v.to(self.device) for k, v in t.items()} for t in targets]
 
 
     def optimize_parameters(self, step):
