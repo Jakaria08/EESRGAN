@@ -1,6 +1,7 @@
 import logging
 from collections import OrderedDict
 import torch
+import torchvision
 import torch.nn as nn
 import model.model as model
 import model.lr_scheduler as lr_scheduler
