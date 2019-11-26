@@ -306,6 +306,20 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
                 net_struc_str, n))
             logger.info(s)
 
+        #FRCNN_model
+        # Discriminator
+        s, n = self.get_network_description(self.netFRCNN)
+        if isinstance(self.netFRCNN, nn.DataParallel) or isinstance(self.netFRCNN,
+                                                                DistributedDataParallel):
+            net_struc_str = '{} - {}'.format(self.netFRCNN.__class__.__name__,
+                                             self.netFRCNN.module.__class__.__name__)
+        else:
+            net_struc_str = '{}'.format(self.netFRCNN.__class__.__name__)
+
+        logger.info('Network FRCNN structure: {}, with parameters: {:,d}'.format(
+            net_struc_str, n))
+        logger.info(s)
+
     def load(self):
         load_path_G = self.config['path']['pretrain_model_G']
         if load_path_G:
