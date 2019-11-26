@@ -129,5 +129,6 @@ class COWCGANFrcnnDataset(Dataset):
       del target['object']
       del target['image_lq']
       del target['image']
+      del target['bboxes']
 
       return image, target
