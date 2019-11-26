@@ -125,10 +125,13 @@ class COWCGANFrcnnDataset(Dataset):
       image['object'] = target['object']
       image['image_lq'] = target['image_lq']
       image['image'] = target['image']
+      image['image'] = target['image']
+      image['LQ_path'] = target['LQ_path']
 
       del target['object']
       del target['image_lq']
       del target['image']
       del target['bboxes']
+      del target['LQ_path']
 
       return image, target
