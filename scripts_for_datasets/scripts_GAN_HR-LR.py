@@ -12,6 +12,7 @@ import numpy as np
 import glob
 import shutil
 import kornia
+import torch
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -371,9 +372,11 @@ def calculate_lap_edge():
         img_gt = cv2.imread(i) / 255
         img_gt = np.clip(img_gt, 0, 1)
         img_gt = (img_gt - mean) / std
+        img_gt = torch.Tensor(img_gt)
 
         img_gt = kornia.laplacian(img_gt, 3)
 
+        img_gt = img_gt.numpy()
         img_gt = std * img_gt + mean
         img_gt = np.clip(img_gt, 0, 1)
         img_gt = (img_gt * 255.0).round().astype(np.uint8)
