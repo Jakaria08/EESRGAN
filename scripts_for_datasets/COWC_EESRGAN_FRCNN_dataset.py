@@ -114,7 +114,7 @@ class COWCGANFrcnnDataset(Dataset):
       target['object'] = torch.tensor(target['object'], dtype=torch.int64)
       target['image_lq'] = torch.from_numpy(target['image_lq'].transpose((2, 0, 1)))
       target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
-      target['boxes'] = torch.tensor(target['bboxes'], dtype=torch.int64)
+      target['boxes'] = torch.tensor(target['bboxes'], dtype=torch.float32)
       target['labels'] = torch.ones(len(target['labels']), dtype=torch.int64)
       target['label_car_type'] = torch.tensor(target['label_car_type'], dtype=torch.int64)
       target['image_id'] = torch.tensor([target['image_id']])
