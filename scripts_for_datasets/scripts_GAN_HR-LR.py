@@ -372,7 +372,7 @@ def calculate_lap_edge():
         img_gt = np.clip(img_gt, 0, 1)
         img_gt = (img_gt - mean) / std
 
-        img_gt = kornia.laplacian(img_gt)
+        img_gt = kornia.laplacian(img_gt, 3)
 
         img_gt = std * img_gt + mean
         img_gt = np.clip(img_gt, 0, 1)
