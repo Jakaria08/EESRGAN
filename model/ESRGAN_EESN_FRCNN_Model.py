@@ -221,8 +221,9 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             p.requires_grad = False
         #Run FRCNN
         self.optimizer_FRCNN.zero_grad()
-        print(self.fake_H.size())
-        loss_dict = self.netFRCNN(self.fake_H.detach(), self.targets)
+        self.intermediate_img = self.fake_H.detach()
+        print(self.intermediate_img.size()[0])
+        loss_dict = self.netFRCNN(self.intermediate_img, self.targets)
 
         losses = sum(loss for loss in loss_dict.values())
 
