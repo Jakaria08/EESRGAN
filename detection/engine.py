@@ -89,7 +89,9 @@ def evaluate(model_G, model_FRCNN, data_loader, device):
         torch.cuda.synchronize()
         model_time = time.time()
         image, _, _, _ = model_G(image['image_lq'])
-        outputs = model_FRCNN(image.squeeze())
+        img_count = image.size()[0]
+        image = [image[i] for i in range(img_count)]
+        outputs = model_FRCNN(image)
 
         outputs = [{k: v.to(cpu_device) for k, v in t.items()} for t in outputs]
         model_time = time.time() - model_time
