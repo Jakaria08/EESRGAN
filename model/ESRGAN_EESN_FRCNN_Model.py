@@ -10,6 +10,7 @@ from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from detection.engine import train_one_epoch, evaluate
+from detection.utils import reduce_dict
 
 
 logger = logging.getLogger('base')
