@@ -106,7 +106,7 @@
         "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/"
     },
     "logger": {
-      "print_freq": 100,
+      "print_freq": 1,
       "save_checkpoint_freq": 4000
     }
 }
