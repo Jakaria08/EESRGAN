@@ -233,8 +233,6 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         losses_reduced = sum(loss for loss in loss_dict_reduced.values())
 
         loss_value = losses_reduced.item()
-        if step % 100 == 0:
-            print("Loss of FRCNN: {}".format(loss_value))
 
         losses.backward()
         self.optimizer_FRCNN.step()
@@ -252,6 +250,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.log_dict['l_d_fake'] = l_d_fake.item()
         self.log_dict['D_real'] = torch.mean(pred_d_real.detach())
         self.log_dict['D_fake'] = torch.mean(pred_d_fake.detach())
+        self.log_dict['FRCNN_loss'] = loss_value
 
     def test(self, valid_data_loader):
         self.netG.eval()
@@ -261,6 +260,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
             evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
+        self.netFRCNN.train()
 
     def get_current_log(self):
         return self.log_dict
