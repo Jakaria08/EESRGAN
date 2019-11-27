@@ -359,6 +359,31 @@ def separate_generated_image_for_test():
         enhanced_SR_Dir = os.path.join(dir_save, 'enhanced_SR_images', enhanced_SR_Dir)
         cv2.imwrite(enhanced_SR_Dir, image_enhanced_SR)
         '''
+def calculate_lap_edge():
+    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*"
+    dir_save = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/lap_edges_GT"
+    img_GT = sorted(glob.glob(HR_DIR+'.jpg'))
+    mean = np.array([0.3442, 0.3708, 0.3476])
+    std = np.array([0.1232, 0.1230, 0.1284])
+
+    for i in img_GT:
+        #print(i+'____'+j)
+        img_gt = cv2.imread(i) / 255
+        img_gt = np.clip(img_gt, 0, 1)
+        img_gt = (img_gt - mean) / std
+
+        img_gt = kornia.laplacian(img_gt)
+
+        img_gt = std * img_gt + mean
+        img_gt = np.clip(img_gt, 0, 1)
+        img_gt = (img_gt * 255.0).round().astype(np.uint8)
+
+        file_name = os.path.basename(i)
+        img_path = os.path.join(dir_save,file_name)
+        #print('_____'+img_path)
+
+        #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(img_path, img_gt)
 
 
 if __name__ == "__main__":
@@ -368,3 +393,4 @@ if __name__ == "__main__":
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
     #separate_generated_image_for_test()
     #calculate_psnr_ssim()
+    calculate_lap_edge()
