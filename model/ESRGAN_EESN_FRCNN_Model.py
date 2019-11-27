@@ -222,9 +222,9 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         #Run FRCNN
         self.optimizer_FRCNN.zero_grad()
         self.intermediate_img = self.fake_H.detach()
-        print(self.intermediate_img.size()[0])
+        img_count = self.intermediate_img.size()[0])
+        self.intermediate_img = [self.intermediate_img[i] for i in img_count]
         loss_dict = self.netFRCNN(self.intermediate_img, self.targets)
-
         losses = sum(loss for loss in loss_dict.values())
 
         # reduce losses over all GPUs for logging purposes
