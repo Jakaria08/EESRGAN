@@ -28,12 +28,12 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.netG = model.ESRGAN_EESN(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
                                     nf=self.configG['nf'], nb=self.configG['nb'])
         self.netG = self.netG.to(self.device)
-        self.netG = DataParallel(self.netG, device_ids=[1,0])
+        self.netG = DataParallel(self.netG)
 
         #descriminator
         self.netD = model.Discriminator_VGG_128(in_nc=self.configD['in_nc'], nf=self.configD['nf'])
         self.netD = self.netD.to(self.device)
-        self.netD = DataParallel(self.netD, device_ids=[1,0])
+        self.netD = DataParallel(self.netD)
 
         #FRCNN_model
         self.netFRCNN = torchvision.models.detection.fasterrcnn_resnet50_fpn()
@@ -78,7 +78,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             self.netF = model.VGGFeatureExtractor(feature_layer=34,
                                           use_input_norm=True, device=self.device)
             self.netF = self.netF.to(self.device)
-            self.netF = DataParallel(self.netF, device_ids=[1,0])
+            self.netF = DataParallel(self.netF)
             self.netF.eval()
 
         # GD gan loss
