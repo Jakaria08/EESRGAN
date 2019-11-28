@@ -5,7 +5,7 @@ import torch
 
 import torchvision.models.detection.mask_rcnn
 
-from .coco_utils import get_coco_api_from_dataset
+from .coco_utils import get_coco_api_from_dataset, get_coco_api_from_dataset_base
 from .coco_eval import CocoEvaluator
 from .utils import MetricLogger, SmoothedValue, warmup_lr_scheduler, reduce_dict
 
