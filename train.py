@@ -67,13 +67,14 @@ def main(config):
                      valid_data_loader=valid_data_loader
                      )
     '''
+    '''
     trainer = COWCGANFrcnnTrainer(config=config, data_loader=data_loader,
                      valid_data_loader=valid_data_loader)
     trainer.train()
     '''
     trainer = COWCFRCNNTrainer(config=config)
     trainer.train()
-    '''
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser(description='PyTorch Template')
