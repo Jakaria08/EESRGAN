@@ -197,12 +197,10 @@ class COWCFRCNNTrainer:
 
         for epoch in range(num_epochs):
             # train for one epoch, printing every 10 iterations
-            evaluate_base(model, data_loader_test_Bic, device=self.device)
             train_one_epoch(model, optimizer, data_loader, self.device, epoch, print_freq=10)
             # update the learning rate
             lr_scheduler.step()
             # evaluate on the test dataset
-            if epoch % 1 == 0:
-                evaluate_base(model, data_loader_test_Bic, device=self.device)
+            evaluate_base(model, data_loader_test_Bic, device=self.device)
             if epoch % 10 == 0:
                 self.save_model(model, 'FRCNN_Bic', epoch)
