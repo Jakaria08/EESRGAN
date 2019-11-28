@@ -11,7 +11,7 @@ from torch.nn.parallel import DataParallel, DistributedDataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torch.utils.data import Dataset, DataLoader
 from torchvision import utils
-from detection.engine import train_one_epoch, evaluate
+from detection.engine import train_one_epoch, evaluate_base
 from detection.utils import collate_fn
 from scripts_for_datasets import COWCFRCNNDataset
 from detection.transforms import ToTensor, RandomHorizontalFlip, Compose
@@ -149,21 +149,21 @@ class COWCFRCNNTrainer:
         print(len(data_loader_test_F_SR))
         print(len(data_loader_test_Bic))
         print("test HR images..............................")
-        evaluate(model, data_loader_test, device=self.device)
+        evaluate_base(model, data_loader_test, device=self.device)
         print("test SR images..............................")
-        evaluate(model, data_loader_test_SR, device=self.device)
+        evaluate_base(model, data_loader_test_SR, device=self.device)
         print("test SR combined images..............................")
-        evaluate(model, data_loader_test_SR_combined, device=self.device)
+        evaluate_base(model, data_loader_test_SR_combined, device=self.device)
         print("test Enhanced SR 1 images.....................")
-        evaluate(model, data_loader_test_E_SR_1, device=self.device)
+        evaluate_base(model, data_loader_test_E_SR_1, device=self.device)
         print("test Enhanced SR 2 images.....................")
-        evaluate(model, data_loader_test_E_SR_2, device=self.device)
+        evaluate_base(model, data_loader_test_E_SR_2, device=self.device)
         print("test Enhanced SR 3 images.....................")
-        evaluate(model, data_loader_test_E_SR_3, device=self.device)
+        evaluate_base(model, data_loader_test_E_SR_3, device=self.device)
         print("test Final SR images.........................")
-        evaluate(model, data_loader_test_F_SR, device=self.device)
+        evaluate_base(model, data_loader_test_F_SR, device=self.device)
         print("test Bicubic images..........................")
-        evaluate(model, data_loader_test_Bic, device=self.device)
+        evaluate_base(model, data_loader_test_Bic, device=self.device)
 
     def train(self):
         # load a model pre-trained pre-trained on COCO
@@ -202,6 +202,6 @@ class COWCFRCNNTrainer:
             lr_scheduler.step()
             # evaluate on the test dataset
             if epoch % 1 == 0:
-                evaluate(model, data_loader_test_Bic, device=self.device)
+                evaluate_base(model, data_loader_test_Bic, device=self.device)
             if epoch % 10 == 0:
                 self.save_model(model, 'FRCNN_Bic', epoch)
