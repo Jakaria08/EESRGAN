@@ -48,7 +48,7 @@ class COWCGANTrainer:
             final_SR = tensor2img(visuals['final_SR']) # uint8
 
             # Save SR images for reference
-            save_img_path = os.path.join(img_dir, 'combined_SR_images_34400', img_name+'.png')
+            save_img_path = os.path.join(img_dir, 'combined_SR_images_344000', img_name+'.png')
             save_img(sr_img, save_img_path)
             # Save final_SR images for reference
             save_img_path = os.path.join(img_dir, 'final_SR_images_344000', img_name+'.png')
