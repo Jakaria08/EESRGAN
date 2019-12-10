@@ -59,6 +59,7 @@ class COWCFRCNNDataset(Dataset):
     target = {}
     target["boxes"] = boxes
     target["labels"] = label_car_type # = labels
+    target["labels1"] = labels # = labels
     target["image_id"] = image_id
     target["area"] = area
     target["iscrowd"] = iscrowd
