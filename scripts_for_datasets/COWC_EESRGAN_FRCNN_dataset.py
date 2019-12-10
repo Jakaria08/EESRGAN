@@ -55,7 +55,7 @@ class COWCGANFrcnnDataset(Dataset):
                 target['image_lq'] = img_lq
                 target['image'] = img_gt
                 target['bboxes'] = boxes
-                target['labels'] = labels
+                target['labels'] = target['label_car_type'] # = labels
                 target['label_car_type'] = label_car_type
                 target['image_id'] = idx
                 target['LQ_path'] = img_path_lq
@@ -88,7 +88,7 @@ class COWCGANFrcnnDataset(Dataset):
         target['image_lq'] = img_lq
         target['image'] = img_gt
         target['bboxes'] = boxes
-        target['labels'] = labels
+        target['labels'] = target['label_car_type'] # = labels
         target['label_car_type'] = label_car_type
         target['image_id'] = idx
         target['LQ_path'] = img_path_lq
