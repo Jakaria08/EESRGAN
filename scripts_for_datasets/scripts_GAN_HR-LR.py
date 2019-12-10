@@ -171,9 +171,9 @@ def calculate_psnr_ssim():
     img_final_SR_enhanced_1 = sorted(glob.glob(dir+'/enhanced_SR_images_1/*.png'))
     img_final_SR_enhanced_2 = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
     img_final_SR_enhanced_3 = sorted(glob.glob(dir+'/enhanced_SR_images_3/*.png'))
-    img_final_SR = sorted(glob.glob(dir+'/final_SR_images_216000/*.png'))
+    img_final_SR = sorted(glob.glob(dir+'/final_SR_images_344000/*.png'))
     img_SR = sorted(glob.glob(dir+'/SR_images/*.png'))
-    img_SR_combined = sorted(glob.glob(dir+'/combined_SR_images_216000/*.png'))
+    img_SR_combined = sorted(glob.glob(dir+'/combined_SR_images_344000/*.png'))
     img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
 
 
@@ -256,7 +256,7 @@ def calculate_psnr_ssim():
                                                            ssim_SR_combined / total,
                                                            ssim_Bic / total)
 
-    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Output_216000.txt", "a")
+    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Output_344000.txt", "a")
     print("Enhanced PSNR_1: %4.2f" % avg_psnr_enhanced_1)
     text_file.write("Enhanced PSNR_1: %4.2f \n" % avg_psnr_enhanced_1)
     print("Enhanced PSNR_2: %4.2f" % avg_psnr_enhanced_2)
@@ -399,5 +399,5 @@ if __name__ == "__main__":
     #merge_edge()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
     #separate_generated_image_for_test()
-    #calculate_psnr_ssim()
+    calculate_psnr_ssim()
     #calculate_lap_edge()
