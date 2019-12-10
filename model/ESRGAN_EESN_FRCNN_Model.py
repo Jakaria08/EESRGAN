@@ -340,7 +340,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             self.load_network(load_path_D, self.netD, self.config['path']['strict_load'])
         load_path_FRCNN = self.config['path']['pretrain_model_FRCNN']
         if load_path_FRCNN:
-            logger.info('Loading model for D [{:s}] ...'.format(load_path_FRCNN))
+            logger.info('Loading model for FRCNN [{:s}] ...'.format(load_path_FRCNN))
             self.load_network(load_path_FRCNN, self.netFRCNN, self.config['path']['strict_load'])
 
 
