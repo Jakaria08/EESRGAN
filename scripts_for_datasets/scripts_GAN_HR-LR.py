@@ -400,4 +400,4 @@ if __name__ == "__main__":
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
     #separate_generated_image_for_test()
     #calculate_psnr_ssim()
-    calculate_lap_edge()
+    #calculate_lap_edge()
