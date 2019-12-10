@@ -104,6 +104,37 @@ def calculate_mean_std(data_loader):
     print(mean,std)
     return mean, std
 
+def collate_fn_EESRGAN(batch):
+    '''
+    Image have a different number of objects, we need a collate function
+    (to be passed to the DataLoader).
+    '''
+    target = {}
+    target['object'] = list()
+    target['image'] = list()
+    target['image_lq'] = list()
+    target['bboxes'] = list()
+    target['labels'] = list()
+    target['label_car_type'] = list()
+    target['idx'] = list()
+    target['LQ_path'] = list()
+
+    for b in batch:
+        target['object'].append(b['object'])
+        target['image'].append(b['image'])
+        target['image_lq'].append(b['image_lq'])
+        target['bboxes'].append(b['bboxes'])
+        target['labels'].append(b['labels'])
+        target['label_car_type'].append(b['label_car_type'])
+        target['idx'].append(b['idx'])
+        target['LQ_path'].append(b['LQ_path'])
+
+    target['object'] = torch.stack(target['object'], dim=0)
+    target['image'] = torch.stack(target['image'], dim=0)
+    target['image_lq'] = torch.stack(target['image_lq'], dim=0)
+
+    return target
+
 def collate_fn(batch):
     '''
     Image have a different number of objects, we need a collate function

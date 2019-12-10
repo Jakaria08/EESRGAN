@@ -11,7 +11,7 @@ from albumentations import (
 )
 
 from albumentations.pytorch import ToTensor
-from utils import collate_fn
+from utils import collate_fn, collate_fn_EESRGAN
 #from detection.utils import collate_fn
 
 
@@ -114,7 +114,7 @@ class COWCGANDataLoader(BaseDataLoader):
         else:
             self.dataset = COWCGANDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_test)
         self.length = len(self.dataset)
-        super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
+        super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn_EESRGAN)
 
 class COWCGANFrcnnDataLoader(BaseDataLoader):
     """
