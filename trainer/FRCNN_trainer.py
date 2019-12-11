@@ -24,7 +24,7 @@ class COWCFRCNNTrainer:
         self.config = config
 
         n_gpu = torch.cuda.device_count()
-        self.device = torch.device('cuda:1' if n_gpu > 4 else 'cpu')
+        self.device = torch.device('cuda:1' if n_gpu > 0 else 'cpu')
 
     def get_transform(self, train):
         transforms = []
@@ -125,7 +125,7 @@ class COWCFRCNNTrainer:
 
         # replace the classifier with a new one, that has
         # num_classes which is user-defined
-        num_classes = 5  # 1 class (car) + background
+        num_classes = 5  # 4 class (car) + background
         # get number of input features for the classifier
         in_features = model.roi_heads.box_predictor.cls_score.in_features
         # replace the pre-trained head with a new one
@@ -171,7 +171,7 @@ class COWCFRCNNTrainer:
 
         # replace the classifier with a new one, that has
         # num_classes which is user-defined
-        num_classes = 2  # 1 class (car) + background
+        num_classes = 5  # 1 class (car) + background
         # get number of input features for the classifier
         in_features = model.roi_heads.box_predictor.cls_score.in_features
         # replace the pre-trained head with a new one
