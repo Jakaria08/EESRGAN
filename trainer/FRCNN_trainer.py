@@ -202,5 +202,5 @@ class COWCFRCNNTrainer:
             lr_scheduler.step()
             # evaluate on the test dataset
             evaluate_base(model, data_loader_test, device=self.device)
-            if epoch % 1 == 0:
-                self.save_model(model, 'FRCNN_Bic', epoch)
+            if epoch % 10 == 0:
+                self.save_model(model, 'FRCNN_Multi_class_cowc', epoch)
