@@ -178,7 +178,7 @@ class COWCFRCNNTrainer:
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         model.to(self.device)
-        self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
+        #self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
 
         # construct an optimizer
         params = [p for p in model.parameters() if p.requires_grad]
