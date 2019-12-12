@@ -167,7 +167,7 @@ class COWCFRCNNTrainer:
 
     def train(self):
         # load a model pre-trained pre-trained on COCO
-        model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+        model = torchvision.models.detection.fasterrcnn_resnet50_fpn()
 
         # replace the classifier with a new one, that has
         # num_classes which is user-defined
@@ -178,7 +178,7 @@ class COWCFRCNNTrainer:
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         model.to(self.device)
-        #self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
+        self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
 
         # construct an optimizer
         params = [p for p in model.parameters() if p.requires_grad]
