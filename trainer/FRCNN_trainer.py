@@ -191,7 +191,7 @@ class COWCFRCNNTrainer:
                                                        step_size=3,
                                                        gamma=0.1)
 
-        data_loader, data_loader_test, _, _, _, _, _, _, _ = self.data_loaders()
+        data_loader, _, _, _, _, _, _, _, dataset_test_Bic = self.data_loaders()
         # let's train it for 10 epochs
         num_epochs = 1000
 
@@ -201,6 +201,6 @@ class COWCFRCNNTrainer:
             # update the learning rate
             lr_scheduler.step()
             # evaluate on the test dataset
-            evaluate_base(model, data_loader_test, device=self.device)
-            if epoch % 11 == 0:
-                self.save_model(model, 'FRCNN_Multi_class_cowc', epoch)
+            evaluate_base(model, dataset_test_Bic, device=self.device)
+            if epoch % 10 == 0:
+                self.save_model(model, 'FRCNN_model_multi_class_cowc_Bic', epoch)

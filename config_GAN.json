@@ -87,10 +87,10 @@
     },
     "path": {
         "models": "saved/pretrained_models_Multi_class_EESRGAN_FRCNN",
-        "FRCNN_model": "saved/FRCNN_model_multi_class_cowc",
+        "FRCNN_model": "saved/FRCNN_model_multi_class_cowc_Bic",
         "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models/344000_G.pth",
         "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models/344000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_multi_class_cowc/10_FRCNN_Multi_class_cowc.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_multi_class_cowc_Bic/22_FRCNN_Multi_class_cowc.pth",
         "training_state": "saved/training_state/Multi_class_end_to_end_EESRGAN_FRCNN",
         "strict_load": true,
         "resume_state": "~",
@@ -104,7 +104,8 @@
         "data_dir_E_SR_2": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_2/",
         "data_dir_E_SR_3": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_3/",
         "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/",
-        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/",
+        "data_dir_HR": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/"
     },
     "logger": {
       "print_freq": 100,
