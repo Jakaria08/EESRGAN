@@ -189,7 +189,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
                 l_e_charbonnier = 5 * self.cri_charbonnier(self.final_SR, self.var_H) #change the weight to empirically
             l_g_total += l_e_charbonnier
 
-            l_g_total.backward(retain_graph=True)
+            l_g_total.backward()
             self.optimizer_G.step()
 
         #descriminator
