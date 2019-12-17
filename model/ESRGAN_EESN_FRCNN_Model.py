@@ -216,13 +216,15 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         Freeze EESRGAN
         '''
         #freeze Generator
+        '''
         for p in self.netG.parameters():
             p.requires_grad = False
+        '''
         for p in self.netD.parameters():
             p.requires_grad = False
         #Run FRCNN
         self.optimizer_FRCNN.zero_grad()
-        self.intermediate_img = self.fake_H.detach()
+        self.intermediate_img = self.fake_H
         img_count = self.intermediate_img.size()[0]
         self.intermediate_img = [self.intermediate_img[i] for i in range(img_count)]
         loss_dict = self.netFRCNN(self.intermediate_img, self.targets)
@@ -340,7 +342,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             self.load_network(load_path_D, self.netD, self.config['path']['strict_load'])
         load_path_FRCNN = self.config['path']['pretrain_model_FRCNN']
         if load_path_FRCNN:
-            logger.info('Loading model for D [{:s}] ...'.format(load_path_FRCNN))
+            logger.info('Loading model for FRCNN [{:s}] ...'.format(load_path_FRCNN))
             self.load_network(load_path_FRCNN, self.netFRCNN, self.config['path']['strict_load'])
 
 
