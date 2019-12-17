@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 100,
+        "val_freq": 2000,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -107,7 +107,7 @@
         "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
     },
     "logger": {
-      "print_freq": 2000,
+      "print_freq": 100,
       "save_checkpoint_freq": 4000
     }
 }
