@@ -107,7 +107,7 @@
         "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
     },
     "logger": {
-      "print_freq": 100,
+      "print_freq": 2000,
       "save_checkpoint_freq": 4000
     }
 }
