@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 100,
+        "val_freq": 1000,
 
         "save_dir": "saved/",
         "save_period": 1,
