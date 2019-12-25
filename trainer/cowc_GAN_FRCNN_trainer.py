@@ -72,8 +72,8 @@ class COWCGANFrcnnTrainer:
                 from tensorboardX import SummaryWriter
             tb_logger = SummaryWriter(log_dir='saved/tb_logger/' + self.config['name'])
 
-        current_step = 16001
-        start_epoch = 43
+        current_step = 0
+        start_epoch = 0
 
         #### training
         logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
