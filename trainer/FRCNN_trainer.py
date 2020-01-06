@@ -38,7 +38,7 @@ class COWCFRCNNTrainer:
 
     def data_loaders(self):
         # use our dataset and defined transformations
-        dataset = COWCFRCNNDataset(root=self.config['path']['data_dir_Bic_train'],
+        dataset = COWCFRCNNDataset(root=self.config['path']['data_dir_HR_train'],
                     transforms=self.get_transform(train=True))
         dataset_test = COWCFRCNNDataset(root=self.config['path']['data_dir_Valid'],
                          transforms=self.get_transform(train=False))
@@ -125,7 +125,7 @@ class COWCFRCNNTrainer:
 
         # replace the classifier with a new one, that has
         # num_classes which is user-defined
-        num_classes = 2  # 1 class (car) + background
+        num_classes = 21  # 1 class (car) + background
         # get number of input features for the classifier
         in_features = model.roi_heads.box_predictor.cls_score.in_features
         # replace the pre-trained head with a new one
@@ -167,11 +167,11 @@ class COWCFRCNNTrainer:
 
     def train(self):
         # load a model pre-trained pre-trained on COCO
-        model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+        model = torchvision.models.detection.fasterrcnn_resnet50_fpn()
 
         # replace the classifier with a new one, that has
         # num_classes which is user-defined
-        num_classes = 2  # 1 class (car) + background
+        num_classes = 21  # 1 class (car) + background
         # get number of input features for the classifier
         in_features = model.roi_heads.box_predictor.cls_score.in_features
         # replace the pre-trained head with a new one
@@ -191,7 +191,7 @@ class COWCFRCNNTrainer:
                                                        step_size=3,
                                                        gamma=0.1)
 
-        data_loader, _, _, _, _, _, _, _, data_loader_test_Bic = self.data_loaders()
+        data_loader, data_loader_test, _, _, _, _, _, _, _ = self.data_loaders()
         # let's train it for 10 epochs
         num_epochs = 1000
 
@@ -201,6 +201,6 @@ class COWCFRCNNTrainer:
             # update the learning rate
             lr_scheduler.step()
             # evaluate on the test dataset
-            evaluate_base(model, data_loader_test_Bic, device=self.device)
-            if epoch % 10 == 0:
-                self.save_model(model, 'FRCNN_Bic', epoch)
+            evaluate_base(model, data_loader_test device=self.device)
+            if epoch % 1 == 0:
+                self.save_model(model, 'FRCNN_HR', epoch)
