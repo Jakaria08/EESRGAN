@@ -49,6 +49,7 @@ class COWCFRCNNDataset(Dataset):
                 print("min greater or equal to max.............")
 
             boxes.append([x_min, y_min, x_max, y_max])
+        print(boxes)
 
     boxes = torch.as_tensor(boxes, dtype=torch.float32)
     # there is only one class
