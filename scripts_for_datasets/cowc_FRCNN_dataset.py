@@ -45,6 +45,9 @@ class COWCFRCNNDataset(Dataset):
             x_max = 255 if int(values[3]) >= 256 else int(values[3])
             y_max = 255 if int(values[4]) >= 256 else int(values[4])
 
+            if(x_min >= x_max or y_min >= y_max):
+                print("min greater or equal to max.............")
+
             boxes.append([x_min, y_min, x_max, y_max])
 
     boxes = torch.as_tensor(boxes, dtype=torch.float32)
