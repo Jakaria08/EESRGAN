@@ -59,7 +59,7 @@ class COWCFRCNNTrainer:
 
         # define training and validation data loaders
         data_loader = torch.utils.data.DataLoader(
-            dataset, batch_size=2, shuffle=True, num_workers=4,
+            dataset, batch_size=4, shuffle=True, num_workers=4,
             collate_fn=collate_fn)
 
         data_loader_test = torch.utils.data.DataLoader(
@@ -201,6 +201,6 @@ class COWCFRCNNTrainer:
             # update the learning rate
             lr_scheduler.step()
             # evaluate on the test dataset
-            evaluate_base(model, data_loader_test device=self.device)
+            evaluate_base(model, data_loader_test, device=self.device)
             if epoch % 1 == 0:
                 self.save_model(model, 'FRCNN_HR', epoch)
