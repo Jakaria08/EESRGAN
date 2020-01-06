@@ -40,10 +40,10 @@ class COWCFRCNNDataset(Dataset):
             height = float(values[4])*self.image_height
             '''
             #creating bounding boxes that would not touch the image edges
-            x_min = 1 if values[1] <= 0 else int(values[1])
-            x_max = 255 if values[2] >= 256 else int(values[2])
-            y_min = 1 if values[3] <= 0 else int(values[3])
-            y_max = 255 if values[4] >= 256 else int(values[4])
+            x_min = 1 if int(values[1]) <= 0 else int(values[1])
+            x_max = 255 if int(values[2]) >= 256 else int(values[2])
+            y_min = 1 if int(values[3]) <= 0 else int(values[3])
+            y_max = 255 if int(values[4]) >= 256 else int(values[4])
 
             boxes.append([x_min, y_min, x_max, y_max])
 
