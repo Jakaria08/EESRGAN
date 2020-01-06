@@ -44,6 +44,9 @@ class COWCFRCNNDataset(Dataset):
             y_min = 1 if int(values[2]) <= 0 else int(values[2])
             x_max = 255 if int(values[3]) >= 256 else int(values[3])
             y_max = 255 if int(values[4]) >= 256 else int(values[4])
+            
+            if x_max - x_min < 3 or y_max - y_min < 3:
+                print(x_min, y_min, x_max, y_max)
 
             boxes.append([x_min, y_min, x_max, y_max])
         #print(boxes)
