@@ -28,8 +28,8 @@ def generate_mod_LR_bic():
     # set data dir
     # directory structure on sunray server pc
     # Need to change later when refactoring, code cleaning and testing.
-    sourcedir = '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS'
-    savedir = '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS'
+    sourcedir = '/home/jakaria/Super_Resolution/Datasets/xView/chip_train_images'
+    savedir = '/home/jakaria/Super_Resolution/Datasets/xView/chip_train_images_all'
 
     saveHRpath = os.path.join(savedir, 'HR', 'x' + str(mod_scale))
     saveLRpath = os.path.join(savedir, 'LR', 'x' + str(up_scale))
@@ -394,10 +394,10 @@ def calculate_lap_edge():
 
 
 if __name__ == "__main__":
-    #generate_mod_LR_bic()
+    generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
     #merge_edge()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
     #separate_generated_image_for_test()
     #calculate_psnr_ssim()
-    calculate_lap_edge()
+    #calculate_lap_edge()
