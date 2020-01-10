@@ -63,7 +63,7 @@ def generate_mod_LR_bic():
     else:
         print('It will cover ' + str(saveBicpath))
 
-    filepaths = [f for f in os.listdir(sourcedir) if f.endswith('.jpg') and not f.endswith('check.jpg')]
+    filepaths = [f for f in os.listdir(sourcedir) if f.endswith('.png') and not f.endswith('check.jpg')]
     num_files = len(filepaths)
 
     # prepare data with augementation
