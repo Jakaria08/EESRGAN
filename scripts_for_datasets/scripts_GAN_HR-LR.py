@@ -28,8 +28,8 @@ def generate_mod_LR_bic():
     # set data dir
     # directory structure on sunray server pc
     # Need to change later when refactoring, code cleaning and testing.
-    sourcedir = '/home/jakaria/Super_Resolution/Datasets/xView/chip_train_images'
-    savedir = '/home/jakaria/Super_Resolution/Datasets/xView/chip_train_images_all'
+    sourcedir = '/home/jakaria/Super_Resolution/Datasets/xView/chip_test_images'
+    savedir = '/home/jakaria/Super_Resolution/Datasets/xView/chip_test_images_all'
 
     saveHRpath = os.path.join(savedir, 'HR', 'x' + str(mod_scale))
     saveLRpath = os.path.join(savedir, 'LR', 'x' + str(up_scale))
