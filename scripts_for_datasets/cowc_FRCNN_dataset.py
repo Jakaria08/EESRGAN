@@ -27,11 +27,14 @@ class COWCFRCNNDataset(Dataset):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     #get the bounding box
     boxes = list()
+    label_type = list()
     with open(annotation_path) as f:
         for line in f:
             values = (line.split())
             if "\ufeff" in values[0]:
               values[0] = values[0][-1]
+            obj_class = int(values[0])
+            label_type.append(obj_class)
             #get coordinates withing height width range
             '''
             x = float(values[1])*self.image_width
@@ -53,7 +56,7 @@ class COWCFRCNNDataset(Dataset):
 
     boxes = torch.as_tensor(boxes, dtype=torch.float32)
     # there is only one class
-    labels = torch.ones((len(boxes),), dtype=torch.int64)
+
     image_id = torch.tensor([idx])
     area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
     # suppose all instances are not crowd
@@ -61,7 +64,7 @@ class COWCFRCNNDataset(Dataset):
     #create dictionary to access the values
     target = {}
     target["boxes"] = boxes
-    target["labels"] = labels
+    target['labels'] = torch.tensor(label_type, dtype=torch.int64)
     target["image_id"] = image_id
     target["area"] = area
     target["iscrowd"] = iscrowd

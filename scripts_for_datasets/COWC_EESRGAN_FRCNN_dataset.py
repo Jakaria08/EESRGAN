@@ -55,7 +55,7 @@ class COWCGANFrcnnDataset(Dataset):
                 target['image_lq'] = img_lq
                 target['image'] = img_gt
                 target['bboxes'] = boxes
-                target['labels'] = labels
+                target['labels'] = label_car_type
                 target['label_car_type'] = label_car_type
                 target['image_id'] = idx
                 target['LQ_path'] = img_path_lq
@@ -64,15 +64,20 @@ class COWCGANFrcnnDataset(Dataset):
                 break
             else:
                 #get coordinates withing height width range
+                '''
                 x = float(values[1])*self.image_width
                 y = float(values[2])*self.image_height
                 width = float(values[3])*self.image_width
                 height = float(values[4])*self.image_height
+                '''
                 #creating bounding boxes that would not touch the image edges
-                x_min = 1 if x - width/2 <= 0 else int(x - width/2)
-                x_max = 255 if x + width/2 >= 256 else int(x + width/2)
-                y_min = 1 if y - height/2 <= 0 else int(y - height/2)
-                y_max = 255 if y + height/2 >= 256 else int(y + height/2)
+                x_min = 1 if int(values[1]) <= 0 else int(values[1])
+                y_min = 1 if int(values[2]) <= 0 else int(values[2])
+                x_max = 255 if int(values[3]) >= 256 else int(values[3])
+                y_max = 255 if int(values[4]) >= 256 else int(values[4])
+
+                if x_max - x_min < 3 or y_max - y_min < 3:
+                    continue
 
                 boxes.append([x_min, y_min, x_max, y_max])
                 label_car_type.append(obj_class)
@@ -88,7 +93,7 @@ class COWCGANFrcnnDataset(Dataset):
         target['image_lq'] = img_lq
         target['image'] = img_gt
         target['bboxes'] = boxes
-        target['labels'] = labels
+        target['labels'] = label_car_type
         target['label_car_type'] = label_car_type
         target['image_id'] = idx
         target['LQ_path'] = img_path_lq
@@ -115,7 +120,7 @@ class COWCGANFrcnnDataset(Dataset):
       target['image_lq'] = torch.from_numpy(target['image_lq'].transpose((2, 0, 1)))
       target['image'] = torch.from_numpy(target['image'].transpose((2, 0, 1)))
       target['boxes'] = torch.tensor(target['bboxes'], dtype=torch.float32)
-      target['labels'] = torch.ones(len(target['labels']), dtype=torch.int64)
+      target['labels'] = torch.tensor(target['label_car_type'], dtype=torch.int64)
       target['label_car_type'] = torch.tensor(target['label_car_type'], dtype=torch.int64)
       target['image_id'] = torch.tensor([target['image_id']])
       target["area"] = torch.tensor(target['area'])
