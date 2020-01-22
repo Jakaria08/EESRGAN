@@ -262,7 +262,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         with torch.no_grad():
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
             _, _, _, self.x_lap_HR = self.netG(self.var_H)
-            if train == true:
+            if train == True:
                 evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
         self.netFRCNN.train()
