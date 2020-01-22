@@ -39,8 +39,8 @@ def main(config):
     # setup data_loader instances
     data_loader = config.init_obj('data_loader', module_data)
     #change later this valid_data_loader using init_obj
-    valid_data_loader = module_data.COWCGANFrcnnDataLoader('/home/jakaria/Super_Resolution/Datasets/xView/chip_test_images_all/HR/x4',
-    '/home/jakaria/Super_Resolution/Datasets/xView/chip_test_images_all/LR/x4', 1, training = False)
+    valid_data_loader = module_data.COWCGANFrcnnDataLoader('/home/jakaria/Super_Resolution/Datasets/xView/chip_test_images_all/HR/x4/',
+    '/home/jakaria/Super_Resolution/Datasets/xView/chip_test_images_all/LR/x4/', 1, training = False)
 
     # build model architecture, then print to console
     #model = config.init_obj('arch', module_arch)
