@@ -37,7 +37,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
 
         #FRCNN_model
         self.netFRCNN = torchvision.models.detection.fasterrcnn_resnet50_fpn()
-        num_classes = 2 # car and background
+        num_classes = 21 # car and background
         in_features = self.netFRCNN.roi_heads.box_predictor.cls_score.in_features
         self.netFRCNN.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
         self.netFRCNN.to(self.device)
