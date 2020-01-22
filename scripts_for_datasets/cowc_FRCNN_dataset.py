@@ -34,6 +34,7 @@ class COWCFRCNNDataset(Dataset):
             if "\ufeff" in values[0]:
               values[0] = values[0][-1]
             obj_class = int(values[0])
+            print(obj_class+"obj class..............")
             label_type.append(obj_class)
             #get coordinates withing height width range
             '''
