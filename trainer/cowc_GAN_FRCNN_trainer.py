@@ -104,14 +104,13 @@ class COWCGANFrcnnTrainer:
                     logger.info(message)
 
                 # validation
-                '''
                 if current_step % self.config['train']['val_freq'] == 0:
-                    #self.model.test(self.valid_data_loader)
+                    self.model.test(self.valid_data_loader)
+                '''
                 #saving SR_images
                     for _, (image, targets) in enumerate(self.valid_data_loader):
                         #print(val_data)
-                        print(targets)
-                        img_name = os.path.splitext(os.path.basename(targets['LQ_path'][0]))[0]
+                        img_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
                         img_dir = os.path.join(self.config['path']['val_images'], img_name)
                         mkdir(img_dir)
 
