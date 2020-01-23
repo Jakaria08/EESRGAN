@@ -102,11 +102,11 @@ class COWCGANFrcnnTrainer:
                             tb_logger.add_scalar(k, v, current_step)
 
                     logger.info(message)
-
+                '''
                 # validation
                 if current_step % self.config['train']['val_freq'] == 0:
                     self.model.test(self.valid_data_loader)
-                '''
+
                 #saving SR_images
                     for _, (image, targets) in enumerate(self.valid_data_loader):
                         #print(val_data)
