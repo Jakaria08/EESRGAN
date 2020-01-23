@@ -79,6 +79,7 @@ class COWCGANFrcnnTrainer:
         logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
         for epoch in range(start_epoch, self.total_epochs + 1):
             for _, (image, targets) in enumerate(self.data_loader):
+                '''
                 current_step += 1
                 if current_step > self.total_iters:
                     break
@@ -103,11 +104,13 @@ class COWCGANFrcnnTrainer:
                     logger.info(message)
 
                 # validation
+                '''
                 if current_step % self.config['train']['val_freq'] == 0:
                     self.model.test(self.valid_data_loader)
                 #saving SR_images
                     for _, (image, targets) in enumerate(self.valid_data_loader):
                         #print(val_data)
+                        print(targets)
                         img_name = os.path.splitext(os.path.basename(targets['LQ_path'][0]))[0]
                         img_dir = os.path.join(self.config['path']['val_images'], img_name)
                         mkdir(img_dir)
