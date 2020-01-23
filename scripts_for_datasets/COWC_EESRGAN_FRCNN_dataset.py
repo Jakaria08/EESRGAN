@@ -130,7 +130,6 @@ class COWCGANFrcnnDataset(Dataset):
       image['object'] = target['object']
       image['image_lq'] = target['image_lq']
       image['image'] = target['image']
-      image['image'] = target['image']
       image['LQ_path'] = target['LQ_path']
 
       del target['object']
