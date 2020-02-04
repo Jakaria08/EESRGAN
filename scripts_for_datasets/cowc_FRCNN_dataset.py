@@ -43,6 +43,11 @@ class COWCFRCNNDataset(Dataset):
             y_min = 1 if y - height/2 <= 0 else int(y - height/2)
             y_max = 255 if y + height/2 >= 256 else int(y + height/2)
 
+            x_min = int(x_min/4)
+            x_max = int(x_max/4)
+            y_min = int(y_min/4)
+            y_max = int(y_max/4)
+
             boxes.append([x_min, y_min, x_max, y_max])
 
     boxes = torch.as_tensor(boxes, dtype=torch.float32)

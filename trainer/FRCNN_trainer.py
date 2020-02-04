@@ -38,7 +38,7 @@ class COWCFRCNNTrainer:
 
     def data_loaders(self):
         # use our dataset and defined transformations
-        dataset = COWCFRCNNDataset(root=self.config['path']['data_dir_Bic_train'],
+        dataset = COWCFRCNNDataset(root=self.config['path']['data_dir_LR_train'],
                     transforms=self.get_transform(train=True))
         dataset_test = COWCFRCNNDataset(root=self.config['path']['data_dir_Valid'],
                          transforms=self.get_transform(train=False))
