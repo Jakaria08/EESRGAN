@@ -28,8 +28,8 @@ def generate_mod_LR_bic():
     # set data dir
     # directory structure on sunray server pc
     # Need to change later when refactoring, code cleaning and testing.
-    sourcedir = '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS'
-    savedir = '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS'
+    sourcedir = '/home/jakaria/Super_Resolution/Datasets/TankData/cold-lake_1-1'
+    savedir = '/home/jakaria/Super_Resolution/Datasets/TankData/cold-lake_1-1/HR_LR_BIC_Data'
 
     saveHRpath = os.path.join(savedir, 'HR', 'x' + str(mod_scale))
     saveLRpath = os.path.join(savedir, 'LR', 'x' + str(up_scale))
@@ -63,7 +63,7 @@ def generate_mod_LR_bic():
     else:
         print('It will cover ' + str(saveBicpath))
 
-    filepaths = [f for f in os.listdir(sourcedir) if f.endswith('.jpg') and not f.endswith('check.jpg')]
+    filepaths = [f for f in os.listdir(sourcedir) if f.endswith('.png') and not f.endswith('check.jpg')]
     num_files = len(filepaths)
 
     # prepare data with augementation
