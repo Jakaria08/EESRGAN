@@ -22,8 +22,8 @@ class COWCGANFrcnnDataset(Dataset):
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
-    self.imgs_gt = list(sorted(glob.glob(self.data_dir_gt+"*.jpg")))
-    self.imgs_lq = list(sorted(glob.glob(self.data_dir_lq+"*.jpg")))
+    self.imgs_gt = list(sorted(glob.glob(self.data_dir_gt+"*.png")))
+    self.imgs_lq = list(sorted(glob.glob(self.data_dir_lq+"*.png")))
     self.annotation = list(sorted(glob.glob(self.data_dir_lq+"*.txt")))
 
   def __getitem__(self, idx):
@@ -63,16 +63,18 @@ class COWCGANFrcnnDataset(Dataset):
                 target["iscrowd"] = 0
                 break
             else:
+                '''
                 #get coordinates withing height width range
                 x = float(values[1])*self.image_width
                 y = float(values[2])*self.image_height
                 width = float(values[3])*self.image_width
                 height = float(values[4])*self.image_height
+                '''
                 #creating bounding boxes that would not touch the image edges
-                x_min = 1 if x - width/2 <= 0 else int(x - width/2)
-                x_max = 255 if x + width/2 >= 256 else int(x + width/2)
-                y_min = 1 if y - height/2 <= 0 else int(y - height/2)
-                y_max = 255 if y + height/2 >= 256 else int(y + height/2)
+                x_min = 1 if values[1] <= 0 else int(values[1])
+                y_min = 1 if values[2] <= 0 else int(values[2])
+                x_max = 511 if values[3] >= 512 else int(values[3])
+                y_max = 511 if values[4] >= 512 else int(values[4])
 
                 boxes.append([x_min, y_min, x_max, y_max])
                 label_car_type.append(obj_class)
