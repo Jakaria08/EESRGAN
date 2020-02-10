@@ -398,7 +398,6 @@ def calculate_lap_edge():
 def xml_to_text():
 
     DATASET_DIR = '/home/jakaria/Super_Resolution/Datasets/TankData/cold-lake_1-2'
-    class_box = list()
     count = 0
     i=0
     for xml_file in [f for f in os.listdir(DATASET_DIR) if f.endswith(".xml")]:
@@ -406,6 +405,7 @@ def xml_to_text():
         root = tree.getroot()
         i = i+1
         file_name = None
+        class_box = list()
 
         for elem in root:
             if elem.tag == 'filename':
