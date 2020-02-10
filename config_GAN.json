@@ -26,7 +26,7 @@
         "args":{
             "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4/",
             "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4/",
-            "batch_size": 4,
+            "batch_size": 2,
             "shuffle": true,
             "validation_split": 0.0,
             "num_workers": 2
@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 1000,
+        "val_freq": 100,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -108,6 +108,6 @@
     },
     "logger": {
       "print_freq": 100,
-      "save_checkpoint_freq": 3000
+      "save_checkpoint_freq": 100
     }
 }
