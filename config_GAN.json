@@ -86,7 +86,7 @@
         "tensorboard": true
     },
     "path": {
-        "models": "saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net",
+        "models": "saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK",
         "FRCNN_model": "saved/FRCNN_model_HR_tank",
         "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_G.pth",
         "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_D.pth",

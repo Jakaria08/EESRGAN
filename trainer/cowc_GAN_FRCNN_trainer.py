@@ -112,6 +112,49 @@ class COWCGANFrcnnTrainer:
                     self.model.save(current_step)
                     self.model.save_training_state(epoch, current_step)
 
+                #saving SR_images
+                    for _, (image, targets) in enumerate(self.valid_data_loader):
+                        #print(image)
+                        img_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
+                        img_dir = os.path.join(self.config['path']['val_images'], img_name)
+                        mkdir(img_dir)
+
+                        self.model.feed_data(image, targets)
+                        self.model.test(self.valid_data_loader, train=False)
+
+                        visuals = self.model.get_current_visuals()
+                        sr_img = tensor2img(visuals['SR'])  # uint8
+                        gt_img = tensor2img(visuals['GT'])  # uint8
+                        lap_learned = tensor2img(visuals['lap_learned']) # uint8
+                        lap = tensor2img(visuals['lap']) # uint8
+                        lap_HR = tensor2img(visuals['lap_HR']) # uint8
+                        final_SR = tensor2img(visuals['final_SR']) # uint8
+
+                        # Save SR images for reference
+                        save_img_path = os.path.join(img_dir,
+                                                     '{:s}_{:d}_SR.png'.format(img_name, current_step))
+                        save_img(sr_img, save_img_path)
+                        # Save GT images for reference
+                        save_img_path = os.path.join(img_dir,
+                                                     '{:s}_{:d}_GT.png'.format(img_name, current_step))
+                        save_img(gt_img, save_img_path)
+                        # Save final_SR images for reference
+                        save_img_path = os.path.join(img_dir,
+                                                     '{:s}_{:d}_final_SR.png'.format(img_name, current_step))
+                        save_img(final_SR, save_img_path)
+                        # Save lap_learned images for reference
+                        save_img_path = os.path.join(img_dir,
+                                                     '{:s}_{:d}_lap_learned.png'.format(img_name, current_step))
+                        save_img(lap_learned, save_img_path)
+                        # Save lap images for reference
+                        save_img_path = os.path.join(img_dir,
+                                                     '{:s}_{:d}_lap.png'.format(img_name, current_step))
+                        save_img(lap, save_img_path)
+                        # Save lap images for reference
+                        save_img_path = os.path.join(img_dir,
+                                                     '{:s}_{:d}_lap_HR.png'.format(img_name, current_step))
+                        save_img(lap_HR, save_img_path)
+
 
         logger.info('Saving the final model.')
         self.model.save('latest')

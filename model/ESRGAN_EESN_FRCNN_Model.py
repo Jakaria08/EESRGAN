@@ -162,7 +162,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         for p in self.netD.parameters():
             p.requires_grad = False
         self.optimizer_G.zero_grad()
-        self.fake_H, self.final_SR, _, _ = self.netG(self.var_L)
+        self.fake_H, self.final_SR, self.x_learned_lap_fake, _ = self.netG(self.var_L)
 
         l_g_total = 0
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
@@ -185,8 +185,12 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
                 self.cri_gan(pred_g_fake - torch.mean(pred_d_real), True)) / 2
             l_g_total += l_g_gan
             #EESN calculate loss
+            with torch.no_grad():
+                _, _, _, self.lap_HR = self.netG(self.var_H.detach())
+
             if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-                l_e_charbonnier = 5 * self.cri_charbonnier(self.final_SR, self.var_H) #change the weight to empirically
+                l_e_charbonnier = 5 * ((self.cri_charbonnier(self.final_SR, self.var_H)
+                                        + self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR))#change the weight to empirically
             l_g_total += l_e_charbonnier
 
             l_g_total.backward(retain_graph=True)
@@ -216,16 +220,16 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         Freeze EESRGAN
         '''
         #freeze Generator
-        '''
+
         for p in self.netG.parameters():
             p.requires_grad = False
-        '''
+
         for p in self.netD.parameters():
             p.requires_grad = False
         #Run FRCNN
         self.optimizer_FRCNN.zero_grad()
-        #self.intermediate_img = self.fake_H
-        self.intermediate_img = self.final_SR
+        self.intermediate_img = self.fake_H.detach()
+        #self.intermediate_img = self.final_SR
         img_count = self.intermediate_img.size()[0]
         self.intermediate_img = [self.intermediate_img[i] for i in range(img_count)]
         loss_dict = self.netFRCNN(self.intermediate_img, self.targets)
@@ -255,13 +259,15 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.log_dict['D_fake'] = torch.mean(pred_d_fake.detach())
         self.log_dict['FRCNN_loss'] = loss_value
 
-    def test(self, valid_data_loader):
+    def test(self, valid_data_loader, train=True):
         self.netG.eval()
         self.netFRCNN.eval()
         self.targets = valid_data_loader
         with torch.no_grad():
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
-            evaluate(self.netG, self.netFRCNN, self.targets, self.device)
+            _, _, _, self.x_lap_HR = self.netG(self.var_H)
+            if train == True:
+                evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
         self.netFRCNN.train()
 
@@ -275,6 +281,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
         out_dict['lap_learned'] = self.x_learned_lap_fake.detach()[0].float().cpu()
         out_dict['lap'] = self.x_lap.detach()[0].float().cpu()
+        out_dict['lap_HR'] = self.x_lap_HR.detach()[0].float().cpu()
         out_dict['final_SR'] = self.final_SR.detach()[0].float().cpu()
         if need_GT:
             out_dict['GT'] = self.var_H.detach()[0].float().cpu()
