@@ -162,4 +162,5 @@ class COWCGANFrcnnDataLoader(BaseDataLoader):
         else:
             self.dataset = COWCGANFrcnnDataset(self.data_dir_gt, self.data_dir_lq, transform=data_transforms_test)
         self.length = len(self.dataset)
+        print(self.length)
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers, collate_fn=collate_fn)
