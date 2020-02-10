@@ -413,7 +413,7 @@ def xml_to_text():
                 file_name = os.path.splitext(file_name)[0]
             if elem.tag == 'object':
                 obj_name = None
-                coords = []
+                coords = list()
                 for subelem in elem:
                     if subelem.tag == 'name':
                         obj_name = subelem.text
