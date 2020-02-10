@@ -13,6 +13,9 @@ import glob
 import shutil
 import kornia
 import torch
+import xml.etree.ElementTree as ET
+import csv
+import pandas
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -392,9 +395,48 @@ def calculate_lap_edge():
         #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
         cv2.imwrite(img_path, img_gt)
 
+def xml_to_text():
+
+    DATASET_DIR = '/home/jakaria/Super_Resolution/Datasets/TankData/cold-lake_1-2'
+    class_box = list()
+    count = 0
+    i=0
+    for xml_file in [f for f in os.listdir(DATASET_DIR) if f.endswith(".xml")]:
+        tree = ET.parse(os.path.join(DATASET_DIR, xml_file))
+        root = tree.getroot()
+        i = i+1
+        file_name = None
+
+        for elem in root:
+            if elem.tag == 'filename':
+                file_name = elem.text
+                file_name = os.path.splitext(file_name)[0]
+            if elem.tag == 'object':
+                obj_name = None
+                coords = []
+                for subelem in elem:
+                    if subelem.tag == 'name':
+                        obj_name = subelem.text
+                        if obj_name!='tank':
+                            print(file_name)
+                            count = count + 1
+                    if subelem.tag == 'bndbox':
+                        for subsubelem in subelem:
+                            coords.append(subsubelem.text)
+                    class_box.append(['1' coords[0] coords[1] coords[2] coords[3]])
+
+        cls_box = np.matrix(class_box)
+
+        if i%100 == 0:
+            print(i)
+        annotation_path = os.path.join(DATASET_DIR,file_name+"txt")
+        np.savetxt(annotation_path, cls_box, fmt='%i')
+
+        print("count:"+count)
 
 if __name__ == "__main__":
-    generate_mod_LR_bic()
+    xml_to_text()
+    #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
     #merge_edge()
     #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
