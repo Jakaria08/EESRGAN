@@ -38,7 +38,7 @@ class COWCFRCNNTrainer:
 
     def data_loaders(self):
         # use our dataset and defined transformations
-        dataset = COWCFRCNNDataset(root=self.config['path']['data_dir_Bic_train'],
+        dataset = COWCFRCNNDataset(root=self.config['data_loader']['args']['data_dir_GT'],
                     transforms=self.get_transform(train=True))
         dataset_test = COWCFRCNNDataset(root=self.config['path']['data_dir_Valid'],
                          transforms=self.get_transform(train=False))
@@ -191,7 +191,7 @@ class COWCFRCNNTrainer:
                                                        step_size=3,
                                                        gamma=0.1)
 
-        data_loader, _, _, _, _, _, _, _, data_loader_test_Bic = self.data_loaders()
+        data_loader, data_loader_test, _, _, _, _, _, _, _ = self.data_loaders()
         # let's train it for 10 epochs
         num_epochs = 1000
 
@@ -203,4 +203,4 @@ class COWCFRCNNTrainer:
             # evaluate on the test dataset
             evaluate_base(model, data_loader_test_Bic, device=self.device)
             if epoch % 10 == 0:
-                self.save_model(model, 'FRCNN_Bic', epoch)
+                self.save_model(model, 'FRCNN_HR_tank', epoch)
