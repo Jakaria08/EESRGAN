@@ -413,7 +413,7 @@ def xml_to_text():
                 file_name = os.path.splitext(file_name)[0]
             if elem.tag == 'object':
                 obj_name = None
-                coords = list()
+                coords = []
                 for subelem in elem:
                     if subelem.tag == 'name':
                         obj_name = subelem.text
@@ -423,7 +423,7 @@ def xml_to_text():
                     if subelem.tag == 'bndbox':
                         for subsubelem in subelem:
                             coords.append(subsubelem.text)
-                    class_box.append(['1' coords[0] coords[1] coords[2] coords[3]])
+                    class_box.append(['1', coords[0], coords[1], coords[2], coords[3]])
 
         cls_box = np.matrix(class_box)
 
