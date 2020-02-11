@@ -73,10 +73,10 @@ class COWCGANFrcnnDataset(Dataset):
                 height = float(values[4])*self.image_height
                 '''
                 #creating bounding boxes that would not touch the image edges
-                x_min = 1 if int(values[1]/2) <= 0 else int(values[1]/2)
-                y_min = 1 if int(values[2]/2) <= 0 else int(values[2]/2)
-                x_max = 255 if int(values[3]/2) >= 256 else int(values[3]/2)
-                y_max = 255 if int(values[4]/2) >= 256 else int(values[4]/2)
+                x_min = 1 if round(int(values[1])/2) <= 0 else round(int(values[1])/2)
+                y_min = 1 if round(int(values[2])/2) <= 0 else round(int(values[2])/2)
+                x_max = 255 if round(int(values[3])/2) >= 256 else round(int(values[3])/2)
+                y_max = 255 if round(int(values[4])/2) >= 256 else round(int(values[4])/2)
                 '''
                 x_min = 1 if x - width/2 <= 0 else int(x - width/2)
                 x_max = 255 if x + width/2 >= 256 else int(x + width/2)
