@@ -195,7 +195,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
                 l_e_charbonnier = 5 * (self.cri_charbonnier(self.final_SR, self.var_H))
             l_g_total += l_e_charbonnier
 
-            l_g_total.backward(retain_graph=True)
+            l_g_total.backward()
             self.optimizer_G.step()
 
         #descriminator
@@ -347,9 +347,11 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             logger.info('Loading model for G [{:s}] ...'.format(load_path_G))
             self.load_network(load_path_G, self.netG, self.config['path']['strict_load'])
         load_path_D = self.config['path']['pretrain_model_D']
+        '''
         if load_path_D:
             logger.info('Loading model for D [{:s}] ...'.format(load_path_D))
             self.load_network(load_path_D, self.netD, self.config['path']['strict_load'])
+        '''
         load_path_FRCNN = self.config['path']['pretrain_model_FRCNN']
         if load_path_FRCNN:
             logger.info('Loading model for FRCNN [{:s}] ...'.format(load_path_FRCNN))
