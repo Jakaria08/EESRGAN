@@ -33,6 +33,7 @@ class COWCGANFrcnnDataset(Dataset):
     annotation_path = os.path.join(self.data_dir_lq, self.annotation[idx])
     img_gt = cv2.imread(img_path_gt,1) #read color image height*width*channel=3
     img_lq = cv2.imread(img_path_lq,1) #read color image height*width*channel=3
+    img_lq = cv2.resize(img_lq, (64,64), interpolation=cv2.INTER_CUBIC)
     img_gt = cv2.cvtColor(img_gt, cv2.COLOR_BGR2RGB)
     img_lq = cv2.cvtColor(img_lq, cv2.COLOR_BGR2RGB)
     #get the bounding box
