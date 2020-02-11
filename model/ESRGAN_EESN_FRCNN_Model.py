@@ -5,6 +5,7 @@ import torchvision
 import torch.nn as nn
 import model.model as model
 import model.lr_scheduler as lr_scheduler
+import kornia
 from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
@@ -45,6 +46,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.netG.train()
         self.netD.train()
         self.netFRCNN.train()
+
         #print(self.configT['pixel_weight'])
         # G CharbonnierLoss for final output SR and GT HR
         self.cri_charbonnier = CharbonnierLoss().to(device)
@@ -80,6 +82,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             self.netF = self.netF.to(self.device)
             self.netF = DataParallel(self.netF)
             self.netF.eval()
+
 
         # GD gan loss
         self.cri_gan = GANLoss(self.configT['gan_type'], 1.0, 0.0).to(self.device)
@@ -184,11 +187,10 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
                 self.cri_gan(pred_d_real - torch.mean(pred_g_fake), False) +
                 self.cri_gan(pred_g_fake - torch.mean(pred_d_real), True)) / 2
             l_g_total += l_g_gan
-            #EESN calculate loss
-            with torch.no_grad():
-                _, _, _, self.lap_HR = self.netG(self.var_H.detach())
 
+            #EESN calculate loss
             if self.cri_charbonnier:
+                self.lap_HR = kornia.laplacian(var_H, 3)
                  # charbonnier pixel loss HR and SR
                 l_e_charbonnier = 5 * (self.cri_charbonnier(self.final_SR, self.var_H)
                                         + self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR))#change the weight to empirically
@@ -268,7 +270,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.targets = valid_data_loader
         with torch.no_grad():
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
-            _, _, _, self.x_lap_HR = self.netG(self.var_H)
+            self.x_lap_HR = kornia.laplacian(var_H, 3)
             if train == True:
                 evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
