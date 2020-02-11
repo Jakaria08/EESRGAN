@@ -32,7 +32,7 @@ class COWCGANFrcnnDataset(Dataset):
     img_path_lq = os.path.join(self.data_dir_lq, self.imgs_lq[idx])
     annotation_path = os.path.join(self.data_dir_lq, self.annotation[idx])
     img_gt = cv2.imread(img_path_gt,1) #read color image height*width*channel=3
-    #img_gt = cv2.resize(img_gt, (256,256), interpolation=cv2.INTER_CUBIC)
+    img_gt = cv2.resize(img_gt, (256,256), interpolation=cv2.INTER_CUBIC)
     img_lq = cv2.imread(img_path_lq,1) #read color image height*width*channel=3
     img_lq = cv2.resize(img_lq, (64,64), interpolation=cv2.INTER_CUBIC)
     img_gt = cv2.cvtColor(img_gt, cv2.COLOR_BGR2RGB)
@@ -73,10 +73,10 @@ class COWCGANFrcnnDataset(Dataset):
                 height = float(values[4])*self.image_height
                 '''
                 #creating bounding boxes that would not touch the image edges
-                x_min = 1 if int(values[1]) <= 0 else int(values[1])
-                y_min = 1 if int(values[2]) <= 0 else int(values[2])
-                x_max = 511 if int(values[3]) >= 512 else int(values[3])
-                y_max = 511 if int(values[4]) >= 512 else int(values[4])
+                x_min = 1 if int(values[1]/2) <= 0 else int(values[1]/2)
+                y_min = 1 if int(values[2]/2) <= 0 else int(values[2]/2)
+                x_max = 255 if int(values[3]/2) >= 256 else int(values[3]/2)
+                y_max = 255 if int(values[4]/2) >= 256 else int(values[4]/2)
                 '''
                 x_min = 1 if x - width/2 <= 0 else int(x - width/2)
                 x_max = 255 if x + width/2 >= 256 else int(x + width/2)
