@@ -64,7 +64,7 @@ class COWCGANFrcnnDataset(Dataset):
                 target["iscrowd"] = 0
                 break
             else:
-
+                '''
                 #get coordinates withing height width range
                 x = float(values[1])*self.image_width
                 y = float(values[2])*self.image_height
@@ -81,7 +81,7 @@ class COWCGANFrcnnDataset(Dataset):
                 x_max = 255 if x + width/2 >= 256 else int(x + width/2)
                 y_min = 1 if y - height/2 <= 0 else int(y - height/2)
                 y_max = 255 if y + height/2 >= 256 else int(y + height/2)
-
+                '''
                 boxes.append([x_min, y_min, x_max, y_max])
                 label_car_type.append(obj_class)
 

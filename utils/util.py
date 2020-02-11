@@ -114,12 +114,14 @@ def collate_fn(batch):
     image['object'] = list()
     image['image'] = list()
     image['image_lq'] = list()
+    image['LQ_path'] = list()
 
     for obj in batch:
         b = obj[0]
         image['object'].append(b['object'])
         image['image'].append(b['image'])
         image['image_lq'].append(b['image_lq'])
+        image['LQ_path'].append(b['LQ_path'])
         target.append(obj[1])
 
     image['object'] = torch.stack(image['object'], dim=0)
