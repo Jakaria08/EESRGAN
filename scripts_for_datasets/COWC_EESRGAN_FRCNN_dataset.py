@@ -22,8 +22,8 @@ class COWCGANFrcnnDataset(Dataset):
     self.image_height = image_height
     self.image_width = image_width
     #sort all images for indexing, filter out check.jpgs
-    self.imgs_gt = list(sorted(glob.glob(self.data_dir_gt+"*.png")))
-    self.imgs_lq = list(sorted(glob.glob(self.data_dir_lq+"*.png")))
+    self.imgs_gt = list(sorted(glob.glob(self.data_dir_gt+"*.jpg")))
+    self.imgs_lq = list(sorted(glob.glob(self.data_dir_lq+"*.jpg")))
     self.annotation = list(sorted(glob.glob(self.data_dir_lq+"*.txt")))
 
   def __getitem__(self, idx):
