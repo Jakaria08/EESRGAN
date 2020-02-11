@@ -33,7 +33,7 @@ class COWCGANFrcnnDataset(Dataset):
     annotation_path = os.path.join(self.data_dir_lq, self.annotation[idx])
     img_gt = cv2.imread(img_path_gt,1) #read color image height*width*channel=3
     img_lq = cv2.imread(img_path_lq,1) #read color image height*width*channel=3
-    img_lq = cv2.resize(img_lq, (64,64), interpolation=cv2.INTER_CUBIC)
+    #img_lq = cv2.resize(img_lq, (64,64), interpolation=cv2.INTER_CUBIC)
     img_gt = cv2.cvtColor(img_gt, cv2.COLOR_BGR2RGB)
     img_lq = cv2.cvtColor(img_lq, cv2.COLOR_BGR2RGB)
     #get the bounding box
@@ -64,7 +64,7 @@ class COWCGANFrcnnDataset(Dataset):
                 target["iscrowd"] = 0
                 break
             else:
-                '''
+
                 #get coordinates withing height width range
                 x = float(values[1])*self.image_width
                 y = float(values[2])*self.image_height
@@ -76,6 +76,11 @@ class COWCGANFrcnnDataset(Dataset):
                 y_min = 1 if int(values[2]) <= 0 else int(values[2])
                 x_max = 511 if int(values[3]) >= 512 else int(values[3])
                 y_max = 511 if int(values[4]) >= 512 else int(values[4])
+                '''
+                x_min = 1 if x - width/2 <= 0 else int(x - width/2)
+                x_max = 255 if x + width/2 >= 256 else int(x + width/2)
+                y_min = 1 if y - height/2 <= 0 else int(y - height/2)
+                y_max = 255 if y + height/2 >= 256 else int(y + height/2)
 
                 boxes.append([x_min, y_min, x_max, y_max])
                 label_car_type.append(obj_class)
