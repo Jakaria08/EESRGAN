@@ -26,7 +26,7 @@
         "args":{
             "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4/",
             "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4/",
-            "batch_size": 2,
+            "batch_size": 1,
             "shuffle": true,
             "validation_split": 0.0,
             "num_workers": 2
