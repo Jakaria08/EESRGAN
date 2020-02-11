@@ -38,7 +38,7 @@ class COWCDataLoader(BaseDataLoader):
         #satellite image 0.5 is good otherwise calculate mean and std for the whole dataset.
         #calculted mean and std using method from util
         data_transforms = Compose([
-            Resize(256, 256)
+            Resize(256, 256),
             HorizontalFlip(),
             OneOf([
                     IAAAdditiveGaussianNoise(),
