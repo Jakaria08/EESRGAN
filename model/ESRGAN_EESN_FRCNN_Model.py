@@ -190,7 +190,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
 
             #EESN calculate loss
             if self.cri_charbonnier:
-                self.lap_HR = kornia.laplacian(var_H, 3)
+                self.lap_HR = kornia.laplacian(self.var_H, 3)
                  # charbonnier pixel loss HR and SR
                 l_e_charbonnier = 5 * (self.cri_charbonnier(self.final_SR, self.var_H)
                                         + self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR))#change the weight to empirically
@@ -270,7 +270,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.targets = valid_data_loader
         with torch.no_grad():
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
-            self.x_lap_HR = kornia.laplacian(var_H, 3)
+            self.x_lap_HR = kornia.laplacian(self.var_H, 3)
             if train == True:
                 evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
