@@ -39,10 +39,10 @@ class COWCFRCNNDataset(Dataset):
             height = float(values[4])*self.image_height
             '''
             #creating bounding boxes that would not touch the image edges
-            x_min = 1 if int(values[1]/2) <= 0 else int(values[1]/2)
-            y_min = 1 if int(values[2]/2) <= 0 else int(values[2]/2)
-            x_max = 255 if int(values[3]/2) >= 256 else int(values[3]/2)
-            y_max = 255 if int(values[4]/2) >= 256 else int(values[4]/2)
+            x_min = 1 if int(int(values[1])/2) <= 0 else int(int(values[1])/2)
+            y_min = 1 if int(int(values[2])/2) <= 0 else int(int(values[2])/2)
+            x_max = 255 if int(int(values[3])/2) >= 256 else int(int(values[3])/2)
+            y_max = 255 if int(int(values[4])/2) >= 256 else int(int(values[4])/2)
             boxes.append([x_min, y_min, x_max, y_max])
 
     boxes = torch.as_tensor(boxes, dtype=torch.float32)
