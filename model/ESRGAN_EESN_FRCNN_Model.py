@@ -163,7 +163,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         for p in self.netD.parameters():
             p.requires_grad = False
         self.optimizer_G.zero_grad()
-        self.fake_H, self.final_SR, x_learned_lap_fake, _ = self.netG(self.var_L)
+        self.fake_H, self.final_SR, self.x_learned_lap_fake, _ = self.netG(self.var_L)
 
         l_g_total = 0
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
