@@ -5,6 +5,7 @@ import torchvision
 import torch.nn as nn
 import model.model as model
 import model.lr_scheduler as lr_scheduler
+import kornia
 from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
@@ -185,8 +186,10 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
                 self.cri_gan(pred_g_fake - torch.mean(pred_d_real), True)) / 2
             l_g_total += l_g_gan
             #EESN calculate loss
+            self.lap_HR = kornia.laplacian(self.var_H, 3)
             if self.cri_charbonnier: # charbonnier pixel loss HR and SR
-                l_e_charbonnier = 5 * self.cri_charbonnier(self.final_SR, self.var_H) #change the weight to empirically
+                l_e_charbonnier = 5 * (self.cri_charbonnier(self.final_SR, self.var_H)
+                                        + self.cri_charbonnier(self.x_learned_lap_fake, self.lap_HR))#change the weight to empirically
             l_g_total += l_e_charbonnier
 
             l_g_total.backward()
@@ -252,13 +255,15 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.log_dict['D_fake'] = torch.mean(pred_d_fake.detach())
         self.log_dict['FRCNN_loss'] = loss_value
 
-    def test(self, valid_data_loader):
+    def test(self, valid_data_loader, train = true):
         self.netG.eval()
         self.netFRCNN.eval()
         self.targets = valid_data_loader
         with torch.no_grad():
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
-            evaluate(self.netG, self.netFRCNN, self.targets, self.device)
+            self.x_lap_HR = kornia.laplacian(self.var_H, 3)
+            if train == True:
+                evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
         self.netFRCNN.train()
 
@@ -271,6 +276,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         #out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
         out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
         out_dict['lap_learned'] = self.x_learned_lap_fake.detach()[0].float().cpu()
+        out_dict['lap_HR'] = self.x_lap_HR.detach()[0].float().cpu()
         out_dict['lap'] = self.x_lap.detach()[0].float().cpu()
         out_dict['final_SR'] = self.final_SR.detach()[0].float().cpu()
         if need_GT:

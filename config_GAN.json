@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 4000,
+        "val_freq": 30,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -94,7 +94,7 @@
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
-        "val_images": "saved/val_images",
+        "val_images": "saved/val_images_cars_new",
         "log": "saved/logs",
         "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/",
         "data_dir_F_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/final_SR_images_216000/",
@@ -108,7 +108,7 @@
         "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
     },
     "logger": {
-      "print_freq": 100,
-      "save_checkpoint_freq": 4000
+      "print_freq": 10,
+      "save_checkpoint_freq": 30
     }
 }
