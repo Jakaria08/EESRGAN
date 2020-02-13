@@ -255,7 +255,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.log_dict['D_fake'] = torch.mean(pred_d_fake.detach())
         self.log_dict['FRCNN_loss'] = loss_value
 
-    def test(self, valid_data_loader, train = true):
+    def test(self, valid_data_loader, train = True):
         self.netG.eval()
         self.netFRCNN.eval()
         self.targets = valid_data_loader
