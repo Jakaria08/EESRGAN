@@ -85,7 +85,7 @@ for generating test boxes
 '''
 @torch.no_grad()
 def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
-    for _, (image, targets) in enumerate(self.valid_data_loader):
+    for _, (image, targets) in enumerate(data_loader):
         image['image_lq'] = image['image_lq'].to(device)
 
         image, _, _, _ = model_G(image['image_lq'])
