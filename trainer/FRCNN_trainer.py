@@ -175,7 +175,7 @@ class COWCFRCNNTrainer:
         print(len(data_loader_test_SR))
         model.eval()
         for image, targets, annotation_path, img_path in data_loader_test_SR:
-            image = list(image.to(device) for img in image)
+            image = list(img.to(device) for img in image)
             self.object_detection_api(model, image, annotation_path, img_path)
 
         '''
