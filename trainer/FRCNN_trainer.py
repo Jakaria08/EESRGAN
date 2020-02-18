@@ -213,6 +213,6 @@ class COWCFRCNNTrainer:
             # update the learning rate
             lr_scheduler.step()
             # evaluate on the test dataset
-            evaluate_base(model, data_loader_test_Bic, device=self.device)
+            evaluate_base(model, data_loader_test, device=self.device)
             if epoch % 10 == 0:
                 self.save_model(model, 'FRCNN_LR_LR', epoch)
