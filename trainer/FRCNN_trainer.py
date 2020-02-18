@@ -145,7 +145,7 @@ class COWCFRCNNTrainer:
         img_path = ''.join(img_path)
         img = cv2.imread(img_path,1) #read color image height*width*channel=3
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        transform_img = self.get_transform(train=False))
+        transform_img = self.get_transform(train=False)
         img = transform_img(img)
         img = img.to(self.device)
 
