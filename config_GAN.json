@@ -88,9 +88,9 @@
     "path": {
         "models": "saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK",
         "FRCNN_model": "saved/FRCNN_model_HR_tank",
-        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_G.pth",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_FRCNN.pth",
+        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK/75000_G.pth",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK/75000_D.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK/75000_FRCNN.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
@@ -104,7 +104,8 @@
         "data_dir_E_SR_2": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_2/",
         "data_dir_E_SR_3": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_3/",
         "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/",
-        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/",
+        "Test_Result_SR_car": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_SR_car/"
     },
     "logger": {
       "print_freq": 100,

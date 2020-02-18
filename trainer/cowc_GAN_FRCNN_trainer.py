@@ -35,14 +35,7 @@ class COWCGANFrcnnTrainer:
         self.model = ESRGAN_EESN.ESRGAN_EESN_FRCNN_Model(config,self.device)
 
     def test(self):
-        for _, test_data in enumerate(self.data_loader):
-            #print(val_data)
-            image, target = test_data
-            img_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
-            img_dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
-
-            self.model.feed_data(image, target)
-            self.model.test()
+        self.model.test(self.data_loader, train=False)
 
     def train(self):
         '''
