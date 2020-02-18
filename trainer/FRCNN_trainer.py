@@ -120,6 +120,7 @@ class COWCFRCNNTrainer:
             else:
                 load_net_clean[k] = v
         network.load_state_dict(load_net_clean, strict=strict)
+        print("model_loaded")
 
     def get_prediction(self, model, img, annotation_path, threshold):
         new_class_conf_box = list()
