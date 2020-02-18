@@ -124,9 +124,9 @@ class COWCFRCNNTrainer:
     def get_prediction(self, model, img, annotation_path, threshold):
         new_class_conf_box = list()
         pred = model(img) # Pass the image to the model
-        pred_class = [i for i in list(pred[0]['labels'].detach().numpy())] # Get the Prediction Score
-        pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
-        text_boxes = [i for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
+        pred_class = [i for i in list(pred[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
+        pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
+        text_boxes = [i for i in list(pred[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
         pred_score = list(pred[0]['scores'].detach().numpy())
 
         for i in range(len(boxes)):
