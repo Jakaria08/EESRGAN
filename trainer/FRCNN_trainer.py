@@ -122,7 +122,22 @@ class COWCFRCNNTrainer:
         network.load_state_dict(load_net_clean, strict=strict)
         print("model_loaded")
 
+'''
+for generating test boxes
+'''
+def get_prediction(model, image, file_path, threshold=0.5):
+    new_class_conf_box = list()
+    pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
+    text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
+    pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
+    #print(pred_score)
+    for i in range(len(text_boxes)):
+        new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
+    new_class_conf_box = np.matrix(new_class_conf_box)
 
+    np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
+
+    #get test results
     def test(self):
 
         # load a model pre-trained pre-trained on COCO
@@ -138,18 +153,19 @@ class COWCFRCNNTrainer:
 
         model.to(self.device)
 
-        self.load_model(self.config['path']['FRCNN_ONLY'], model)
+        self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
 
         _, data_loader_test, data_loader_test_SR, data_loader_test_SR_combined, \
                 data_loader_test_E_SR_1, data_loader_test_E_SR_2, data_loader_test_E_SR_3, \
                  data_loader_test_F_SR, data_loader_test_Bic = self.data_loaders()
 
         print("test lenghts of the data loaders.............")
-        print(len(data_loader_test_SR))
+        print(len(data_loader_test))
         model.eval()
-        for image, targets in data_loader_test_Bic:
+        for image, targets, annotation_path in data_loader_test_Bic:
+            annotation_path = ''.join(annotation_path)
             image = list(img.to(self.device) for img in image)
-            #self.object_detection_api(model, image, annotation_path, img_path)
+            self.object_detection_api(model, image, annotation_path)
             #evaluate_base(model, data_loader_test_Bic, device=self.device)
 
         '''
