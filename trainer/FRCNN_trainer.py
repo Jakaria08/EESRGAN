@@ -6,6 +6,7 @@ import torch.nn as nn
 import numpy as np
 import torchvision
 import os
+import cv2
 from collections import OrderedDict
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
@@ -120,7 +121,7 @@ class COWCFRCNNTrainer:
                 load_net_clean[k] = v
         network.load_state_dict(load_net_clean, strict=strict)
 
-    def get_prediction(model, img, annotation_path, threshold):
+    def get_prediction(self, model, img, annotation_path, threshold):
         new_class_conf_box = list()
         pred = model(img) # Pass the image to the model
         pred_class = [i for i in list(pred[0]['labels'].detach().numpy())] # Get the Prediction Score
@@ -138,7 +139,7 @@ class COWCFRCNNTrainer:
         pred_class = pred_class[:pred_t+1]
         return pred_boxes, pred_class
 
-    def object_detection_api(model, img, annotation_path, img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3):
+    def object_detection_api(self, model, img, annotation_path, img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3):
         boxes, pred_cls = get_prediction(model, img, annotation_path, threshold) # Get predictions
         img = cv2.imread(img_path) # Read image with cv2
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
