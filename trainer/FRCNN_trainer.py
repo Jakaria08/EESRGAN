@@ -203,7 +203,7 @@ class COWCFRCNNTrainer:
                                                        step_size=3,
                                                        gamma=0.1)
 
-        data_loader, _, _, _, _, _, _, _, data_loader_test_Bic = self.data_loaders()
+        data_loader, data_loader_test, _, _, _, _, _, _, _ = self.data_loaders()
         # let's train it for 10 epochs
         num_epochs = 1000
 
