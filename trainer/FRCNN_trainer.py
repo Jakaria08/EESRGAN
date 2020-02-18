@@ -163,7 +163,7 @@ class COWCFRCNNTrainer:
     def test(self):
 
         # load a model pre-trained pre-trained on COCO
-        model = torchvision.models.detection.fasterrcnn_resnet50_fpn()
+        model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
 
         # replace the classifier with a new one, that has
         # num_classes which is user-defined
