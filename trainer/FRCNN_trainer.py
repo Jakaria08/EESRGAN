@@ -145,8 +145,8 @@ class COWCFRCNNTrainer:
         img_path = ''.join(img_path)
         img = cv2.imread(img_path,1) #read color image height*width*channel=3
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        transform = Compose([ToTensor()]) # Defing PyTorch Transform
-        img = transform(img)
+        transform_img = Compose([ToTensor()]) # Defing PyTorch Transform
+        img = transform_img(img)
         img = img.to(self.device)
 
         boxes, pred_cls = self.get_prediction(model, img, annotation_path, threshold) # Get predictions
