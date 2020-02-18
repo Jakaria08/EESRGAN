@@ -93,10 +93,10 @@ def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
         image = [image[i] for i in range(img_count)]
         outputs = model_FRCNN(image)
 
-        file_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))
+        file_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
         file_path = os.path.join(config['path']['Test_Result_SR'], file_name+'.txt')
 
-        object_detection_api(outputs, file_path)
+        get_prediction(outputs, file_path)
 
 '''
 This evaluate method is changed to pass the generator network and evalute
