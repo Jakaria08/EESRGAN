@@ -127,7 +127,7 @@ class COWCFRCNNTrainer:
     '''
     def get_prediction(self, model, image, annotation_path, threshold=0.5):
         new_class_conf_box = list()
-        outputs = model_FRCNN(image)
+        outputs = model(image)
         file_path = os.path.join(config['path']['Test_Result_LR_LR_COWC'], os.path.basename(annotation_path))
         pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
         text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
@@ -167,7 +167,7 @@ class COWCFRCNNTrainer:
         for image, targets, annotation_path in data_loader_test_Bic:
             annotation_path = ''.join(annotation_path)
             image = list(img.to(self.device) for img in image)
-            self.object_detection_api(model, image, annotation_path)
+            self.get_prediction(model, image, annotation_path)
             #evaluate_base(model, data_loader_test_Bic, device=self.device)
 
         '''
