@@ -122,22 +122,22 @@ class COWCFRCNNTrainer:
         network.load_state_dict(load_net_clean, strict=strict)
         print("model_loaded")
 
-'''
-for generating test boxes
-'''
-def get_prediction(model, image, annotation_path, threshold=0.5):
-    new_class_conf_box = list()
-    outputs = model_FRCNN(image)
-    file_path = os.path.join(config['path']['Test_Result_LR_LR_COWC'], os.path.basename(annotation_path))
-    pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
-    text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
-    pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
-    #print(pred_score)
-    for i in range(len(text_boxes)):
-        new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
-    new_class_conf_box = np.matrix(new_class_conf_box)
+    '''
+    for generating test boxes
+    '''
+    def get_prediction(self, model, image, annotation_path, threshold=0.5):
+        new_class_conf_box = list()
+        outputs = model_FRCNN(image)
+        file_path = os.path.join(config['path']['Test_Result_LR_LR_COWC'], os.path.basename(annotation_path))
+        pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
+        text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
+        pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
+        #print(pred_score)
+        for i in range(len(text_boxes)):
+            new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
+        new_class_conf_box = np.matrix(new_class_conf_box)
 
-    np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
+        np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
     #get test results
     def test(self):
