@@ -137,16 +137,19 @@ class COWCFRCNNTrainer:
         new_class_conf_box = np.matrix(new_class_conf_box)
 
         #np.savetxt(annotation_path, new_class_conf_box, fmt='%i')
-
+        '''
         pred_t = [pred_score.index(x) for x in pred_score if x > threshold][-1] # Get list of index with score greater than threshold.
         pred_boxes = pred_boxes[:pred_t+1]
         pred_class = pred_class[:pred_t+1]
         return pred_boxes, pred_class
+        '''
 
     def object_detection_api(self, model, img, annotation_path, img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3):
         img_path = ''.join(img_path)
 
-        boxes, pred_cls = self.get_prediction(model, img, annotation_path, threshold) # Get predictions
+        #boxes, pred_cls =
+        self.get_prediction(model, img, annotation_path, threshold) # Get predictions
+        '''
         img = cv2.imread(img_path) # Read image with cv2
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
         for i in range(len(boxes)):
@@ -155,6 +158,7 @@ class COWCFRCNNTrainer:
             plt.xticks([])
             plt.yticks([])
             plt.savefig(img_path)
+        '''
 
     def test(self):
 
