@@ -15,6 +15,7 @@ from detection.engine import train_one_epoch, evaluate_base
 from detection.utils import collate_fn
 from scripts_for_datasets import COWCFRCNNDataset
 from detection.transforms import ToTensor, RandomHorizontalFlip, Compose
+from matplotlib import pyplot as plt
 
 class COWCFRCNNTrainer:
     """
@@ -119,7 +120,37 @@ class COWCFRCNNTrainer:
                 load_net_clean[k] = v
         network.load_state_dict(load_net_clean, strict=strict)
 
+    def get_prediction(model, img, annotation_path, threshold):
+        new_class_conf_box = list()
+        pred = model(img) # Pass the image to the model
+        pred_class = [i for i in list(pred[0]['labels'].detach().numpy())] # Get the Prediction Score
+        pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
+        text_boxes = [i for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
+        pred_score = list(pred[0]['scores'].detach().numpy())
+
+        for i in range(len(boxes)):
+            new_class_conf_box.append([int(pred_class[i]), int(pred_score[i][0]), int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
+        new_class_conf_box = np.matrix(new_class_conf_box)
+        np.savetxt(annotation_path, new_class_conf_box, fmt='%i')
+
+        pred_t = [pred_score.index(x) for x in pred_score if x > threshold][-1] # Get list of index with score greater than threshold.
+        pred_boxes = pred_boxes[:pred_t+1]
+        pred_class = pred_class[:pred_t+1]
+        return pred_boxes, pred_class
+
+    def object_detection_api(model, img, annotation_path, img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3):
+        boxes, pred_cls = get_prediction(model, img, annotation_path, threshold) # Get predictions
+        img = cv2.imread(img_path) # Read image with cv2
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
+        for i in range(len(boxes)):
+            cv2.rectangle(img, boxes[i][0], boxes[i][1],color=(0, 255, 0), thickness=rect_th) # Draw Rectangle with the coordinates
+            plt.figure(figsize=(20,30)) # display the output image
+            plt.xticks([])
+            plt.yticks([])
+            plt.savefig(img_path)
+
     def test(self):
+
         # load a model pre-trained pre-trained on COCO
         model = torchvision.models.detection.fasterrcnn_resnet50_fpn()
 
@@ -140,7 +171,12 @@ class COWCFRCNNTrainer:
                  data_loader_test_F_SR, data_loader_test_Bic = self.data_loaders()
 
         print("test lenghts of the data loaders.............")
-        print(len(data_loader_test))
+        print(len(data_loader_test_SR))
+        model.eval()
+        for image, targets, annotation_path, img_path in data_loader_test_SR:
+            get_prediction(model, image.to(self.device), annotation_path, img_path)
+
+        '''
         print(len(data_loader_test_SR))
         print(len(data_loader_test_SR_combined))
         print(len(data_loader_test_E_SR_1))
@@ -164,7 +200,7 @@ class COWCFRCNNTrainer:
         evaluate_base(model, data_loader_test_F_SR, device=self.device)
         print("test Bicubic images..........................")
         evaluate_base(model, data_loader_test_Bic, device=self.device)
-
+        '''
     def train(self):
         # load a model pre-trained pre-trained on COCO
         model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)

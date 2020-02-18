@@ -68,7 +68,7 @@ class COWCFRCNNDataset(Dataset):
     if self.transforms is not None:
       img, target = self.transforms(img, target)
 
-    return img, target
+    return img, target, annotation_path, img_path # change now getting four values
 
   def __len__(self):
     return len(self.imgs)
