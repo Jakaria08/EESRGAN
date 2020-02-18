@@ -76,7 +76,7 @@ def get_prediction(outputs, file_path, threshold=0.5):
     pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
 
     for i in range(len(text_boxes)):
-        new_class_conf_box.append([int(pred_class[i]), int(pred_score[i]), int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
+        new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
     new_class_conf_box = np.matrix(new_class_conf_box)
 
     np.savetxt(file_path, new_class_conf_box, fmt='%i')
