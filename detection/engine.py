@@ -67,7 +67,7 @@ def _get_iou_types(model):
     return iou_types
 
 '''
-
+for generating test boxes
 '''
 def get_prediction(outputs, file_path, threshold=0.5):
     new_class_conf_box = list()
@@ -81,9 +81,7 @@ def get_prediction(outputs, file_path, threshold=0.5):
 
     np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
-'''
-for generating test boxes
-'''
+
 @torch.no_grad()
 def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
     for image, targets in data_loader:

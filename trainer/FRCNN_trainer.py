@@ -147,10 +147,10 @@ class COWCFRCNNTrainer:
         print("test lenghts of the data loaders.............")
         print(len(data_loader_test_SR))
         model.eval()
-        #for image, targets in data_loader_test_Bic:
-        evaluate_base(model, data_loader_test_Bic, device=self.device)
-            #image = list(img.to(self.device) for img in image)
-            #self.object_detection_api(model, image, annotation_path, img_path)
+        for image, targets, annotation_path in data_loader_test_Bic:
+            image = list(img.to(self.device) for img in image)
+            self.object_detection_api(model, image, annotation_path, img_path)
+            #evaluate_base(model, data_loader_test_Bic, device=self.device)
 
         '''
         print(len(data_loader_test_SR))
@@ -190,7 +190,7 @@ class COWCFRCNNTrainer:
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         model.to(self.device)
-        self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
+        #self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
 
         # construct an optimizer
         params = [p for p in model.parameters() if p.requires_grad]
@@ -215,4 +215,4 @@ class COWCFRCNNTrainer:
             # evaluate on the test dataset
             evaluate_base(model, data_loader_test_Bic, device=self.device)
             if epoch % 10 == 0:
-                self.save_model(model, 'FRCNN_Bic', epoch)
+                self.save_model(model, 'FRCNN_LR_LR', epoch)

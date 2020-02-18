@@ -87,10 +87,10 @@
     },
     "path": {
         "models": "saved/pretrained_models_EESRGAN_FRCNN",
-        "FRCNN_model": "saved/FRCNN_model_Bic",
+        "FRCNN_model": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/savedFRCNN_model_LR_LR_cowc/",
         "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_G.pth",
         "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_FRCNN.pth",
+        "pretrain_model_FRCNN": "",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
