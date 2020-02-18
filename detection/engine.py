@@ -85,14 +85,14 @@ for generating test boxes
 '''
 @torch.no_grad()
 def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
-    for _, (image, targets) in enumerate(data_loader):
+    for image, targets in data_loader:
         image['image_lq'] = image['image_lq'].to(device)
 
         image, _, _, _ = model_G(image['image_lq'])
         img_count = image.size()[0]
         image = [image[i] for i in range(img_count)]
         outputs = model_FRCNN(image)
-
+        print(image['LQ_path'])
         file_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
         file_path = os.path.join(config['path']['Test_Result_SR'], file_name+'.txt')
 
