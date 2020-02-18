@@ -71,7 +71,7 @@ def _get_iou_types(model):
 def get_prediction(outputs, file_path, threshold=0.5):
     new_class_conf_box = list()
     pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
-    text_boxes = [i for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
+    text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
     pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
     print(len(text_boxes))
     print(text_boxes)
