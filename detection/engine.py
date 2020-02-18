@@ -3,6 +3,7 @@ import sys
 import time
 import torch
 import os
+import numpy as np
 
 import torchvision.models.detection.mask_rcnn
 
