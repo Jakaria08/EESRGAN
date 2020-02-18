@@ -35,12 +35,7 @@ class COWCGANFrcnnTrainer:
         self.model = ESRGAN_EESN.ESRGAN_EESN_FRCNN_Model(config,self.device)
 
     def test(self):
-        for _, test_data in enumerate(self.data_loader):
-            #print(val_data)
-            image, target = test_data
-
-            self.model.feed_data(image, target)
-            self.model.test(self.data_loader, train=False)
+        self.model.test(self.data_loader, train=False)
 
     def train(self):
         '''
