@@ -129,12 +129,12 @@ class COWCFRCNNTrainer:
         pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
         text_boxes = [i for i in list(pred[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
         pred_score = list(pred[0]['scores'].detach().cpu().numpy())
-        print(pred_score)
+        print(pred_class)
         for i in range(len(text_boxes)):
             new_class_conf_box.append([int(pred_class[i]), int(pred_score[i][0]), int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
         new_class_conf_box = np.matrix(new_class_conf_box)
         print(annotation_path)
-        np.savetxt(annotation_path, new_class_conf_box, fmt='%i')
+        #np.savetxt(annotation_path, new_class_conf_box, fmt='%i')
 
         pred_t = [pred_score.index(x) for x in pred_score if x > threshold][-1] # Get list of index with score greater than threshold.
         pred_boxes = pred_boxes[:pred_t+1]
