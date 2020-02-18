@@ -123,6 +123,7 @@ class COWCFRCNNTrainer:
 
     def get_prediction(self, model, img, annotation_path, threshold):
         new_class_conf_box = list()
+        annotation_path = ''.join(annotation_path)
         pred = model(img) # Pass the image to the model
         pred_class = [i for i in list(pred[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
         pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
@@ -141,6 +142,7 @@ class COWCFRCNNTrainer:
         return pred_boxes, pred_class
 
     def object_detection_api(self, model, img, annotation_path, img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3):
+        img_path = ''.join(img_path)
         boxes, pred_cls = self.get_prediction(model, img, annotation_path, threshold) # Get predictions
         img = cv2.imread(img_path) # Read image with cv2
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
