@@ -105,7 +105,8 @@
         "data_dir_E_SR_3": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_3/",
         "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/",
         "data_dir_LR_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/",
-        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/",
+        "FRCNN_ONLY": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model/990_FRCNN.pth"
     },
     "logger": {
       "print_freq": 100,

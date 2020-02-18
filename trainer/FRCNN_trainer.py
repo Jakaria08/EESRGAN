@@ -175,7 +175,7 @@ class COWCFRCNNTrainer:
 
         model.to(self.device)
 
-        self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
+        self.load_model(self.config['path']['FRCNN_ONLY'], model)
 
         _, data_loader_test, data_loader_test_SR, data_loader_test_SR_combined, \
                 data_loader_test_E_SR_1, data_loader_test_E_SR_2, data_loader_test_E_SR_3, \
