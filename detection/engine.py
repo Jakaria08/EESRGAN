@@ -74,7 +74,7 @@ def get_prediction(outputs, file_path, threshold=0.5):
     pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
     text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
     pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
-
+    print(pred_score)
     for i in range(len(text_boxes)):
         new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
     new_class_conf_box = np.matrix(new_class_conf_box)
