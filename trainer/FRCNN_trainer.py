@@ -184,8 +184,8 @@ class COWCFRCNNTrainer:
         print("test lenghts of the data loaders.............")
         print(len(data_loader_test_SR))
         model.eval()
-        for image, targets in data_loader_test_SR:
-            evaluate_base(model, data_loader_test_SR, device=self.device)
+        #for image, targets in data_loader_test_Bic:
+        evaluate_base(model, data_loader_test_Bic, device=self.device)
             #image = list(img.to(self.device) for img in image)
             #self.object_detection_api(model, image, annotation_path, img_path)
 
