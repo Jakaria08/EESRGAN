@@ -125,8 +125,10 @@ class COWCFRCNNTrainer:
 '''
 for generating test boxes
 '''
-def get_prediction(model, image, file_path, threshold=0.5):
+def get_prediction(model, image, annotation_path, threshold=0.5):
     new_class_conf_box = list()
+    outputs = model_FRCNN(image)
+    file_path = os.path.join(config['path']['Test_Result_LR_LR_COWC'], os.path.basename(annotation_path))
     pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
     text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
     pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
