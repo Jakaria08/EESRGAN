@@ -140,7 +140,7 @@ class COWCFRCNNTrainer:
         return pred_boxes, pred_class
 
     def object_detection_api(self, model, img, annotation_path, img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3):
-        boxes, pred_cls = get_prediction(model, img, annotation_path, threshold) # Get predictions
+        boxes, pred_cls = self.get_prediction(model, img, annotation_path, threshold) # Get predictions
         img = cv2.imread(img_path) # Read image with cv2
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
         for i in range(len(boxes)):
@@ -175,7 +175,7 @@ class COWCFRCNNTrainer:
         print(len(data_loader_test_SR))
         model.eval()
         for image, targets, annotation_path, img_path in data_loader_test_SR:
-            get_prediction(model, image.to(self.device), annotation_path, img_path)
+            self.object_detection_api(model, image.to(self.device), annotation_path, img_path)
 
         '''
         print(len(data_loader_test_SR))
