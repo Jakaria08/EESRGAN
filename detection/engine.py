@@ -65,6 +65,39 @@ def _get_iou_types(model):
     return iou_types
 
 '''
+
+'''
+def get_prediction(outputs, file_path, threshold=0.5):
+    new_class_conf_box = list()
+    pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
+    text_boxes = [i for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
+    pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
+
+    for i in range(len(text_boxes)):
+        new_class_conf_box.append([int(pred_class[i]), int(pred_score[i][0]), int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
+    new_class_conf_box = np.matrix(new_class_conf_box)
+
+    np.savetxt(file_path, new_class_conf_box, fmt='%i')
+
+'''
+for generating test boxes
+'''
+@torch.no_grad()
+def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
+    for image, targets in data_loader:
+        image['image_lq'] = image['image_lq'].to(device)
+
+        image, _, _, _ = model_G(image['image_lq'])
+        img_count = image.size()[0]
+        image = [image[i] for i in range(img_count)]
+        outputs = model_FRCNN(image)
+
+        file_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))
+        file_path = os.path.join(config['path']['Test_Result_SR'], file_name+'.txt')
+
+        object_detection_api(outputs, file_path)
+
+'''
 This evaluate method is changed to pass the generator network and evalute
 the FRCNN with generated SR images
 '''

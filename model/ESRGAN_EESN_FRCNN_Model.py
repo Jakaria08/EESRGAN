@@ -10,7 +10,7 @@ from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
-from detection.engine import train_one_epoch, evaluate
+from detection.engine import train_one_epoch, evaluate, evaluate_save
 from detection.utils import reduce_dict
 
 
@@ -24,6 +24,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.configT = config['train']
         self.configO = config['optimizer']['args']
         self.configS = config['lr_scheduler']
+        self.config = config
         self.device = device
         #Generator
         self.netG = model.ESRGAN_EESN(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
@@ -256,6 +257,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.log_dict['FRCNN_loss'] = loss_value
 
     def test(self, valid_data_loader, train = True):
+        testResult = True;
         self.netG.eval()
         self.netFRCNN.eval()
         self.targets = valid_data_loader
@@ -264,6 +266,8 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             self.x_lap_HR = kornia.laplacian(self.var_H, 3)
             if train == True:
                 evaluate(self.netG, self.netFRCNN, self.targets, self.device)
+            if testResult == True:
+                evaluate_save(self.netG, self.netFRCNN, self.targets, self.device, self.config)
         self.netG.train()
         self.netFRCNN.train()
 
