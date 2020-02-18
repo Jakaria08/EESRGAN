@@ -261,13 +261,14 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.netG.eval()
         self.netFRCNN.eval()
         self.targets = valid_data_loader
-        with torch.no_grad():
-            self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
-            self.x_lap_HR = kornia.laplacian(self.var_H, 3)
-            if train == True:
-                evaluate(self.netG, self.netFRCNN, self.targets, self.device)
-            if testResult == True:
-                evaluate_save(self.netG, self.netFRCNN, self.targets, self.device, self.config)
+        if testResult != True:
+            with torch.no_grad():
+                self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
+                self.x_lap_HR = kornia.laplacian(self.var_H, 3)
+        if train == True:
+            evaluate(self.netG, self.netFRCNN, self.targets, self.device)
+        if testResult == True:
+            evaluate_save(self.netG, self.netFRCNN, self.targets, self.device, self.config)
         self.netG.train()
         self.netFRCNN.train()
 
