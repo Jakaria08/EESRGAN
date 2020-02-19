@@ -125,7 +125,7 @@ class COWCFRCNNTrainer:
     def get_prediction(self, model, image, annotation_path, threshold=0.5):
         new_class_conf_box = list()
         outputs = model(image)
-        file_path = os.path.join(self.config['path']['Test_Result_LR_LR_Tank'], os.path.basename(annotation_path))
+        file_path = os.path.join(self.config['path']['Test_Result_HR_HR_Tank'], os.path.basename(annotation_path))
         #print(file_path)
         pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
         text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
@@ -170,7 +170,7 @@ class COWCFRCNNTrainer:
             annotation_path = ''.join(annotation_path)
             image = list(img.to(self.device) for img in image)
             self.get_prediction(model, image, annotation_path)
-            #evaluate_base(model, data_loader_test_Bic, device=self.device)
+        evaluate_base(model, data_loader_test, device=self.device)
 
         '''
         print(len(data_loader_test_SR))
