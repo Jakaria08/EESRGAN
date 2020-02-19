@@ -119,9 +119,33 @@ class COWCFRCNNTrainer:
                 load_net_clean[k] = v
         network.load_state_dict(load_net_clean, strict=strict)
 
+    '''
+    for generating test boxes
+    '''
+    def get_prediction(self, model, image, annotation_path, threshold=0.5):
+        new_class_conf_box = list()
+        outputs = model(image)
+        file_path = os.path.join(self.config['path']['Test_Result_LR_LR_Tank'], os.path.basename(annotation_path))
+        #print(file_path)
+        pred_class = [i for i in list(outputs[0]['labels'].detach().cpu().numpy())] # Get the Prediction Score
+        text_boxes = [ [i[0], i[1], i[2], i[3] ] for i in list(outputs[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
+        pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
+        #print(pred_score)
+        if(len(text_boxes)) != 0:
+            for i in range(len(text_boxes)):
+                new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]*4), int(text_boxes[i][1]*4), int(text_boxes[i][2]*4), int(text_boxes[i][3]*4)])
+            new_class_conf_box = np.matrix(new_class_conf_box)
+
+            np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
+        else:
+            new_class_conf_box_zero = list()
+            new_class_conf_box_zero.append([0, 0, 1, 1, 2, 2])
+            np.savetxt(file_path, new_class_conf_box_zero, fmt="%i %1.3f %i %i %i %i")
+    #get test results
     def test(self):
+
         # load a model pre-trained pre-trained on COCO
-        model = torchvision.models.detection.fasterrcnn_resnet50_fpn()
+        model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
 
         # replace the classifier with a new one, that has
         # num_classes which is user-defined
@@ -141,6 +165,14 @@ class COWCFRCNNTrainer:
 
         print("test lenghts of the data loaders.............")
         print(len(data_loader_test))
+        model.eval()
+        for image, targets, annotation_path in data_loader_test:
+            annotation_path = ''.join(annotation_path)
+            image = list(img.to(self.device) for img in image)
+            self.get_prediction(model, image, annotation_path)
+            #evaluate_base(model, data_loader_test_Bic, device=self.device)
+
+        '''
         print(len(data_loader_test_SR))
         print(len(data_loader_test_SR_combined))
         print(len(data_loader_test_E_SR_1))
@@ -164,7 +196,7 @@ class COWCFRCNNTrainer:
         evaluate_base(model, data_loader_test_F_SR, device=self.device)
         print("test Bicubic images..........................")
         evaluate_base(model, data_loader_test_Bic, device=self.device)
-
+        '''
     def train(self):
         # load a model pre-trained pre-trained on COCO
         model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
@@ -203,4 +235,4 @@ class COWCFRCNNTrainer:
             # evaluate on the test dataset
             evaluate_base(model, data_loader_test, device=self.device)
             if epoch % 10 == 0:
-                self.save_model(model, 'FRCNN_HR_tank', epoch)
+                self.save_model(model, 'FRCNN_LR_LR_tank', epoch)

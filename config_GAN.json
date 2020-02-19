@@ -90,7 +90,7 @@
         "FRCNN_model": "saved/FRCNN_model_HR_tank",
         "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK/75000_G.pth",
         "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK/75000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net_TANK/75000_FRCNN.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_HR_tank/80_FRCNN_HR_tank.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
@@ -105,7 +105,8 @@
         "data_dir_E_SR_3": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_3/",
         "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/",
         "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/",
-        "Test_Result_SR_tank": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_SR_tank/"
+        "Test_Result_SR_tank": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_SR_tank/",
+        "Test_Result_LR_LR_Tank": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_LR_LR_Tank/"
     },
     "logger": {
       "print_freq": 100,
