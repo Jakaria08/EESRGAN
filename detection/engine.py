@@ -83,7 +83,9 @@ def get_prediction(outputs, file_path, threshold=0.5):
 
         np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
     else:
-        np.savetxt(file_path, [0, 0, 0, 0, 0, 0], fmt="%i %1.3f %i %i %i %i")
+        new_class_conf_box_zero = list()
+        new_class_conf_box_zero.append([0, 0, 0, 0, 0, 0])
+        np.savetxt(file_path, new_class_conf_box_zero, fmt="%i %1.3f %i %i %i %i")
 
 '''
 for generating test boxes
