@@ -100,7 +100,7 @@ def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
         img = [img[i] for i in range(img_count)]
         outputs = model_FRCNN(img)
         file_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
-        file_path = os.path.join(config['path']['Test_Result_SR_car'], file_name+'.txt')
+        file_path = os.path.join(config['path']['Test_Result_SR_tank'], file_name+'.txt')
 
         get_prediction(outputs, file_path)
 

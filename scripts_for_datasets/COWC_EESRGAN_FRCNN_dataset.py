@@ -77,7 +77,7 @@ class COWCGANFrcnnDataset(Dataset):
                 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 Test Data need to be divided by 4 txt files// I did not do thatself.
                 This is the reason. to get 40% result. make sure to get the coordinates by
-                4 when testing.............
+                4 when testing............. not sure
                 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 '''
                 #creating bounding boxes that would not touch the image edges
