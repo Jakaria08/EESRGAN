@@ -6,7 +6,7 @@ import model.loss as module_loss
 import model.metric as module_metric
 import model.model as module_arch
 from parse_config import ConfigParser
-from trainer import COWCFRCNNTrainer, COWCGANTrainer, COWCGANFrcnnDataLoader
+from trainer import COWCFRCNNTrainer, COWCGANTrainer, COWCGANFrcnnTrainer
 '''
 python test.py -c config_GAN.json
 '''
@@ -15,7 +15,7 @@ def main(config):
 
     data_loader = module_data.COWCGANFrcnnDataLoader('/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4/valid_img/',
     '/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4/valid_img/', 1, training=False)
-    tester = COWCGANFrcnnDataLoader(config=config, data_loader=data_loader)
+    tester = COWCGANFrcnnTrainer(config=config, data_loader=data_loader)
     tester.test()
     '''
     tester = COWCFRCNNTrainer(config=config)
