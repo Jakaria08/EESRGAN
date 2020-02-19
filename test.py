@@ -17,7 +17,6 @@ def main(config):
     '/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4/valid_img/', 1, training=False)
     tester = COWCGANFrcnnDataLoader(config=config, data_loader=data_loader)
     tester.test()
-
     '''
     tester = COWCFRCNNTrainer(config=config)
     tester.test()
