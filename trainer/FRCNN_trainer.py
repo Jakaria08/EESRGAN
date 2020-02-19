@@ -165,7 +165,7 @@ class COWCFRCNNTrainer:
         print("test lenghts of the data loaders.............")
         print(len(data_loader_test))
         model.eval()
-        for image, targets, annotation_path in data_loader_test_Bic:
+        for image, targets, annotation_path in data_loader_test:
             annotation_path = ''.join(annotation_path)
             image = list(img.to(self.device) for img in image)
             self.get_prediction(model, image, annotation_path)
