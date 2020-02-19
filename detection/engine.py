@@ -167,7 +167,7 @@ def evaluate_base(model, data_loader, device):
     iou_types = _get_iou_types(model)
     coco_evaluator = CocoEvaluator(coco, iou_types)
 
-    for image, targets, _ in metric_logger.log_every(data_loader, 100, header):
+    for image, targets in metric_logger.log_every(data_loader, 100, header):
         image = list(img.to(device) for img in image)
         targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
 
