@@ -133,7 +133,7 @@ class COWCFRCNNTrainer:
         #print(pred_score)
         if(len(text_boxes)) != 0:
             for i in range(len(text_boxes)):
-                new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]*4), int(text_boxes[i][1]*4), int(text_boxes[i][2]*4), int(text_boxes[i][3]*4)])
+                new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
             new_class_conf_box = np.matrix(new_class_conf_box)
 
             np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
