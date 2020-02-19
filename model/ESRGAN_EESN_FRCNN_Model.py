@@ -10,7 +10,7 @@ from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
-from detection.engine import train_one_epoch, evaluate
+from detection.engine import train_one_epoch, evaluate, evaluate_save
 from detection.utils import reduce_dict
 
 
