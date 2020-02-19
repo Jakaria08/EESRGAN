@@ -71,6 +71,14 @@ class COWCGANFrcnnDataset(Dataset):
                 y = float(values[2])*self.image_height
                 width = float(values[3])*self.image_width
                 height = float(values[4])*self.image_height
+
+                '''
+                '''
+                !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                Test Data need to be divided by 4 txt files// I did not do thatself.
+                This is the reason. to get 40% result. make sure to get the coordinates by
+                4 when testing.............
+                !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 '''
                 #creating bounding boxes that would not touch the image edges
                 x_min = 1 if round(int(values[1])/2) <= 0 else round(int(values[1])/2)

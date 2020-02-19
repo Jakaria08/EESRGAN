@@ -105,7 +105,7 @@
         "data_dir_E_SR_3": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_3/",
         "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/",
         "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/",
-        "Test_Result_SR_car": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_SR_car/"
+        "Test_Result_SR_tank": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_SR_tank/"
     },
     "logger": {
       "print_freq": 100,
