@@ -43,10 +43,12 @@ class COWCFRCNNDataset(Dataset):
             y_min = 1 if int(values[2]) <= 0 else int(values[2])
             x_max = 511 if int(values[3]) >= 512 else int(values[3])
             y_max = 511 if int(values[4]) >= 512 else int(values[4])
+            '''
             x_min = int(x_min/4)
             y_min = int(y_min/4)
             x_max = int(x_max/4)
             y_max = int(y_max/4)
+            '''
             boxes.append([x_min, y_min, x_max, y_max])
 
     boxes = torch.as_tensor(boxes, dtype=torch.float32)
@@ -67,7 +69,7 @@ class COWCFRCNNDataset(Dataset):
     if self.transforms is not None:
       img, target = self.transforms(img, target)
 
-    return img, target, annotation_path
+    return img, target
 
   def __len__(self):
     return len(self.imgs)
