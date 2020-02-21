@@ -452,7 +452,7 @@ def create_dataset():
         destinationH = os.path.join(os.path.dirname(Dir_HR), '1000', img_file)
         print(sourceH)
         print(destinationH)
-        shutil.copyfile(sourc1H, destinationH)
+        shutil.copyfile(sourceH, destinationH)
 
 
         sourceHtxt = os.path.join(Dir_HR,txt_file)
