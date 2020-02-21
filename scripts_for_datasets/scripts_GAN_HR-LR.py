@@ -437,25 +437,25 @@ def xml_to_text():
 
 def create_dataset():
     Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4"
-    Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/*.txt"
-    Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/*.txt"
+    Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+    Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/"
     files = sorted(glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/*.txt"))
     print(type(files))
     shuffle(files)
-    files = files[:138]
+    files = files[:275]
     for file in files:
         img_file = os.path.splitext(os.path.basename(file))[0]+'.jpg'
         txt_file = os.path.basename(file)
 
         sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_HR), '500', img_file)
+        destinationH = os.path.join(os.path.dirname(Dir_HR), '1000', img_file)
         print(sourceH)
         print(destinationH)
         shutil.copyfile(sourceH, destinationH)
 
 
         sourceHtxt = os.path.join(Dir_HR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '500', txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '1000', txt_file)
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
