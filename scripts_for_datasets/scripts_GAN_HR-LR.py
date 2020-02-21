@@ -439,21 +439,21 @@ def create_dataset():
     Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4"
     Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4"
     Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4"
-    files = glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/3000/*.txt")
+    files = glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/6000/*.txt")
 
     for file in files:
         img_file = os.path.splitext(os.path.basename(file))[0]+'.jpg'
         txt_file = os.path.basename(file)
 
         sourceH = os.path.join(Dir_LR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_LR), '3000', img_file)
+        destinationH = os.path.join(os.path.dirname(Dir_LR), '6000', img_file)
         print(sourceH)
         print(destinationH)
         shutil.copyfile(sourceH, destinationH)
 
 
         sourceHtxt = os.path.join(Dir_LR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_LR), '3000', txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_LR), '6000', txt_file)
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
