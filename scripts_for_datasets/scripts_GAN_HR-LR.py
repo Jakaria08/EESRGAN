@@ -444,8 +444,8 @@ def create_dataset():
     shuffle(files)
     files = files[:138]
     for file in files:
-        img_file = os.path.basename(file[:-1]+'.jpg')
-        txt_file = os.path.basename(file[:-1]+'.txt')
+        img_file = os.path.splitext(os.path.basename(file))[0]+'.jpg')
+        txt_file = os.path.basename(file)
 
         sourceH = os.path.join(Dir_HR,img_file)
         destinationH = os.path.join(os.path.dirname(Dir_HR), '500', img_file)
