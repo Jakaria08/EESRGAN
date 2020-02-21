@@ -442,7 +442,8 @@ def create_dataset():
     files = sorted(glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/*.txt"))
     print(type(files))
     shuffle(files)
-    files = files[:1660]
+    print(len(files))
+    files = files[:1584]
     for file in files:
         img_file = os.path.splitext(os.path.basename(file))[0]+'.jpg'
         txt_file = os.path.basename(file)
