@@ -439,7 +439,7 @@ def create_dataset():
     Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
     Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/"
     files = sorted(glob.glob(Dir_HR))
-    print(type(file))
+    print(type(files))
     for file in files:
         img_file = os.path.basename(file[:-1]+'.jpg')
         txt_file = os.path.basename(file[:-1]+'.txt')
