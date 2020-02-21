@@ -443,20 +443,20 @@ def create_dataset():
     print(type(files))
     shuffle(files)
     print(len(files))
-    files = files[:1584]
+    files = files[:790]
     for file in files:
         img_file = os.path.splitext(os.path.basename(file))[0]+'.jpg'
         txt_file = os.path.basename(file)
 
         sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_HR), '6000', img_file)
+        destinationH = os.path.join(os.path.dirname(Dir_HR), '3000', img_file)
         print(sourceH)
         print(destinationH)
         shutil.copyfile(sourceH, destinationH)
 
 
         sourceHtxt = os.path.join(Dir_HR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '6000', txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '3000', txt_file)
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
