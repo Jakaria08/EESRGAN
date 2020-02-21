@@ -24,8 +24,8 @@
     "data_loader": {
         "type": "COWCGANFrcnnDataLoader",
         "args":{
-            "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/",
-            "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/",
+            "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/500/",
+            "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/500/",
             "batch_size": 5,
             "shuffle": true,
             "validation_split": 0.0,
@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 4000,
+        "val_freq": 10,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -86,11 +86,11 @@
         "tensorboard": true
     },
     "path": {
-        "models": "saved/pretrained_models_EESRGAN_FRCNN",
+        "models": "saved/pretrained_models_EESRGAN_FRCNN_500",
         "FRCNN_model": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/",
-        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_G.pth",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/20_FRCNN_LR_LR.pth",
+        "pretrain_model_G": "",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/96000_D.pth",
+        "pretrain_model_FRCNN": "",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
@@ -109,7 +109,7 @@
         "Test_Result_LR_LR_COWC": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_LR_LR_COWC/"
     },
     "logger": {
-      "print_freq": 100,
-      "save_checkpoint_freq": 4000
+      "print_freq": 10,
+      "save_checkpoint_freq": 10
     }
 }
