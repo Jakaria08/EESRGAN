@@ -439,24 +439,19 @@ def create_dataset():
     Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4"
     Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
     Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/"
-    files = sorted(glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/*.txt"))
-    print(type(files))
-    shuffle(files)
-    print(len(files))
-    files = files[:132]
+    files = glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/500/*.txt")
+
     for file in files:
         img_file = os.path.splitext(os.path.basename(file))[0]+'.jpg'
         txt_file = os.path.basename(file)
 
-        sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_HR), '500', img_file)
-        print(sourceH)
-        print(destinationH)
+        sourceH = os.path.join(Dir_LR,img_file)
+        destinationH = os.path.join(os.path.dirname(Dir_LR), '500', img_file)
         shutil.copyfile(sourceH, destinationH)
 
 
-        sourceHtxt = os.path.join(Dir_HR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '500', txt_file)
+        sourceHtxt = os.path.join(Dir_LR,txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_LR), '500', txt_file)
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
