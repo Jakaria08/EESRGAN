@@ -442,20 +442,20 @@ def create_dataset():
     files = sorted(glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/*.txt"))
     print(type(files))
     shuffle(files)
-    files = files[:825]
+    files = files[:1660]
     for file in files:
         img_file = os.path.splitext(os.path.basename(file))[0]+'.jpg'
         txt_file = os.path.basename(file)
 
         sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_HR), '3000', img_file)
+        destinationH = os.path.join(os.path.dirname(Dir_HR), '6000', img_file)
         print(sourceH)
         print(destinationH)
         shutil.copyfile(sourceH, destinationH)
 
 
         sourceHtxt = os.path.join(Dir_HR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '3000', txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '6000', txt_file)
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
