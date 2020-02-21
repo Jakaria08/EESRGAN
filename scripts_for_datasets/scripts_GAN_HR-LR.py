@@ -449,11 +449,11 @@ def create_dataset():
 
         sourceH = os.path.join(Dir_HR,img_file)
         destinationH = os.path.join(os.path.dirname(Dir_HR), '500', img_file)
-        shutil.copy(sourceH, destinationH)
+        shutil.copy2(sourceH, destinationH)
 
         sourceHtxt = os.path.join(Dir_HR,txt_file)
         destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '500', txt_file)
-        shutil.copy(sourceHtxt, destinationHtxt)
+        shutil.copy2(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
     create_dataset()
