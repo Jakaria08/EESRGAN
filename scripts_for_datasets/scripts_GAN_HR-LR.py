@@ -16,6 +16,7 @@ import torch
 import xml.etree.ElementTree as ET
 import csv
 import pandas
+from random import shuffle
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -435,23 +436,24 @@ def xml_to_text():
     print("count:"+str(count))
 
 def create_dataset():
-    Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/*.txt"
+    Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/"
     Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/*.txt"
     Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/*.txt"
-    files = sorted(glob.glob(Dir_HR))
+    files = sorted(glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/*.txt"))
     print(type(files))
+    files = shuffle(files)
+    files = files[:138]
     for file in files:
         img_file = os.path.basename(file[:-1]+'.jpg')
         txt_file = os.path.basename(file[:-1]+'.txt')
-        print(img_file)
-        print(txt_file)
 
-        #print(file)
-        '''
         sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(Dir_HR, 'valid_img', img_file)
-        shutil.move(sourceH, destinationH)
-        '''
+        destinationH = os.path.join(os.path.dirname(Dir_HR), '500', img_file)
+        shutil.copy(sourceH, destinationH)
+
+        sourceHtxt = os.path.join(Dir_HR,txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '500', txt_file)
+        shutil.copy(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
     create_dataset()
