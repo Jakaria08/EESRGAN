@@ -257,7 +257,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         self.log_dict['FRCNN_loss'] = loss_value
 
     def test(self, valid_data_loader, train = True):
-        testResult = True;
+        testResult = False;
         self.netG.eval()
         self.netFRCNN.eval()
         self.targets = valid_data_loader
