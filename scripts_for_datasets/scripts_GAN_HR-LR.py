@@ -441,7 +441,7 @@ def create_dataset():
     Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/*.txt"
     files = sorted(glob.glob("/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/*.txt"))
     print(type(files))
-    files = shuffle(files)
+    shuffle(files)
     files = files[:138]
     for file in files:
         img_file = os.path.basename(file[:-1]+'.jpg')
