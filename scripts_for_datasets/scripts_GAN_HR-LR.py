@@ -434,8 +434,28 @@ def xml_to_text():
 
     print("count:"+str(count))
 
+def create_dataset():
+    Dir_HR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/"
+    Dir_Bic = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+    Dir_LR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/"
+    files = sorted(glob.glob(Dir_HR))
+    print(type(file))
+    for file in files:
+        img_file = os.path.basename(file[:-1]+'.jpg')
+        txt_file = os.path.basename(file[:-1]+'.txt')
+        print(img_file)
+        print(txt_file)
+
+        #print(file)
+        '''
+        sourceH = os.path.join(Dir_HR,img_file)
+        destinationH = os.path.join(Dir_HR, 'valid_img', img_file)
+        shutil.move(sourceH, destinationH)
+        '''
+
 if __name__ == "__main__":
-    xml_to_text()
+    create_dataset()
+    #xml_to_text()
     #generate_mod_LR_bic()
     #copy_folder_name_for_valid_image()
     #merge_edge()
