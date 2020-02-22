@@ -24,8 +24,8 @@
     "data_loader": {
         "type": "COWCGANFrcnnDataLoader",
         "args":{
-            "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/500/",
-            "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/500/",
+            "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/1000/",
+            "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/1000/",
             "batch_size": 5,
             "shuffle": true,
             "validation_split": 0.0,
@@ -86,15 +86,15 @@
         "tensorboard": true
     },
     "path": {
-        "models": "saved/pretrained_models_EESRGAN_FRCNN_500",
+        "models": "saved/pretrained_models_EESRGAN_FRCNN_1000",
         "FRCNN_model": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/",
-        "pretrain_model_G": "",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/96000_D.pth",
-        "pretrain_model_FRCNN": "",
+        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_500/36000_G.pth",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_500/36000_D.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_500/36000_FRCNN.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
-        "val_images": "saved/val_images_cars_500",
+        "val_images": "saved/val_images_cars_1000",
         "log": "saved/logs",
         "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/",
         "data_dir_F_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Final_SR_images_test/",
