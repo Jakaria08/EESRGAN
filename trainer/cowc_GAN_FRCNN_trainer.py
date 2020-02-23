@@ -4,7 +4,7 @@ import torch
 import math
 import os
 import model.ESRGANModel as ESRGAN
-import model.ESRGAN_EESN_FRCNN_Model as ESRGAN_EESN
+import model.ESRGAN_EESN_SSD_Model as ESRGAN_EESN
 from scripts_for_datasets import COWCDataset, COWCGANDataset
 from torchvision.utils import make_grid
 from base import BaseTrainer
@@ -16,7 +16,7 @@ python train.py -c config_GAN.json
 modified from ESRGAN repo
 '''
 
-class COWCGANFrcnnTrainer:
+class COWCGANSSDTrainer:
     """
     Trainer class
     """
@@ -27,12 +27,12 @@ class COWCGANFrcnnTrainer:
         self.valid_data_loader = valid_data_loader
         self.do_validation = self.valid_data_loader is not None
         n_gpu = torch.cuda.device_count()
-        self.device = torch.device('cuda:0' if n_gpu > 0 else 'cpu')
+        self.device = torch.device('cuda:1' if n_gpu > 0 else 'cpu')
         self.train_size = int(math.ceil(self.data_loader.length / int(config['data_loader']['args']['batch_size'])))
         self.total_iters = int(config['train']['niter'])
         self.total_epochs = int(math.ceil(self.total_iters / self.train_size))
         print(self.total_epochs)
-        self.model = ESRGAN_EESN.ESRGAN_EESN_FRCNN_Model(config,self.device)
+        self.model = ESRGAN_EESN.ESRGAN_EESN_SSD_Model(config,self.device)
 
     def test(self):
         self.model.test(self.data_loader, train=False)
