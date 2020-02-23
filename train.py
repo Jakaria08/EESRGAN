@@ -12,7 +12,7 @@ from parse_config import ConfigParser
 from trainer import COWCTrainer
 from trainer import COWCGANTrainer
 from trainer import COWCFRCNNTrainer
-from trainer import COWCGANFrcnnTrainer
+from trainer import COWCGANSSDTrainer
 from utils import setup_logger, dict2str
 '''
 python train.py -c config_GAN.json
@@ -67,7 +67,7 @@ def main(config):
                      valid_data_loader=valid_data_loader
                      )
     '''
-    trainer = COWCGANFrcnnTrainer(config=config, data_loader=data_loader,
+    trainer = COWCGANSSDTrainer(config=config, data_loader=data_loader,
                      valid_data_loader=valid_data_loader)
     trainer.train()
     '''
