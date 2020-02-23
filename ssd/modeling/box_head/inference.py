@@ -5,11 +5,10 @@ from ssd.utils.nms import batched_nms
 
 
 class PostProcessor:
-    def __init__(self, cfg):
+    def __init__(self):
         super().__init__()
-        self.cfg = cfg
-        self.width = cfg.INPUT.IMAGE_SIZE
-        self.height = cfg.INPUT.IMAGE_SIZE
+        self.width = 300
+        self.height = 300
 
     def __call__(self, detections):
         batches_scores, batches_boxes = detections

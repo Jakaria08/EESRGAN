@@ -8,15 +8,12 @@ from ssd.utils import box_utils
 from .inference import PostProcessor
 from .loss import MultiBoxLoss
 
-
-@registry.BOX_HEADS.register('SSDBoxHead')
 class SSDBoxHead(nn.Module):
-    def __init__(self, cfg):
+    def __init__(self):
         super().__init__()
-        self.cfg = cfg
-        self.predictor = make_box_predictor(cfg)
+        self.predictor = make_box_predictor()
         self.loss_evaluator = MultiBoxLoss(neg_pos_ratio=cfg.MODEL.NEG_POS_RATIO)
-        self.post_processor = PostProcessor(cfg)
+        self.post_processor = PostProcessor()
         self.priors = None
 
     def forward(self, features, targets=None):

@@ -6,9 +6,8 @@ from ssd.modeling import registry
 
 
 class BoxPredictor(nn.Module):
-    def __init__(self, cfg):
+    def __init__(self):
         super().__init__()
-        self.cfg = cfg
         self.cls_headers = nn.ModuleList()
         self.reg_headers = nn.ModuleList()
         for level, (boxes_per_location, out_channels) in enumerate(zip(cfg.MODEL.PRIORS.BOXES_PER_LOCATION, cfg.MODEL.BACKBONE.OUT_CHANNELS)):
