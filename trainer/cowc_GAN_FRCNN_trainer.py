@@ -97,7 +97,7 @@ class COWCGANSSDTrainer:
 
                 # validation
                 if current_step % self.config['train']['val_freq'] == 0:
-                    self.model.test(self.valid_data_loader)
+                    #self.model.test(self.valid_data_loader)
 
                 #### save models and training states
                 if current_step % self.config['logger']['save_checkpoint_freq'] == 0:
