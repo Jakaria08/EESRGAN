@@ -75,7 +75,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
             self.netF = model.VGGFeatureExtractor(feature_layer=34,
                                           use_input_norm=True, device=self.device)
             self.netF = self.netF.to(self.device)
-            self.netF = DataParallel(self.netF)
+            self.netF = DataParallel(self.netF, device_ids=[1,0])
             self.netF.eval()
 
         # GD gan loss
