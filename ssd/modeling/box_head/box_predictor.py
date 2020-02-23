@@ -64,5 +64,5 @@ class SSDLiteBoxPredictor(BoxPredictor):
         return SeparableConv2d(out_channels, boxes_per_location * 4, kernel_size=3, stride=1, padding=1)
 
 
-def make_box_predictor(cfg):
+def make_box_predictor():
     return SSDBoxPredictor()
