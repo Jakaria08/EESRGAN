@@ -436,8 +436,8 @@ def xml_to_text():
     print("count:"+str(count))
 
 def create_dataset():
-    Dir_HR = "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4/"
-    Dir_LR = "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4/"
+    Dir_HR = "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4"
+    Dir_LR = "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4"
     files = glob.glob("/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4/*.txt")
     files = files[:100]
 
@@ -446,12 +446,12 @@ def create_dataset():
         txt_file = os.path.basename(file)
 
         sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_HR), '100')
+        destinationH = os.path.join(os.path.dirname(Dir_HR), '100', img_file)
         shutil.copyfile(sourceH, destinationH)
 
 
         sourceHtxt = os.path.join(Dir_HR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '100')
+        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '100', txt_file)
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
