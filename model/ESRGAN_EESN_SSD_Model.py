@@ -234,10 +234,12 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         self.targets_ssd['labels'] = [self.targets[i]['labels'] for i in range(target_count)]
         self.targets_ssd['boxes'] = torch.stack(self.targets_ssd['boxes'], dim=0)
         self.targets_ssd['labels'] = torch.stack(self.targets_ssd['labels'], dim=0)
+
         print(self.intermediate_img.size())
         print(self.targets_ssd['boxes'].size())
         print(self.intermediate_img)
         print(self.targets_ssd)
+        
         loss_dict = self.netSSD(self.intermediate_img, self.targets_ssd)
         losses = sum(loss for loss in loss_dict.values())
 
