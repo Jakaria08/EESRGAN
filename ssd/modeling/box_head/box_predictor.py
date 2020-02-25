@@ -37,7 +37,7 @@ class BoxPredictor(nn.Module):
         batch_size = features[0].shape[0]
         cls_logits = torch.cat([c.view(c.shape[0], -1) for c in cls_logits], dim=1).view(batch_size, -1, 2)
         bbox_pred = torch.cat([l.view(l.shape[0], -1) for l in bbox_pred], dim=1).view(batch_size, -1, 4)
-        print(len(cls_logits))
+        print(cls_logits)
         return cls_logits, bbox_pred
 
 
