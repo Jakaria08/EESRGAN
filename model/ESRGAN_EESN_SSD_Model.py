@@ -237,10 +237,11 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         '''
         target_transform = build_target_transform()
         for i in range(target_count):
-            tboxes, tlabels = target_transform(self.targets[i]['boxes'],self.targets[i]['labels'])
+            tboxes, tlabels = target_transform(self.targets[i]['boxes'].cpu(),self.targets[i]['labels'].cpu())
             self.targets_ssd['boxes'].append(tboxes)
             self.targets_ssd['labels'].append(tlabels)
 
+        self.targets_ssd.to(self.device)
         self.targets_ssd['boxes'] = torch.stack(self.targets_ssd['boxes'], dim=0)
         self.targets_ssd['labels'] = torch.stack(self.targets_ssd['labels'], dim=0)
         '''
