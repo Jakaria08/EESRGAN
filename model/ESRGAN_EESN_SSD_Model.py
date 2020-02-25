@@ -253,7 +253,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         print(self.targets_ssd)
         '''
 
-        loss_dict = self.netSSD(self.intermediate_img, self.targets_ssd)
+        loss_dict = self.netSSD(self.intermediate_img, self.targets_ssd_dict)
         losses = sum(loss for loss in loss_dict.values())
 
         # reduce losses over all GPUs for logging purposes
