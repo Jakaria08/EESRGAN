@@ -226,7 +226,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         img_count = self.intermediate_img.size()[0]
         #self.intermediate_img = [F.interpolate(self.intermediate_img[i], size=300) for i in range(img_count)]
         #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
-        self.intermediate_img[i] = F.interpolate(self.intermediate_img, size=300)
+        self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
         print(self.intermediate_img)
 
         loss_dict = self.netSSD(self.intermediate_img, self.targets)
