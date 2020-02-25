@@ -446,12 +446,12 @@ def create_dataset():
         txt_file = os.path.basename(file)
 
         sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_HR), '100', img_file)
+        destinationH = os.path.join(os.path.dirname(Dir_HR), '100')
         shutil.copyfile(sourceH, destinationH)
 
 
         sourceHtxt = os.path.join(Dir_HR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '100', txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '100')
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
