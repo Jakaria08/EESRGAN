@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 10,
+        "val_freq": 1000,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -110,7 +110,7 @@
         "Test_Result_HR_HR_tank": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_HR_HR_tank/"
     },
     "logger": {
-      "print_freq": 10,
-      "save_checkpoint_freq": 10
+      "print_freq": 100,
+      "save_checkpoint_freq": 3000
     }
 }
