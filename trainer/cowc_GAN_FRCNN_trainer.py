@@ -104,8 +104,8 @@ class COWCGANFrcnnTrainer:
                     logger.info('Saving models and training states.')
                     self.model.save(current_step)
                     self.model.save_training_state(epoch, current_step)
-
-                #saving SR_images
+                    '''
+                    #saving SR_images
                     for _, (image, targets) in enumerate(self.valid_data_loader):
                         #print(image)
                         img_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
@@ -148,7 +148,7 @@ class COWCGANFrcnnTrainer:
                                                      '{:s}_{:d}_lap_HR.png'.format(img_name, current_step))
                         save_img(lap_HR, save_img_path)
 
-
+                    '''
         logger.info('Saving the final model.')
         self.model.save('latest')
         logger.info('End of training.')
