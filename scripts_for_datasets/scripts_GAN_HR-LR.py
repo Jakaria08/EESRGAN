@@ -438,20 +438,20 @@ def xml_to_text():
 def create_dataset():
     Dir_HR = "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4"
     Dir_LR = "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4"
-    files = glob.glob("/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4/*.txt")
-    files = files[:320]
+    files = glob.glob("/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4/*.txt")
+    files = files[:45]
 
     for file in files:
         img_file = os.path.splitext(os.path.basename(file))[0]+'.png'
         txt_file = os.path.basename(file)
 
-        sourceH = os.path.join(Dir_HR,img_file)
-        destinationH = os.path.join(os.path.dirname(Dir_HR), '750', img_file)
+        sourceH = os.path.join(Dir_LR,img_file)
+        destinationH = os.path.join(os.path.dirname(Dir_LR), '100', img_file)
         shutil.copyfile(sourceH, destinationH)
 
 
-        sourceHtxt = os.path.join(Dir_HR,txt_file)
-        destinationHtxt = os.path.join(os.path.dirname(Dir_HR), '750', txt_file)
+        sourceHtxt = os.path.join(Dir_LR,txt_file)
+        destinationHtxt = os.path.join(os.path.dirname(Dir_LR), '100', txt_file)
         shutil.copyfile(sourceHtxt, destinationHtxt)
 
 if __name__ == "__main__":
