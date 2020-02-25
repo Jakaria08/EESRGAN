@@ -18,8 +18,7 @@ class SSDBoxHead(nn.Module):
 
     def forward(self, features, targets=None):
         cls_logits, bbox_pred = self.predictor(features)
-        print(cls_logits)
-        print(len(cls_logits[0]))
+        #8732 logits
         if self.training:
             return self._forward_train(cls_logits, bbox_pred, targets)
         else:
