@@ -231,6 +231,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
         self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
         self.targets_ssd = list()
+        self.targets_ssd_dict = {}
         self.targets_ssd_temp = {}
 
         target_transform = build_target_transform()
@@ -240,11 +241,11 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
 
         self.targets_ssd = [{k: v.to(self.device) for k, v in t.items()} for t in self.targets_ssd]
 
-        self.targets_ssd['boxes'] = [self.targets_ssd[i]['boxes'] for i in range(target_count)]
-        self.targets_ssd['labels'] = [self.targets_ssd[i]['labels'] for i in range(target_count)]
+        self.targets_ssd_dict['boxes'] = [self.targets_ssd[i]['boxes'] for i in range(target_count)]
+        self.targets_ssd_dict['labels'] = [self.targets_ssd[i]['labels'] for i in range(target_count)]
 
-        self.targets_ssd['boxes'] = torch.stack(self.targets_ssd['boxes'], dim=0)
-        self.targets_ssd['labels'] = torch.stack(self.targets_ssd['labels'], dim=0)
+        self.targets_ssd_dict['boxes'] = torch.stack(self.targets_ssd_dict['boxes'], dim=0)
+        self.targets_ssd_dict['labels'] = torch.stack(self.targets_ssd_dict['labels'], dim=0)
         '''
         print(self.intermediate_img.size())
         print(self.targets_ssd['boxes'].size())
