@@ -243,7 +243,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
             self.targets_ssd['boxes'].append(tboxes)
             self.targets_ssd['labels'].append(tlabels)
 
-        self.targets_ssd = [{k: v.to(self.device) for k, v in t.items()} for t in targets]
+        self.targets_ssd = [{k: v.to(self.device) for k, v in t.items()} for t in self.targets_ssd]
         self.targets_ssd['boxes'] = torch.stack(self.targets_ssd['boxes'], dim=0)
         self.targets_ssd['labels'] = torch.stack(self.targets_ssd['labels'], dim=0)
         '''
