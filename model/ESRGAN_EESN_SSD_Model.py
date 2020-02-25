@@ -11,6 +11,7 @@ from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from ssd.modeling.detector import build_detection_model
 from ssd.data.transforms import build_target_transform
+from ssd.utils import dist_util
 import torch.nn.functional as F
 
 logger = logging.getLogger('base')
