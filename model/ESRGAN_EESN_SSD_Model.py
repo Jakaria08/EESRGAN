@@ -10,6 +10,7 @@ from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from ssd.modeling.detector import build_detection_model
+import torch.nn.functional as F
 
 logger = logging.getLogger('base')
 # Taken from ESRGAN BASICSR repository and modified
@@ -222,9 +223,12 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         #Run SSD
         self.optimizer_SSD.zero_grad()
         self.intermediate_img = self.fake_H.detach()
-        #img_count = self.intermediate_img.size()[0]
-        #self.intermediate_img = [self.intermediate_img[i] for i in range(img_count)]
+        img_count = self.intermediate_img.size()[0]
+        #self.intermediate_img = [F.interpolate(self.intermediate_img[i], size=300) for i in range(img_count)]
+        #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
+        self.intermediate_img[i] = F.interpolate(self.intermediate_img, size=300)
         print(self.intermediate_img)
+
         loss_dict = self.netSSD(self.intermediate_img, self.targets)
         losses = sum(loss for loss in loss_dict.values())
 
