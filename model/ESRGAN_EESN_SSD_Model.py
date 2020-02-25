@@ -228,7 +228,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
         self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
         print(self.intermediate_img)
-
+        print(self.targets)
         loss_dict = self.netSSD(self.intermediate_img, self.targets)
         losses = sum(loss for loss in loss_dict.values())
 
