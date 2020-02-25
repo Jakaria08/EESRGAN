@@ -24,8 +24,8 @@
     "data_loader": {
         "type": "COWCGANFrcnnDataLoader",
         "args":{
-            "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/x4/100/",
-            "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/x4/100/",
+            "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/HR/100/",
+            "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/TankData/HR_LR_BIC_Data/LR/100/",
             "batch_size": 3,
             "shuffle": true,
             "validation_split": 0.0,
