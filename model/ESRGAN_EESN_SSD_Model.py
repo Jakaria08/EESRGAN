@@ -224,12 +224,16 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         self.optimizer_SSD.zero_grad()
         self.intermediate_img = self.fake_H.detach()
         img_count = self.intermediate_img.size()[0]
+        target_count = self.targets.size()[0]
         #self.intermediate_img = [F.interpolate(self.intermediate_img[i], size=300) for i in range(img_count)]
         #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
         self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
+        self.targets_ssd = {}
+        self.targets_ssd['boxes'] = [self.targets[i]['boxes'] for i in range(target_count)]
+        self.targets_ssd['labels'] = [self.targets[i]['lables'] for i in range(target_count)]
         print(self.intermediate_img)
         print(self.targets)
-        loss_dict = self.netSSD(self.intermediate_img, self.targets)
+        loss_dict = self.netSSD(self.intermediate_img, self.targets_ssd)
         losses = sum(loss for loss in loss_dict.values())
 
         # reduce losses over all GPUs for logging purposes
