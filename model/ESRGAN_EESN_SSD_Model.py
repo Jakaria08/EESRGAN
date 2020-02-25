@@ -231,7 +231,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
         self.targets_ssd = {}
         self.targets_ssd['boxes'] = [self.targets[i]['boxes'] for i in range(target_count)]
-        self.targets_ssd['labels'] = [self.targets[i]['lables'] for i in range(target_count)]
+        self.targets_ssd['labels'] = [self.targets[i]['labels'] for i in range(target_count)]
         print(self.intermediate_img)
         print(self.targets)
         loss_dict = self.netSSD(self.intermediate_img, self.targets_ssd)
