@@ -224,7 +224,8 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         self.optimizer_SSD.zero_grad()
         self.intermediate_img = self.fake_H.detach()
         img_count = self.intermediate_img.size()[0]
-        target_count = self.targets.size()[0]
+        target_count = len(self.targets)
+        print(target_count)
         #self.intermediate_img = [F.interpolate(self.intermediate_img[i], size=300) for i in range(img_count)]
         #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
         self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
