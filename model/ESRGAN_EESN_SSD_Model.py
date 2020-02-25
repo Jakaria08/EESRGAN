@@ -224,6 +224,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         self.intermediate_img = self.fake_H.detach()
         #img_count = self.intermediate_img.size()[0]
         #self.intermediate_img = [self.intermediate_img[i] for i in range(img_count)]
+        print(self.intermediate_img)
         loss_dict = self.netSSD(self.intermediate_img, self.targets)
         losses = sum(loss for loss in loss_dict.values())
 
