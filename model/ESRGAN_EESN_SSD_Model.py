@@ -231,6 +231,8 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
         self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
         self.targets_ssd = {}
+        self.targets_ssd['boxes'] = list()
+        self.targets_ssd['labels'] = list()
         '''
         self.targets_ssd['boxes'] = [self.targets[i]['boxes'] for i in range(target_count)]
         self.targets_ssd['labels'] = [self.targets[i]['labels'] for i in range(target_count)]
