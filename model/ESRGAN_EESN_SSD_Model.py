@@ -257,7 +257,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         losses = sum(loss for loss in loss_dict.values())
 
         # reduce losses over all GPUs for logging purposes
-        loss_dict_reduced = reduce_loss_dict(loss_dict)
+        loss_dict_reduced = self.reduce_loss_dict(loss_dict)
         losses_reduced = sum(loss for loss in loss_dict_reduced.values())
 
         loss_value = losses_reduced.item()
@@ -312,7 +312,7 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
             out_dict['GT'] = self.var_H.detach()[0].float().cpu()
         return out_dict
 
-    def reduce_loss_dict(loss_dict):
+    def reduce_loss_dict(self,loss_dict):
         """
         Reduce the loss dictionary from all processes so that process with rank
         0 has the averaged results. Returns a dict with the same fields as
