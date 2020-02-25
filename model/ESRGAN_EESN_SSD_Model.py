@@ -10,6 +10,7 @@ from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
 from ssd.modeling.detector import build_detection_model
+from ssd.data.transforms import build_target_transform
 import torch.nn.functional as F
 
 logger = logging.getLogger('base')
@@ -230,16 +231,23 @@ class ESRGAN_EESN_SSD_Model(BaseModel):
         #self.intermediate_img = torch.stack(self.intermediate_img, dim=0)
         self.intermediate_img = F.interpolate(self.intermediate_img, size=300)
         self.targets_ssd = {}
+        '''
         self.targets_ssd['boxes'] = [self.targets[i]['boxes'] for i in range(target_count)]
         self.targets_ssd['labels'] = [self.targets[i]['labels'] for i in range(target_count)]
+        '''
+        target_transform = build_target_transform()
+        for i in range(target_count):
+            self.targets[i]['boxes'], self.targets[i]['labels'] = target_transform(self.targets[i]['boxes'],self.targets[i]['labels'])
+
         self.targets_ssd['boxes'] = torch.stack(self.targets_ssd['boxes'], dim=0)
         self.targets_ssd['labels'] = torch.stack(self.targets_ssd['labels'], dim=0)
-
+        '''
         print(self.intermediate_img.size())
         print(self.targets_ssd['boxes'].size())
         print(self.intermediate_img)
         print(self.targets_ssd)
-        
+        '''
+
         loss_dict = self.netSSD(self.intermediate_img, self.targets_ssd)
         losses = sum(loss for loss in loss_dict.values())
 
