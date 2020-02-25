@@ -25,6 +25,7 @@ class MultiBoxLoss(nn.Module):
             gt_locations (batch_size, num_priors, 4): real boxes corresponding all the priors.
         """
         num_classes = confidence.size(2)
+        print(num_classes)
         with torch.no_grad():
             # derived from cross_entropy=sum(log(p))
             loss = -F.log_softmax(confidence, dim=2)[:, :, 0]
