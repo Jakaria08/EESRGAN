@@ -220,13 +220,15 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         Freeze EESRGAN
         '''
         #freeze Generator
+        '''
         for p in self.netG.parameters():
             p.requires_grad = False
+        '''
         for p in self.netD.parameters():
             p.requires_grad = False
         #Run FRCNN
         self.optimizer_FRCNN.zero_grad()
-        self.intermediate_img = self.fake_H.detach()
+        self.intermediate_img = self.fake_H
         img_count = self.intermediate_img.size()[0]
         self.intermediate_img = [self.intermediate_img[i] for i in range(img_count)]
         loss_dict = self.netFRCNN(self.intermediate_img, self.targets)
