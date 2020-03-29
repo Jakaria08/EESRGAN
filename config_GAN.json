@@ -22,11 +22,11 @@
         "args": {}
     },
     "data_loader": {
-        "type": "COWCGANDataLoader",
+        "type": "COWCGANFrcnnDataLoader",
         "args":{
             "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/",
             "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/",
-            "batch_size": 2,
+            "batch_size": 5,
             "shuffle": true,
             "validation_split": 0.0,
             "num_workers": 2
@@ -70,7 +70,7 @@
         "feature_weight": 1,
 
         "gan_type": "ragan",
-        "gan_weight": 0.005,
+        "gan_weight": 0.001,
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
@@ -87,26 +87,25 @@
     },
     "path": {
         "models": "saved/pretrained_models_EESRGAN_FRCNN",
-        "FRCNN_model": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/",
-        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_G.pth",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_FRCNN.pth",
+        "FRCNN_model": "saved/FRCNN_model_Bic",
+        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/60000_G.pth",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/60000_D.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/60000_FRCNN.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
         "val_images": "saved/val_images",
         "log": "saved/logs",
-        "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/",
-        "data_dir_F_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Final_SR_images_test/",
-        "data_dir_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/SR_images_test/",
+        "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/",
+        "data_dir_F_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/final_SR_images_216000/",
+        "data_dir_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/SR_images/",
         "data_dir_SR_combined": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/combined_SR_images_216000/",
         "data_dir_E_SR_1": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_1/",
         "data_dir_E_SR_2": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_2/",
         "data_dir_E_SR_3": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_3/",
-        "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/",
+        "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/",
         "data_dir_LR_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/",
-        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/",
-        "Test_Result_LR_LR_COWC": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_LR_LR_COWC/"
+        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
     },
     "logger": {
       "print_freq": 10,
