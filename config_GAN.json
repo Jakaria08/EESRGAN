@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 1000,
+        "val_freq": 10,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -86,15 +86,15 @@
         "tensorboard": true
     },
     "path": {
-        "models": "saved/pretrained_models_EESRGAN_FRCNN_3000",
+        "models": "saved/pretrained_models_EESRGAN_FRCNN",
         "FRCNN_model": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/",
-        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_1000/12000_G.pth",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_1000/12000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_1000/12000_FRCNN.pth",
+        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_G.pth",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_D.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_FRCNN.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
-        "val_images": "saved/val_images_cars_3000",
+        "val_images": "saved/val_images",
         "log": "saved/logs",
         "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/",
         "data_dir_F_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Final_SR_images_test/",
@@ -109,7 +109,7 @@
         "Test_Result_LR_LR_COWC": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_LR_LR_COWC/"
     },
     "logger": {
-      "print_freq": 100,
-      "save_checkpoint_freq": 4111
+      "print_freq": 10,
+      "save_checkpoint_freq": 10
     }
 }
