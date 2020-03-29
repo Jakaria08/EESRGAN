@@ -6,9 +6,6 @@ import model.loss as module_loss
 import model.metric as module_metric
 import model.model as module_arch
 from parse_config import ConfigParser
-<<<<<<< HEAD
-
-=======
 from trainer import COWCFRCNNTrainer, COWCGANTrainer, COWCGANFrcnnTrainer
 '''
 python test.py -c config_GAN.json
@@ -24,7 +21,6 @@ def main(config):
 
     tester = COWCFRCNNTrainer(config=config)
     tester.test()
->>>>>>> EEGAN_Combined_FRCNN_local
 
 def main(config):
     logger = config.get_logger('test')

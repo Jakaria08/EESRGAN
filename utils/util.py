@@ -109,33 +109,6 @@ def collate_fn(batch):
     Image have a different number of objects, we need a collate function
     (to be passed to the DataLoader).
     '''
-<<<<<<< HEAD
-    target = {}
-    target['object'] = list()
-    target['image'] = list()
-    target['image_lq'] = list()
-    target['bboxes'] = list()
-    target['labels'] = list()
-    target['label_car_type'] = list()
-    target['idx'] = list()
-    target['LQ_path'] = list()
-
-    for b in batch:
-        target['object'].append(b['object'])
-        target['image'].append(b['image'])
-        target['image_lq'].append(b['image_lq'])
-        target['bboxes'].append(b['bboxes'])
-        target['labels'].append(b['labels'])
-        target['label_car_type'].append(b['label_car_type'])
-        target['idx'].append(b['idx'])
-        target['LQ_path'].append(b['LQ_path'])
-
-    target['object'] = torch.stack(target['object'], dim=0)
-    target['image'] = torch.stack(target['image'], dim=0)
-    target['image_lq'] = torch.stack(target['image_lq'], dim=0)
-
-    return target
-=======
     target = list()
     image = {}
     image['object'] = list()
@@ -156,7 +129,6 @@ def collate_fn(batch):
     image['image_lq'] = torch.stack(image['image_lq'], dim=0)
 
     return image, target
->>>>>>> EEGAN_Combined_FRCNN_local
 
 '''
 cubic() method is taken from ESRGAN(BasicSR) GitHub Repo.
