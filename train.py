@@ -10,7 +10,7 @@ import model.metric as module_metric
 import model.model as module_arch
 from parse_config import ConfigParser
 from trainer import COWCTrainer
-from trainer import COWCGANTrainer
+from trainer import COWCGANTrainer, COWCGANFrcnnTrainer
 from utils import setup_logger, dict2str
 '''
 python train.py -c config_GAN.json
