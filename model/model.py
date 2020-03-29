@@ -5,11 +5,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import utils as mutil
 import kornia
+import logging
 from functools import partial
 from dataclasses import dataclass
 from collections import OrderedDict
 from base import BaseModel
-
 
 class MnistModel(BaseModel):
     def __init__(self, num_classes=10):
@@ -535,24 +535,39 @@ class FinalConv(nn.Module):
 
         return x
 
-class ESRGAN_EESN(nn.Module):
-  def __init__(self, in_nc, out_nc, nf, nb):
-    super(ESRGAN_EESN, self).__init__()
-    self.RRDB = RRDBNet(in_nc, out_nc, nf, nb)
+'''
+Only EESN
+'''
+class EESN(nn.Module):
+  def __init__(self):
+    super(EESN, self).__init__()
     self.beginEdgeConv = BeginEdgeConv() #  Output 64*64*64 input 3*64*64
-    self.denseNet = EESNRRDBNet(64, 256, 64, 3) # RRDB densenet with 64 in kernel, 256 out kernel and 64 intermediate kernel, output: 256*64*64
+    self.denseNet = EESNRRDBNet(64, 256, 64, 5) # RRDB densenet with 64 in kernel, 256 out kernel and 64 intermediate kernel, output: 256*64*64
     self.maskConv = MaskConv() # Output 256*64*64
     self.finalConv = FinalConv() # Output 3*256*256
 
   def forward(self, x):
-    x_base = self.RRDB(x) # add bicubic according to the implementation by author but not stated in the paper
-    x_lap = kornia.laplacian(x_base,3) # see kornia laplacian kernel
+    x_lap = kornia.laplacian(x, 3) # see kornia laplacian kernel
     x1 = self.beginEdgeConv(x_lap)
     x2 = self.denseNet(x1)
     x3 = self.maskConv(x1)
     x4 = x3*x2 + x2
-    x5 = self.finalConv(x4)
-    x_sr = x5 + x_base - x_lap
-    #x_wt_base = x5 - x_lap
+    x_learned_lap = self.finalConv(x4)
 
-    return x_base, x_sr
+    return x_learned_lap, x_lap
+'''
+combined EESN
+'''
+
+class ESRGAN_EESN(nn.Module):
+  def __init__(self, in_nc, out_nc, nf, nb):
+    super(ESRGAN_EESN, self).__init__()
+    self.netRG = RRDBNet(in_nc, out_nc, nf, nb)
+    self.netE = EESN()
+
+  def forward(self, x):
+    x_base = self.netRG(x) # add bicubic according to the implementation by author but not stated in the paper
+    x5, x_lap = self.netE(x_base) # EESN net
+    x_sr = x5 + x_base - x_lap
+
+    return x_base, x_sr, x5, x_lap

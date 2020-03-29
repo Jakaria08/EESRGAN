@@ -11,10 +11,12 @@ import cv2
 import numpy as np
 import glob
 import shutil
+import kornia
+import torch
 
 try:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    from utils import imresize_np
+    from utils import imresize_np, calculate_psnr, calculate_ssim
 except ImportError:
     pass
 
@@ -121,6 +123,281 @@ def copy_folder_name_for_valid_image():
         destinationLtxt = os.path.join(Dir_LR, 'valid_img', txt_file)
         shutil.move(sourceLtxt, destinationLtxt)
 
+def merge_edge():
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
+    img_SR = sorted(glob.glob(dir+'_216000_SR.png'))
+    img_lap = sorted(glob.glob(dir+'_216000_lap.png'))
+    img_lap_learned = sorted(glob.glob(dir+'_216000_lap_learned.png'))
+    mean = np.array([0.3442, 0.3708, 0.3476])
+    std = np.array([0.1232, 0.1230, 0.1284])
+
+    for i, j, k in zip(img_SR, img_lap, img_lap_learned):
+        #print(i+'____'+j)
+        img_SR_1 = cv2.imread(i) / 255
+        img_lap_1 = cv2.imread(j) / 255
+        img_lap_learned_1 = cv2.imread(k) / 255
+
+        img_SR_1 = np.clip(img_SR_1, 0, 1)
+        img_lap_1 = np.clip(img_lap_1, 0, 1)
+        img_lap_learned_1 = np.clip(img_lap_learned_1, 0, 1)
+
+        img_SR_1 = (img_SR_1 - mean) / std
+        img_lap_1 = (img_lap_1 - mean) / std
+        img_lap_learned_1 = (img_lap_learned_1 - mean) / std
+
+        #img_final_SR_enhanced = img_SR_1 + (img_lap_1 - img_lap_learned_1)
+        img_final_SR_enhanced = img_SR_1 + (img_lap_learned_1 - img_lap_1)
+        img_final_SR_enhanced = std * img_final_SR_enhanced + mean
+        img_final_SR_enhanced = np.clip(img_final_SR_enhanced, 0, 1)
+
+        img_final_SR_enhanced = (img_final_SR_enhanced * 255.0).round().astype(np.uint8)
+
+        folder_name = os.path.dirname(i)
+        file_name = os.path.basename(folder_name)
+        img_path = os.path.join(folder_name,file_name+'_216000_img_final_SR_enhanced.png')
+        #print('_____'+img_path)
+
+        #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(img_path, img_final_SR_enhanced)
+'''
+very inefficient code, create a method to send two images at a time
+refactor it later..
+'''
+def calculate_psnr_ssim():
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
+    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*"
+    bicubic_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/*"
+    img_GT = sorted(glob.glob(HR_DIR+'.jpg'))
+    img_final_SR_enhanced_1 = sorted(glob.glob(dir+'/enhanced_SR_images_1/*.png'))
+    img_final_SR_enhanced_2 = sorted(glob.glob(dir+'/enhanced_SR_images_2/*.png'))
+    img_final_SR_enhanced_3 = sorted(glob.glob(dir+'/enhanced_SR_images_3/*.png'))
+    img_final_SR = sorted(glob.glob(dir+'/final_SR_images_216000/*.png'))
+    img_SR = sorted(glob.glob(dir+'/SR_images/*.png'))
+    img_SR_combined = sorted(glob.glob(dir+'/combined_SR_images_216000/*.png'))
+    img_Bic = sorted(glob.glob(bicubic_DIR+'.jpg'))
+
+
+    psnr_enhanced_1 = 0
+    psnr_enhanced_2 = 0
+    psnr_enhanced_3 = 0
+    psnr_final = 0
+    psnr_SR = 0
+    psnr_SR_combined = 0
+    psnr_Bic = 0
+
+    ssim_enhanced_1 = 0
+    ssim_enhanced_2 = 0
+    ssim_enhanced_3 = 0
+    ssim_final = 0
+    ssim_SR = 0
+    ssim_SR_combined = 0
+    ssim_Bic = 0
+
+    total = len(img_SR)
+    print(total)
+
+    i = 0
+
+    for im_gt, im_enhanced_1, im_enhanced_2, im_enhanced_3, im_final, im_SR, \
+            im_SR_combined, im_Bic in zip(img_GT,
+                                            img_final_SR_enhanced_1,
+                                            img_final_SR_enhanced_2,
+                                            img_final_SR_enhanced_3,
+                                            img_final_SR, img_SR, img_SR_combined,
+                                            img_Bic):
+        print(os.path.basename(im_gt)+'--', os.path.basename(im_enhanced_1)+'--',
+        os.path.basename(im_enhanced_2)+'--', os.path.basename(im_enhanced_3)+'--',
+        os.path.basename(im_final)+'--', os.path.basename(im_SR)+'--',
+        os.path.basename(im_SR_combined)+'--', os.path.basename(im_Bic))
+
+        image_gt = cv2.imread(im_gt)
+        image_enhanced_1 = cv2.imread(im_enhanced_1)
+        image_enhanced_2 = cv2.imread(im_enhanced_2)
+        image_enhanced_3 = cv2.imread(im_enhanced_3)
+        image_final = cv2.imread(im_final)
+        image_SR = cv2.imread(im_SR)
+        image_SR_combined = cv2.imread(im_SR_combined)
+        image_Bic = cv2.imread(im_Bic)
+
+        psnr_enhanced_1 += calculate_psnr(image_gt, image_enhanced_1)
+        psnr_enhanced_2 += calculate_psnr(image_gt, image_enhanced_2)
+        psnr_enhanced_3 += calculate_psnr(image_gt, image_enhanced_3)
+        psnr_final += calculate_psnr(image_gt, image_final)
+        psnr_SR += calculate_psnr(image_gt, image_SR)
+        psnr_SR_combined += calculate_psnr(image_gt, image_SR_combined)
+        psnr_Bic += calculate_psnr(image_gt, image_Bic)
+
+        ssim_enhanced_1 += calculate_ssim(image_gt, image_enhanced_1)
+        ssim_enhanced_2 += calculate_ssim(image_gt, image_enhanced_2)
+        ssim_enhanced_3 += calculate_ssim(image_gt, image_enhanced_3)
+        ssim_final += calculate_ssim(image_gt, image_final)
+        ssim_SR += calculate_ssim(image_gt, image_SR)
+        ssim_SR_combined += calculate_ssim(image_gt, image_SR_combined)
+        ssim_Bic += calculate_ssim(image_gt, image_Bic)
+
+        i += 1
+        print(i)
+
+    avg_psnr_enhanced_1, avg_psnr_enhanced_2, avg_psnr_enhanced_3,  avg_psnr_final, \
+        avg_psnr_SR, avg_psnr_SR_combined, avg_psnr_Bic = (psnr_enhanced_1 / total,
+                                                           psnr_enhanced_2 / total,
+                                                           psnr_enhanced_3 / total,
+                                                           psnr_final / total,
+                                                           psnr_SR / total,
+                                                           psnr_SR_combined / total,
+                                                           psnr_Bic / total)
+
+    avg_ssim_enhanced_1, avg_ssim_enhanced_2, avg_ssim_enhanced_3, avg_ssim_final, \
+        avg_ssim_SR, avg_ssim_SR_combined, avg_ssim_Bic = (ssim_enhanced_1 / total,
+                                                           ssim_enhanced_2 / total,
+                                                           ssim_enhanced_3 / total,
+                                                           ssim_final / total,
+                                                           ssim_SR / total,
+                                                           ssim_SR_combined / total,
+                                                           ssim_Bic / total)
+
+    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Output_216000.txt", "a")
+    print("Enhanced PSNR_1: %4.2f" % avg_psnr_enhanced_1)
+    text_file.write("Enhanced PSNR_1: %4.2f \n" % avg_psnr_enhanced_1)
+    print("Enhanced PSNR_2: %4.2f" % avg_psnr_enhanced_2)
+    text_file.write("Enhanced PSNR_2: %4.2f \n" % avg_psnr_enhanced_2)
+    print("Enhanced PSNR_3: %4.2f" % avg_psnr_enhanced_3)
+    text_file.write("Enhanced PSNR_3: %4.2f \n" % avg_psnr_enhanced_3)
+    print("Final PSNR: %4.2f"%avg_psnr_final)
+    text_file.write("Final PSNR: %4.2f \n"%avg_psnr_final)
+    print("SR PSNR: %4.2f"%avg_psnr_SR)
+    text_file.write("SR PSNR: %4.2f \n"%avg_psnr_SR)
+    print("SR PSNR_combined: %4.2f"%avg_psnr_SR_combined)
+    text_file.write("SR PSNR_combined: %4.2f \n"%avg_psnr_SR_combined)
+    print("Bic PSNR: %4.2f"%avg_psnr_Bic)
+    text_file.write("Bic PSNR: %4.2f \n"%avg_psnr_Bic)
+
+    print("Enhanced SSIM_1: %5.4f"%avg_ssim_enhanced_1)
+    text_file.write("Enhanced SSIM_1: %5.4f \n"%avg_ssim_enhanced_1)
+    print("Enhanced SSIM_2: %5.4f"%avg_ssim_enhanced_2)
+    text_file.write("Enhanced SSIM_2: %5.4f \n"%avg_ssim_enhanced_2)
+    print("Enhanced SSIM_3: %5.4f"%avg_ssim_enhanced_3)
+    text_file.write("Enhanced SSIM_3: %5.4f \n"%avg_ssim_enhanced_3)
+    print("Final SSIM: %5.4f"%avg_ssim_final)
+    text_file.write("Final SSIM: %5.4f \n"%avg_ssim_final)
+    print("SR SSIM: %5.4f"%avg_ssim_SR)
+    text_file.write("SR SSIM: %5.4f \n"%avg_ssim_SR)
+    print("SR SSIM_combined: %5.4f"%avg_ssim_SR_combined)
+    text_file.write("SR SSIM_combined: %5.4f \n"%avg_ssim_SR_combined)
+    print("Bic SSIM: %5.4f"%avg_ssim_Bic)
+    text_file.write("Bic SSIM: %5.4f \n"%avg_ssim_Bic)
+    text_file.close()
+
+def calculate_psnr_ssim_ESRGAN():
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/val_images/*/*"
+    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/"
+    img_SR = sorted(glob.glob(dir+'_300000.png'))
+
+    psnr_SR = 0
+    ssim_SR = 0
+
+    total = len(img_SR)
+    print(total)
+
+    i = 0
+
+    for im_SR in img_SR:
+        print(os.path.basename(im_SR)+'--')
+        im_gt = os.path.basename(im_SR)
+        im_gt = im_gt.rsplit('_', 1)[0]+".jpg"
+        im_gt = os.path.join(HR_DIR, im_gt)
+        print(im_gt)
+
+        image_SR = cv2.imread(im_SR)
+        image_SR = cv2.cvtColor(image_SR, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(im_SR, image_SR)
+
+        image_gt = cv2.imread(im_gt)
+        image_SR = cv2.imread(im_SR)
+
+        psnr_SR += calculate_psnr(image_gt, image_SR)
+        ssim_SR += calculate_ssim(image_gt, image_SR)
+
+        i += 1
+        print(i)
+
+    avg_psnr_SR = psnr_SR / total
+    avg_ssim_SR = ssim_SR / total
+
+    text_file = open("/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_ESRGAN/Output.txt", "a")
+    print("SR PSNR: %4.2f"%avg_psnr_SR)
+    text_file.write("SR PSNR: %4.2f \n"%avg_psnr_SR)
+    print("SR SSIM: %5.4f"%avg_ssim_SR)
+    text_file.write("SR SSIM: %5.4f \n"%avg_ssim_SR)
+
+def separate_generated_image_for_test():
+    dir = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/val_images/*/*"
+    dir_ESRGAN = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved_EEGAN_separate/val_images/*/*"
+    dir_save = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/"
+
+    img_final_SR = sorted(glob.glob(dir+'_216000_final_SR.png'))
+    img_SR = sorted(glob.glob(dir+'_216000_SR.png'))
+    #img_enhanced_SR = sorted(glob.glob(dir_ESRGAN+'_400000_img_final_SR_enhanced.png'))
+
+    for im_final_SR, im_SR in zip(img_final_SR, img_SR):
+    #for im_final_SR in img_final_SR:
+        image_final_SR = cv2.imread(im_final_SR)
+        image_SR = cv2.imread(im_SR)
+        #image_enhanced_SR = cv2.imread(im_enhanced_SR)
+
+        final_SR_Dir = os.path.basename(im_final_SR)
+        final_SR_Dir = final_SR_Dir.rsplit('_', 3)[0]+".png"
+        final_SR_Dir = os.path.join(dir_save, 'final_SR_images_216000', final_SR_Dir)
+        cv2.imwrite(final_SR_Dir, image_final_SR)
+
+        SR_Dir = os.path.basename(im_SR)
+        SR_Dir = SR_Dir.rsplit('_', 2)[0]+".png"
+        SR_Dir = os.path.join(dir_save, 'combined_SR_images_216000', SR_Dir)
+        cv2.imwrite(SR_Dir, image_SR)
+        '''
+        enhanced_SR_Dir = os.path.basename(im_enhanced_SR)
+        enhanced_SR_Dir = enhanced_SR_Dir.rsplit('_', 5)[0]+".png"
+        enhanced_SR_Dir = os.path.join(dir_save, 'enhanced_SR_images', enhanced_SR_Dir)
+        cv2.imwrite(enhanced_SR_Dir, image_enhanced_SR)
+        '''
+def calculate_lap_edge():
+    HR_DIR = "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/*"
+    dir_save = "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/lap_edges_GT"
+    img_GT = sorted(glob.glob(HR_DIR+'.jpg'))
+    mean = np.array([0.3442, 0.3708, 0.3476])
+    std = np.array([0.1232, 0.1230, 0.1284])
+
+    for i in img_GT:
+        #print(i+'____'+j)
+        img_gt = cv2.imread(i) / 255
+        img_gt = np.clip(img_gt, 0, 1)
+        img_gt = (img_gt - mean) / std
+        img_gt = img_gt.transpose(2, 0, 1)
+        img_gt = np.expand_dims(img_gt, axis=0)
+        img_gt = torch.Tensor(img_gt)
+
+        img_gt = kornia.laplacian(img_gt, 3)
+
+        img_gt = img_gt.squeeze()
+        img_gt = img_gt.numpy()
+        img_gt = img_gt.transpose(1, 2, 0)
+        img_gt = std * img_gt + mean
+        img_gt = np.clip(img_gt, 0, 1)
+        img_gt = (img_gt * 255.0).round().astype(np.uint8)
+
+        file_name = os.path.basename(i)
+        img_path = os.path.join(dir_save,file_name)
+        #print('_____'+img_path)
+
+        #img_final_SR_enhanced = cv2.cvtColor(img_final_SR_enhanced, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(img_path, img_gt)
+
+
 if __name__ == "__main__":
     #generate_mod_LR_bic()
-    copy_folder_name_for_valid_image()
+    #copy_folder_name_for_valid_image()
+    #merge_edge()
+    #calculate_psnr_ssim_ESRGAN() #not working expected, use the other methods.
+    #separate_generated_image_for_test()
+    #calculate_psnr_ssim()
+    calculate_lap_edge()

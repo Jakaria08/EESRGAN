@@ -1,18 +1,23 @@
 import logging
 from collections import OrderedDict
 import torch
+import torchvision
 import torch.nn as nn
 import model.model as model
 import model.lr_scheduler as lr_scheduler
 from model.loss import GANLoss, CharbonnierLoss
 from .gan_base_model import BaseModel
 from torch.nn.parallel import DataParallel, DistributedDataParallel
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+from detection.engine import train_one_epoch, evaluate
+from detection.utils import reduce_dict
+
 
 logger = logging.getLogger('base')
 # Taken from ESRGAN BASICSR repository and modified
-class ESRGAN_EESN_Model(BaseModel):
+class ESRGAN_EESN_FRCNN_Model(BaseModel):
     def __init__(self, config, device):
-        super(ESRGAN_EESN_Model, self).__init__(config, device)
+        super(ESRGAN_EESN_FRCNN_Model, self).__init__(config, device)
         self.configG = config['network_G']
         self.configD = config['network_D']
         self.configT = config['train']
@@ -23,15 +28,23 @@ class ESRGAN_EESN_Model(BaseModel):
         self.netG = model.ESRGAN_EESN(in_nc=self.configG['in_nc'], out_nc=self.configG['out_nc'],
                                     nf=self.configG['nf'], nb=self.configG['nb'])
         self.netG = self.netG.to(self.device)
-        self.netG = DataParallel(self.netG, device_ids=[1,0])
+        self.netG = DataParallel(self.netG)
 
         #descriminator
         self.netD = model.Discriminator_VGG_128(in_nc=self.configD['in_nc'], nf=self.configD['nf'])
         self.netD = self.netD.to(self.device)
-        self.netD = DataParallel(self.netD, device_ids=[1,0])
+        self.netD = DataParallel(self.netD)
+
+        #FRCNN_model
+        self.netFRCNN = torchvision.models.detection.fasterrcnn_resnet50_fpn()
+        num_classes = 2 # car and background
+        in_features = self.netFRCNN.roi_heads.box_predictor.cls_score.in_features
+        self.netFRCNN.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+        self.netFRCNN.to(self.device)
 
         self.netG.train()
         self.netD.train()
+        self.netFRCNN.train()
         #print(self.configT['pixel_weight'])
         # G CharbonnierLoss for final output SR and GT HR
         self.cri_charbonnier = CharbonnierLoss().to(device)
@@ -65,7 +78,7 @@ class ESRGAN_EESN_Model(BaseModel):
             self.netF = model.VGGFeatureExtractor(feature_layer=34,
                                           use_input_norm=True, device=self.device)
             self.netF = self.netF.to(self.device)
-            self.netF = DataParallel(self.netF, device_ids=[1,0])
+            self.netF = DataParallel(self.netF)
             self.netF.eval()
 
         # GD gan loss
@@ -96,6 +109,12 @@ class ESRGAN_EESN_Model(BaseModel):
                                             betas=(self.configO['beta1_D'], self.configO['beta2_D']))
         self.optimizers.append(self.optimizer_D)
 
+        # FRCNN -- use weigt decay
+        FRCNN_params = [p for p in self.netFRCNN.parameters() if p.requires_grad]
+        self.optimizer_FRCNN = torch.optim.SGD(FRCNN_params, lr=0.005,
+                                               momentum=0.9, weight_decay=0.0005)
+        self.optimizers.append(self.optimizer_FRCNN)
+
         # schedulers
         if self.configS['type'] == 'MultiStepLR':
             for optimizer in self.optimizers:
@@ -123,14 +142,23 @@ class ESRGAN_EESN_Model(BaseModel):
     and also used np.ascontiguousarray()
     Might change my code if problem happens
     '''
-    def feed_data(self, data):
-        self.var_L = data['image_lq'].to(self.device)
-        self.var_H = data['image'].to(self.device)
-        input_ref = data['ref'] if 'ref' in data else data['image']
+    def feed_data(self, image, targets):
+        self.var_L = image['image_lq'].to(self.device)
+        self.var_H = image['image'].to(self.device)
+        input_ref = image['ref'] if 'ref' in image else image['image']
         self.var_ref = input_ref.to(self.device)
+        '''
+        for t in targets:
+            for k, v in t.items():
+                print(v)
+        '''
+        self.targets = [{k: v.to(self.device) for k, v in t.items()} for t in targets]
+
 
     def optimize_parameters(self, step):
         #Generator
+        for p in self.netG.parameters():
+            p.requires_grad = True
         for p in self.netD.parameters():
             p.requires_grad = False
         self.optimizer_G.zero_grad()
@@ -161,7 +189,7 @@ class ESRGAN_EESN_Model(BaseModel):
                 l_e_charbonnier = 5 * self.cri_charbonnier(self.final_SR, self.var_H) #change the weight to empirically
             l_g_total += l_e_charbonnier
 
-            l_g_total.backward()
+            l_g_total.backward(retain_graph=True)
             self.optimizer_G.step()
 
         #descriminator
@@ -184,6 +212,34 @@ class ESRGAN_EESN_Model(BaseModel):
         l_d_total.backward()
         self.optimizer_D.step()
 
+        '''
+        Freeze EESRGAN
+        '''
+        #freeze Generator
+        '''
+        for p in self.netG.parameters():
+            p.requires_grad = False
+        '''
+        for p in self.netD.parameters():
+            p.requires_grad = False
+        #Run FRCNN
+        self.optimizer_FRCNN.zero_grad()
+        #self.intermediate_img = self.fake_H
+        self.intermediate_img = self.final_SR
+        img_count = self.intermediate_img.size()[0]
+        self.intermediate_img = [self.intermediate_img[i] for i in range(img_count)]
+        loss_dict = self.netFRCNN(self.intermediate_img, self.targets)
+        losses = sum(loss for loss in loss_dict.values())
+
+        # reduce losses over all GPUs for logging purposes
+        loss_dict_reduced = reduce_dict(loss_dict)
+        losses_reduced = sum(loss for loss in loss_dict_reduced.values())
+
+        loss_value = losses_reduced.item()
+
+        losses.backward()
+        self.optimizer_FRCNN.step()
+
         # set log
         if step % self.D_update_ratio == 0 and step > self.D_init_iters:
             if self.cri_pix:
@@ -197,13 +253,17 @@ class ESRGAN_EESN_Model(BaseModel):
         self.log_dict['l_d_fake'] = l_d_fake.item()
         self.log_dict['D_real'] = torch.mean(pred_d_real.detach())
         self.log_dict['D_fake'] = torch.mean(pred_d_fake.detach())
+        self.log_dict['FRCNN_loss'] = loss_value
 
-    def test(self):
+    def test(self, valid_data_loader):
         self.netG.eval()
+        self.netFRCNN.eval()
+        self.targets = valid_data_loader
         with torch.no_grad():
             self.fake_H, self.final_SR, self.x_learned_lap_fake, self.x_lap = self.netG(self.var_L)
-            _, _, _, self.x_lap_HR = self.netG(self.var_H)
+            evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         self.netG.train()
+        self.netFRCNN.train()
 
     def get_current_log(self):
         return self.log_dict
@@ -215,7 +275,6 @@ class ESRGAN_EESN_Model(BaseModel):
         out_dict['SR'] = self.fake_H.detach()[0].float().cpu()
         out_dict['lap_learned'] = self.x_learned_lap_fake.detach()[0].float().cpu()
         out_dict['lap'] = self.x_lap.detach()[0].float().cpu()
-        out_dict['lap_HR'] = self.x_lap_HR.detach()[0].float().cpu()
         out_dict['final_SR'] = self.final_SR.detach()[0].float().cpu()
         if need_GT:
             out_dict['GT'] = self.var_H.detach()[0].float().cpu()
@@ -259,6 +318,20 @@ class ESRGAN_EESN_Model(BaseModel):
                 net_struc_str, n))
             logger.info(s)
 
+        #FRCNN_model
+        # Discriminator
+        s, n = self.get_network_description(self.netFRCNN)
+        if isinstance(self.netFRCNN, nn.DataParallel) or isinstance(self.netFRCNN,
+                                                                DistributedDataParallel):
+            net_struc_str = '{} - {}'.format(self.netFRCNN.__class__.__name__,
+                                             self.netFRCNN.module.__class__.__name__)
+        else:
+            net_struc_str = '{}'.format(self.netFRCNN.__class__.__name__)
+
+        logger.info('Network FRCNN structure: {}, with parameters: {:,d}'.format(
+            net_struc_str, n))
+        logger.info(s)
+
     def load(self):
         load_path_G = self.config['path']['pretrain_model_G']
         if load_path_G:
@@ -268,8 +341,14 @@ class ESRGAN_EESN_Model(BaseModel):
         if load_path_D:
             logger.info('Loading model for D [{:s}] ...'.format(load_path_D))
             self.load_network(load_path_D, self.netD, self.config['path']['strict_load'])
+        load_path_FRCNN = self.config['path']['pretrain_model_FRCNN']
+        if load_path_FRCNN:
+            logger.info('Loading model for FRCNN [{:s}] ...'.format(load_path_FRCNN))
+            self.load_network(load_path_FRCNN, self.netFRCNN, self.config['path']['strict_load'])
+
 
     def save(self, iter_step):
         self.save_network(self.netG, 'G', iter_step)
         self.save_network(self.netD, 'D', iter_step)
+        self.save_network(self.netFRCNN, 'FRCNN', iter_step)
         #self.save_network(self.netG.module.netE, 'E', iter_step)

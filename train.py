@@ -11,6 +11,8 @@ import model.model as module_arch
 from parse_config import ConfigParser
 from trainer import COWCTrainer
 from trainer import COWCGANTrainer
+from trainer import COWCFRCNNTrainer
+from trainer import COWCGANFrcnnTrainer
 from utils import setup_logger, dict2str
 '''
 python train.py -c config_GAN.json
@@ -37,8 +39,8 @@ def main(config):
     # setup data_loader instances
     data_loader = config.init_obj('data_loader', module_data)
     #change later this valid_data_loader using init_obj
-    valid_data_loader = module_data.COWCGANDataLoader('/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/',
-    '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/', 1)
+    valid_data_loader = module_data.COWCGANFrcnnDataLoader('/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/',
+    '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/', 1, training = False)
 
     # build model architecture, then print to console
     #model = config.init_obj('arch', module_arch)
@@ -60,11 +62,20 @@ def main(config):
                       valid_data_loader=valid_data_loader,
                       lr_scheduler=lr_scheduler)
     '''
+    '''
     trainer = COWCGANTrainer(config=config,data_loader=data_loader,
                      valid_data_loader=valid_data_loader
                      )
+    '''
+    
+    trainer = COWCGANFrcnnTrainer(config=config, data_loader=data_loader,
+                     valid_data_loader=valid_data_loader)
     trainer.train()
 
+    '''
+    trainer = COWCFRCNNTrainer(config=config)
+    trainer.train()
+    '''
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser(description='PyTorch Template')
