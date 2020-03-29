@@ -22,11 +22,11 @@
         "args": {}
     },
     "data_loader": {
-        "type": "COWCGANFrcnnDataLoader",
+        "type": "COWCGANDataLoader",
         "args":{
             "data_dir_GT": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/",
             "data_dir_LQ": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/",
-            "batch_size": 4,
+            "batch_size": 2,
             "shuffle": true,
             "validation_split": 0.0,
             "num_workers": 2
@@ -70,11 +70,11 @@
         "feature_weight": 1,
 
         "gan_type": "ragan",
-        "gan_weight": 0.001,
+        "gan_weight": 0.005,
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 10,
+        "val_freq": 5000,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -86,28 +86,17 @@
         "tensorboard": true
     },
     "path": {
-        "models": "saved/pretrained_models_EESRGAN_FRCNN_Backpropagated_with_Edge_net",
-        "FRCNN_model": "saved/FRCNN_model_Bic",
-        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_G.pth",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN_Backpropagated/153000_FRCNN.pth",
+        "models": "saved/pretrained_models",
+        "pretrain_model_G": "",
+        "pretrain_model_D": "",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
         "val_images": "saved/val_images",
-        "log": "saved/logs",
-        "data_dir_Valid": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/",
-        "data_dir_F_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/final_SR_images_216000/",
-        "data_dir_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/SR_images/",
-        "data_dir_SR_combined": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/combined_SR_images_216000/",
-        "data_dir_E_SR_1": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_1/",
-        "data_dir_E_SR_2": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_2/",
-        "data_dir_E_SR_3": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/enhanced_SR_images_3/",
-        "data_dir_Bic": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/valid_img/",
-        "data_dir_Bic_train": "/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/Bic/x4/"
+        "log": "saved/logs"
     },
     "logger": {
-      "print_freq": 10,
-      "save_checkpoint_freq": 10
+      "print_freq": 100,
+      "save_checkpoint_freq": 5000
     }
 }
