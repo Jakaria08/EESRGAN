@@ -60,9 +60,15 @@ def main(config):
                       valid_data_loader=valid_data_loader,
                       lr_scheduler=lr_scheduler)
     '''
+    '''
     trainer = COWCGANTrainer(config=config,data_loader=data_loader,
                      valid_data_loader=valid_data_loader
                      )
+
+    '''
+    trainer = COWCGANFrcnnTrainer(config=config, data_loader=data_loader,
+                     valid_data_loader=valid_data_loader)
+
     trainer.train()
 
 

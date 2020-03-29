@@ -109,6 +109,7 @@ def collate_fn(batch):
     Image have a different number of objects, we need a collate function
     (to be passed to the DataLoader).
     '''
+<<<<<<< HEAD
     target = {}
     target['object'] = list()
     target['image'] = list()
@@ -134,6 +135,28 @@ def collate_fn(batch):
     target['image_lq'] = torch.stack(target['image_lq'], dim=0)
 
     return target
+=======
+    target = list()
+    image = {}
+    image['object'] = list()
+    image['image'] = list()
+    image['image_lq'] = list()
+    image['LQ_path'] = list()
+
+    for obj in batch:
+        b = obj[0]
+        image['object'].append(b['object'])
+        image['image'].append(b['image'])
+        image['image_lq'].append(b['image_lq'])
+        image['LQ_path'].append(b['LQ_path'])
+        target.append(obj[1])
+
+    image['object'] = torch.stack(image['object'], dim=0)
+    image['image'] = torch.stack(image['image'], dim=0)
+    image['image_lq'] = torch.stack(image['image_lq'], dim=0)
+
+    return image, target
+>>>>>>> EEGAN_Combined_FRCNN_local
 
 '''
 cubic() method is taken from ESRGAN(BasicSR) GitHub Repo.
