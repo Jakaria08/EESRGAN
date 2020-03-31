@@ -67,6 +67,12 @@ def _get_iou_types(model):
     return iou_types
 
 '''
+Draw boxes on the test images
+'''
+def draw_detection_boxes(config):
+    pass
+
+'''
 for generating test boxes
 '''
 def get_prediction(outputs, file_path, threshold=0.5):
@@ -78,12 +84,14 @@ def get_prediction(outputs, file_path, threshold=0.5):
     for i in range(len(text_boxes)):
         new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
     new_class_conf_box = np.matrix(new_class_conf_box)
-
+    #print(new_class_conf_box)
     np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
 
 @torch.no_grad()
 def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
+    i = 1
+    print("Detection started........")
     for image, targets in data_loader:
         image['image_lq'] = image['image_lq'].to(device)
 
@@ -93,8 +101,11 @@ def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
         outputs = model_FRCNN(img)
         file_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
         file_path = os.path.join(config['path']['Test_Result_SR'], file_name+'.txt')
-
+        i=i+1
+        print(i)
         get_prediction(outputs, file_path)
+    print("Drawing bounding boxes for the detected objects on the test images........")
+    draw_detection_boxes(config)
 
 '''
 This evaluate method is changed to pass the generator network and evalute

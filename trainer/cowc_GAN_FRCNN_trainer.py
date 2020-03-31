@@ -35,7 +35,7 @@ class COWCGANFrcnnTrainer:
         self.model = ESRGAN_EESN.ESRGAN_EESN_FRCNN_Model(config,self.device)
 
     def test(self):
-        self.model.test(self.data_loader, train=False)
+        self.model.test(self.data_loader, train=False, testResult=True)
 
     def train(self):
         '''
@@ -65,8 +65,8 @@ class COWCGANFrcnnTrainer:
                 from tensorboardX import SummaryWriter
             tb_logger = SummaryWriter(log_dir='saved/tb_logger/' + self.config['name'])
 
-        current_step = 0
-        start_epoch = 0
+        current_step = 112001
+        start_epoch = 30
 
         #### training
         logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
