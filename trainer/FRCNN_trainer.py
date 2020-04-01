@@ -123,10 +123,28 @@ class COWCFRCNNTrainer:
         print("model_loaded")
 
     '''
+    Draw boxes on the test images
+    '''
+    def draw_detection_boxes(new_class_conf_box, file_path, image):
+        #source_image_path = os.path.join(self.config['path']['output_images'], file_name, file_name+'_112000_final_SR.png')
+        dest_image_path = os.path.splitext(file_path)[0]+'.png'
+        image = tensor2img(image)
+        #print(new_class_conf_box)
+        #print(len(new_class_conf_box))
+        for i in range(len(new_class_conf_box)):
+            clas,con,x1,y1,x2,y2 = new_class_conf_box[i]
+            cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 4)
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(image, 'Car: '+ str((int(con*100))) + '%', (x1+5, y1+8), font, 0.2,(0,255,0),1,cv2.LINE_AA)
+
+        cv2.imwrite(dest_image_path, image)
+
+    '''
     for generating test boxes
     '''
-    def get_prediction(self, model, image, annotation_path, threshold=0.5):
+    def get_prediction(self, model, images, annotation_path, threshold=0.5):
         new_class_conf_box = list()
+        image = list(img.to(self.device) for img in images)
         outputs = model(image)
         file_path = os.path.join(self.config['path']['Test_Result_LR_LR_COWC'], os.path.basename(annotation_path))
         #print(file_path)
@@ -136,8 +154,8 @@ class COWCFRCNNTrainer:
         #print(pred_score)
         for i in range(len(text_boxes)):
             new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]*4), int(text_boxes[i][1]*4), int(text_boxes[i][2]*4), int(text_boxes[i][3]*4)])
+        draw_detection_boxes(new_class_conf_box, file_path, images)
         new_class_conf_box = np.matrix(new_class_conf_box)
-
         np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
     #get test results
@@ -156,7 +174,7 @@ class COWCFRCNNTrainer:
 
         model.to(self.device)
 
-        self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
+        self.load_model(self.config['path']['pretrain_model_FRCNN_LR_LR'], model)
 
         _, data_loader_test, data_loader_test_SR, data_loader_test_SR_combined, \
                 data_loader_test_E_SR_1, data_loader_test_E_SR_2, data_loader_test_E_SR_3, \
@@ -167,7 +185,6 @@ class COWCFRCNNTrainer:
         model.eval()
         for image, targets, annotation_path in data_loader_test:
             annotation_path = ''.join(annotation_path)
-            image = list(img.to(self.device) for img in image)
             self.get_prediction(model, image, annotation_path)
             #evaluate_base(model, data_loader_test_Bic, device=self.device)
 

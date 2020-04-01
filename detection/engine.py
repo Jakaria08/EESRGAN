@@ -81,7 +81,7 @@ def draw_detection_boxes(new_class_conf_box, config, file_name, image):
         clas,con,x1,y1,x2,y2 = new_class_conf_box[i]
         cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 4)
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(image, 'Car: '+ "{0:.2f}".format(con*100) + '%', (x1+5, y1+8), font, 0.2,(255,0,0),1,cv2.LINE_AA)
+        cv2.putText(image, 'Car: '+ str((int(con*100))) + '%', (x1+5, y1+8), font, 0.2,(0,255,0),1,cv2.LINE_AA)
 
     cv2.imwrite(dest_image_path, image)
 
@@ -109,17 +109,17 @@ def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
     for image, targets in data_loader:
         image['image_lq'] = image['image_lq'].to(device)
 
-        img, _, _, _ = model_G(image['image_lq'])
+        _, img, _, _ = model_G(image['image_lq'])
         img_count = img.size()[0]
-        img = [img[i] for i in range(img_count)]
-        outputs = model_FRCNN(img)
+        images = [img[i] for i in range(img_count)]
+        outputs = model_FRCNN(images)
         file_name = os.path.splitext(os.path.basename(image['LQ_path'][0]))[0]
         file_path = os.path.join(config['path']['Test_Result_SR'], file_name+'.txt')
         i=i+1
         print(i)
-        image = img[0].detach()[0].float().cpu()
-        image = tensor2img(image)
-        get_prediction(outputs, file_path, config, file_name, image)
+        img = img[0].detach()[0].float().cpu()
+        img = tensor2img(img)
+        get_prediction(outputs, file_path, config, file_name, img)
     print('successfully generated the results!')
 
 '''

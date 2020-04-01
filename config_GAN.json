@@ -91,6 +91,7 @@
         "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/108000_G.pth",
         "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_D.pth",
         "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/112000_FRCNN.pth",
+        "pretrain_model_FRCNN_LR_LR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/20_FRCNN_LR_LR.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
         "resume_state": "~",
