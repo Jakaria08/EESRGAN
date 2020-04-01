@@ -42,9 +42,9 @@ class COWCFRCNNTrainer:
     def data_loaders(self):
         # use our dataset and defined transformations
         dataset = COWCFRCNNDataset(root=self.config['path']['data_dir_LR_train'],
-                    transforms=self.get_transform(train=True))
+                    image_height=64, image_width=64, transforms=self.get_transform(train=True))
         dataset_test = COWCFRCNNDataset(root=self.config['path']['data_dir_Valid'],
-                         transforms=self.get_transform(train=False))
+                         image_height=64, image_width=64, transforms=self.get_transform(train=False))
         dataset_test_SR = COWCFRCNNDataset(root=self.config['path']['data_dir_SR'],
                          transforms=self.get_transform(train=False))
         dataset_test_SR_combined = COWCFRCNNDataset(root=self.config['path']['data_dir_SR_combined'],
@@ -126,19 +126,18 @@ class COWCFRCNNTrainer:
     '''
     Draw boxes on the test images
     '''
-    def draw_detection_boxes(self, new_class_conf_box, file_path, image):
-        #source_image_path = os.path.join(self.config['path']['output_images'], file_name, file_name+'_112000_final_SR.png')
-        dest_image_path = os.path.splitext(file_path)[0]+'.png'
+    def draw_detection_boxes(self, new_class_conf_box, file_path):
+        source_image_path = os.path.join(self.config['path']['data_dir_Bic_valid'], os.path.splitext(os.path.basename(file_path))[0]+'.jpg')
+        dest_image_path = os.path.splitext(file_path)[0]+'.jpg'
         #print(dest_image_path)
-        #print(image)
-        image = tensor2img(image)
+        image = cv2.imread(source_image_path,1)
         #print(new_class_conf_box)
         #print(len(new_class_conf_box))
         for i in range(len(new_class_conf_box)):
             clas,con,x1,y1,x2,y2 = new_class_conf_box[i]
-            cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 4)
+            cv2.rectangle(image, (x1*4, y1*4), (x2*4, y2*4), (0,0,255), 4)
             font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(image, 'Car: '+ str((int(con*100))) + '%', (x1+5, y1+8), font, 0.2,(0,255,0),1,cv2.LINE_AA)
+            cv2.putText(image, 'Car: '+ str((int(con*100))) + '%', ((x1*4)+5, (y1*4)+8), font, 0.2,(0,255,0),1,cv2.LINE_AA)
 
         cv2.imwrite(dest_image_path, image)
 
@@ -148,9 +147,6 @@ class COWCFRCNNTrainer:
     def get_prediction(self, model, images, annotation_path, threshold=0.5):
         new_class_conf_box = list()
         image = list(img.to(self.device) for img in images)
-        images = list(img for img in images)
-        images = torch.stack(images, dim=0)
-        images = images.squeeze()
         outputs = model(image)
         file_path = os.path.join(self.config['path']['Test_Result_LR_LR_COWC'], os.path.basename(annotation_path))
         #print(file_path)
@@ -160,7 +156,7 @@ class COWCFRCNNTrainer:
         #print(pred_score)
         for i in range(len(text_boxes)):
             new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]*4), int(text_boxes[i][1]*4), int(text_boxes[i][2]*4), int(text_boxes[i][3]*4)])
-        self.draw_detection_boxes(new_class_conf_box, file_path, images)
+        self.draw_detection_boxes(new_class_conf_box, file_path)
         new_class_conf_box = np.matrix(new_class_conf_box)
         np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
@@ -236,7 +232,7 @@ class COWCFRCNNTrainer:
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         model.to(self.device)
-        #self.load_model(self.config['path']['pretrain_model_FRCNN'], model)
+        self.load_model(self.config['path']['pretrain_model_FRCNN_LR_LR'], model)
 
         # construct an optimizer
         params = [p for p in model.parameters() if p.requires_grad]
@@ -260,5 +256,5 @@ class COWCFRCNNTrainer:
             lr_scheduler.step()
             # evaluate on the test dataset
             evaluate_base(model, data_loader_test, device=self.device)
-            if epoch % 10 == 0:
+            if epoch % 1 == 0:
                 self.save_model(model, 'FRCNN_LR_LR', epoch)
