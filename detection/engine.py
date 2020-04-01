@@ -72,16 +72,16 @@ def _get_iou_types(model):
 Draw boxes on the test images
 '''
 def draw_detection_boxes(new_class_conf_box, config, file_name, image):
-    #source_image_path = os.path.join(config['path']['output_images'], file_name, file_name+'_112000_final_SR.png')
-    dest_image_path = os.path.join(config['path']['Test_Result_SR'], file_name, file_name+'_112000_final_SR.png')
-    #img = cv2.imread(source_image_path, 1)
-    print(new_class_conf_box)
-    print(len(new_class_conf_box))
+    source_image_path = os.path.join(config['path']['output_images'], file_name, file_name+'_112000_final_SR.png')
+    dest_image_path = os.path.join(config['path']['Test_Result_SR'], file_name+'.png')
+    image = cv2.imread(source_image_path, 1)
+    #print(new_class_conf_box)
+    #print(len(new_class_conf_box))
     for i in range(len(new_class_conf_box)):
         clas,con,x1,y1,x2,y2 = new_class_conf_box[i]
-        cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 4)
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 4)
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(image, 'Car: '+ "{0:.2f}".format(con*100) + '%', (x1+5, y1+8), font, 0.3,(255,0,0),1,cv2.LINE_AA)
+        cv2.putText(image, 'Car: '+ "{0:.2f}".format(con*100) + '%', (x1+5, y1+8), font, 0.2,(255,0,0),1,cv2.LINE_AA)
 
     cv2.imwrite(dest_image_path, image)
 
