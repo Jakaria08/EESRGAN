@@ -4,6 +4,7 @@ import time
 import torch
 import os
 import numpy as np
+import cv2
 
 import torchvision.models.detection.mask_rcnn
 
@@ -74,11 +75,13 @@ def draw_detection_boxes(new_class_conf_box, config, file_name, image):
     #source_image_path = os.path.join(config['path']['output_images'], file_name, file_name+'_112000_final_SR.png')
     dest_image_path = os.path.join(config['path']['Test_Result_SR'], file_name, file_name+'_112000_final_SR.png')
     #img = cv2.imread(source_image_path, 1)
-    for i in range(new_class_conf_box.shape[0]):
-        clas, con, x1,y1,x2,y2 = new_class_conf_box[i]
+    print(new_class_conf_box)
+    print(len(new_class_conf_box))
+    for i in range(len(new_class_conf_box)):
+        clas,con,x1,y1,x2,y2 = new_class_conf_box[i]
         cv2.rectangle(image, (x1, y1), (x2, y2), (255,0,0), 4)
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(image, 'Car: '+str(con*100) + '%', (x1+5, y1+8), font, 0.3,(255,0,0),1,cv2.LINE_AA)
+        cv2.putText(image, 'Car: '+ "{0:.2f}".format(con*100) + '%', (x1+5, y1+8), font, 0.3,(255,0,0),1,cv2.LINE_AA)
 
     cv2.imwrite(dest_image_path, image)
 
@@ -93,8 +96,8 @@ def get_prediction(outputs, file_path, config, file_name, image, threshold=0.5):
     #print(pred_score)
     for i in range(len(text_boxes)):
         new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
-    new_class_conf_box = np.matrix(new_class_conf_box)
     draw_detection_boxes(new_class_conf_box, config, file_name, image)
+    new_class_conf_box = np.matrix(new_class_conf_box)
     #print(new_class_conf_box)
     np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
@@ -114,7 +117,7 @@ def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
         file_path = os.path.join(config['path']['Test_Result_SR'], file_name+'.txt')
         i=i+1
         print(i)
-        image = img.detach()[0].float().cpu()
+        image = img[0].detach()[0].float().cpu()
         image = tensor2img(image)
         get_prediction(outputs, file_path, config, file_name, image)
     print('successfully generated the results!')

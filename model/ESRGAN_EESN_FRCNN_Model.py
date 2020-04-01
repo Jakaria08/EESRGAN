@@ -269,7 +269,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         if train == True:
             evaluate(self.netG, self.netFRCNN, self.targets, self.device)
         if testResult == True:
-            evaluate(self.netG, self.netFRCNN, self.targets, self.device)
+            #evaluate(self.netG, self.netFRCNN, self.targets, self.device)
             evaluate_save(self.netG, self.netFRCNN, self.targets, self.device, self.config)
         self.netG.train()
         self.netFRCNN.train()
