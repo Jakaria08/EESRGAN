@@ -155,11 +155,14 @@ class COWCFRCNNTrainer:
         pred_score = list(outputs[0]['scores'].detach().cpu().numpy())
         #print(pred_score)
         for i in range(len(text_boxes)):
+            if pred_score[i]<0.5:
+                continue
             new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]*4), int(text_boxes[i][1]*4), int(text_boxes[i][2]*4), int(text_boxes[i][3]*4)])
         self.draw_detection_boxes(new_class_conf_box, file_path)
-        new_class_conf_box = np.matrix(new_class_conf_box)
-        print(new_class_conf_box)
-        np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
+        new_class_conf_box1 = np.matrix(new_class_conf_box)
+        #print(new_class_conf_box)
+        if(len(new_class_conf_box))>0:
+            np.savetxt(file_path, new_class_conf_box1, fmt="%i %1.3f %i %i %i %i")
 
     #get test results
     def test(self):
