@@ -12,7 +12,7 @@ python test.py -c config_GAN.json
 '''
 
 def main(config):
-    '''
+
     data_loader = module_data.COWCGANFrcnnDataLoader('/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/HR/x4/valid_img/',
     '/home/jakaria/Super_Resolution/Datasets/COWC/DetectionPatches_256x256/Potsdam_ISPRS/LR/x4/valid_img/', 1, training=False)
     tester = COWCGANFrcnnTrainer(config=config, data_loader=data_loader)
@@ -21,7 +21,7 @@ def main(config):
     '''
     tester = COWCFRCNNTrainer(config=config)
     tester.test()
-
+    '''
     '''
     logger = config.get_logger('test')
 

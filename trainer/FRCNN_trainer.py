@@ -27,7 +27,7 @@ class COWCFRCNNTrainer:
         self.config = config
 
         n_gpu = torch.cuda.device_count()
-        self.device = torch.device('cuda:1' if n_gpu > 0 else 'cpu')
+        self.device = torch.device('cuda:0' if n_gpu > 0 else 'cpu')
 
     def get_transform(self, train):
         transforms = []

@@ -27,7 +27,7 @@ class COWCGANFrcnnTrainer:
         self.valid_data_loader = valid_data_loader
         self.do_validation = self.valid_data_loader is not None
         n_gpu = torch.cuda.device_count()
-        self.device = torch.device('cuda:1' if n_gpu > 0 else 'cpu')
+        self.device = torch.device('cuda:0' if n_gpu > 0 else 'cpu')
         self.train_size = int(math.ceil(self.data_loader.length / int(config['data_loader']['args']['batch_size'])))
         self.total_iters = int(config['train']['niter'])
         self.total_epochs = int(math.ceil(self.total_iters / self.train_size))
@@ -64,9 +64,9 @@ class COWCGANFrcnnTrainer:
                     'You are using PyTorch {}. Tensorboard will use [tensorboardX]'.format(version))
                 from tensorboardX import SummaryWriter
             tb_logger = SummaryWriter(log_dir='saved/tb_logger/' + self.config['name'])
-
-        current_step = 112001
-        start_epoch = 30
+        ## Todo : resume capability
+        current_step = 0
+        start_epoch = 0
 
         #### training
         logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
