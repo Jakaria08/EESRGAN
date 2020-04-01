@@ -104,7 +104,7 @@ def get_prediction(outputs, file_path, config, file_name, image, threshold=0.5):
 
 @torch.no_grad()
 def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
-    i = 1
+    i = 0
     print("Detection started........")
     for image, targets in data_loader:
         image['image_lq'] = image['image_lq'].to(device)
@@ -120,7 +120,7 @@ def evaluate_save(model_G, model_FRCNN, data_loader, device, config):
         img = img[0].detach()[0].float().cpu()
         img = tensor2img(img)
         get_prediction(outputs, file_path, config, file_name, img)
-    print('successfully generated the results!')
+    print("successfully generated the results!")
 
 '''
 This evaluate method is changed to pass the generator network and evalute

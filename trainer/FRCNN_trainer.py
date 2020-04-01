@@ -17,6 +17,7 @@ from detection.utils import collate_fn
 from scripts_for_datasets import COWCFRCNNDataset
 from detection.transforms import ToTensor, RandomHorizontalFlip, Compose
 from matplotlib import pyplot as plt
+from utils import tensor2img
 
 class COWCFRCNNTrainer:
     """
@@ -125,9 +126,11 @@ class COWCFRCNNTrainer:
     '''
     Draw boxes on the test images
     '''
-    def draw_detection_boxes(new_class_conf_box, file_path, image):
+    def draw_detection_boxes(self, new_class_conf_box, file_path, image):
         #source_image_path = os.path.join(self.config['path']['output_images'], file_name, file_name+'_112000_final_SR.png')
         dest_image_path = os.path.splitext(file_path)[0]+'.png'
+        #print(dest_image_path)
+        #print(image)
         image = tensor2img(image)
         #print(new_class_conf_box)
         #print(len(new_class_conf_box))
@@ -145,6 +148,9 @@ class COWCFRCNNTrainer:
     def get_prediction(self, model, images, annotation_path, threshold=0.5):
         new_class_conf_box = list()
         image = list(img.to(self.device) for img in images)
+        images = list(img for img in images)
+        images = torch.stack(images, dim=0)
+        images = images.squeeze()
         outputs = model(image)
         file_path = os.path.join(self.config['path']['Test_Result_LR_LR_COWC'], os.path.basename(annotation_path))
         #print(file_path)
@@ -154,7 +160,7 @@ class COWCFRCNNTrainer:
         #print(pred_score)
         for i in range(len(text_boxes)):
             new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]*4), int(text_boxes[i][1]*4), int(text_boxes[i][2]*4), int(text_boxes[i][3]*4)])
-        draw_detection_boxes(new_class_conf_box, file_path, images)
+        self.draw_detection_boxes(new_class_conf_box, file_path, images)
         new_class_conf_box = np.matrix(new_class_conf_box)
         np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
@@ -183,11 +189,15 @@ class COWCFRCNNTrainer:
         print("test lenghts of the data loaders.............")
         print(len(data_loader_test))
         model.eval()
+        i = 0
+        print("Detection started........")
         for image, targets, annotation_path in data_loader_test:
             annotation_path = ''.join(annotation_path)
             self.get_prediction(model, image, annotation_path)
             #evaluate_base(model, data_loader_test_Bic, device=self.device)
-
+            i=i+1
+            print(i)
+        print("successfully generated the results!")
         '''
         print(len(data_loader_test_SR))
         print(len(data_loader_test_SR_combined))
