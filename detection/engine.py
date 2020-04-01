@@ -192,7 +192,7 @@ def evaluate_base(model, data_loader, device):
         torch.cuda.synchronize()
         model_time = time.time()
         outputs = model(image)
-        print(outputs)
+        #print(outputs)
 
         outputs = [{k: v.to(cpu_device) for k, v in t.items()} for t in outputs]
         model_time = time.time() - model_time

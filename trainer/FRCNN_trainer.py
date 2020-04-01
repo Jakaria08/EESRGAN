@@ -135,9 +135,9 @@ class COWCFRCNNTrainer:
         #print(len(new_class_conf_box))
         for i in range(len(new_class_conf_box)):
             clas,con,x1,y1,x2,y2 = new_class_conf_box[i]
-            cv2.rectangle(image, (x1*4, y1*4), (x2*4, y2*4), (0,0,255), 4)
+            cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 4)
             font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(image, 'Car: '+ str((int(con*100))) + '%', ((x1*4)+5, (y1*4)+8), font, 0.2,(0,255,0),1,cv2.LINE_AA)
+            cv2.putText(image, 'Car: '+ str((int(con*100))) + '%', ((x1)+5, (y1)+8), font, 0.2,(0,255,0),1,cv2.LINE_AA)
 
         cv2.imwrite(dest_image_path, image)
 
@@ -158,6 +158,7 @@ class COWCFRCNNTrainer:
             new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]*4), int(text_boxes[i][1]*4), int(text_boxes[i][2]*4), int(text_boxes[i][3]*4)])
         self.draw_detection_boxes(new_class_conf_box, file_path)
         new_class_conf_box = np.matrix(new_class_conf_box)
+        print(new_class_conf_box)
         np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
 
     #get test results
@@ -232,7 +233,7 @@ class COWCFRCNNTrainer:
         model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         model.to(self.device)
-        self.load_model(self.config['path']['pretrain_model_FRCNN_LR_LR'], model)
+        #self.load_model(self.config['path']['pretrain_model_FRCNN_LR_LR'], model)
 
         # construct an optimizer
         params = [p for p in model.parameters() if p.requires_grad]
