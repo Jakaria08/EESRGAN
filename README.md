@@ -3,7 +3,7 @@
 `python train.py -c config_GAN.json`
 ## Testing
 `python test.py -c config_GAN.json`
-## Edit JSON File
+## Edit the JSON File
 The directory of the following JSON file is needed to be changed according to the user directory. For details see [config_GAN.json](https://github.com/Jakaria08/EESRGAN/blob/master/config_GAN.json) and pretrained weights are uploaded in [google drive](https://drive.google.com/drive/folders/15xN_TKKTUpQ5EVdZWJ2aZUa4Y-u-Mt0f?usp=sharing)
 ```yaml
 {
