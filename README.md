@@ -17,10 +17,11 @@ The directory of the following JSON file is needed to be changed according to th
 
     "path": {
         "models": "saved/save_your_model_in_this_directory/",
-        "pretrain_model_G": "Pretrained_model_path_for_train_test/164000_G.pth",
-        "pretrain_model_D": "Pretrained_model_path_for_train_test/164000_G.pth",
-        "pretrain_model_FRCNN": "Pretrained_model_path_for_train_test/164000_G.pth",
+        "pretrain_model_G": "Pretrained_model_path_for_train_test/170000_G.pth",
+        "pretrain_model_D": "Pretrained_model_path_for_train_test/170000_G.pth",
+        "pretrain_model_FRCNN": "Pretrained_model_path_for_train_test/170000_G.pth",
         "data_dir_Valid": "/Low_resoluton_test_validation_image_directory/"
+        "Test_Result_SR": "Directory_to_store_test_results/"
     }
 }
 
