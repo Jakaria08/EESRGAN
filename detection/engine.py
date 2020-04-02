@@ -97,9 +97,10 @@ def get_prediction(outputs, file_path, config, file_name, image, threshold=0.5):
     for i in range(len(text_boxes)):
         new_class_conf_box.append([pred_class[i], pred_score[i], int(text_boxes[i][0]), int(text_boxes[i][1]), int(text_boxes[i][2]), int(text_boxes[i][3])])
     draw_detection_boxes(new_class_conf_box, config, file_name, image)
-    new_class_conf_box = np.matrix(new_class_conf_box)
+    new_class_conf_box1 = np.matrix(new_class_conf_box)
     #print(new_class_conf_box)
-    np.savetxt(file_path, new_class_conf_box, fmt="%i %1.3f %i %i %i %i")
+    if(len(new_class_conf_box))>0:
+        np.savetxt(file_path, new_class_conf_box1, fmt="%i %1.3f %i %i %i %i")
 
 
 @torch.no_grad()
