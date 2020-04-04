@@ -74,7 +74,7 @@
         "D_update_ratio": 1,
         "D_init_iters": 0,
         "manual_seed": 10,
-        "val_freq": 10,
+        "val_freq": 1000,
 
         "save_dir": "saved/",
         "save_period": 1,
@@ -88,9 +88,9 @@
     "path": {
         "models": "saved/pretrained_models_EESRGAN_FRCNN",
         "FRCNN_model": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/",
-        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/162000_G.pth",
-        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/162000_D.pth",
-        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/162000_FRCNN.pth",
+        "pretrain_model_G": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/170000_G.pth",
+        "pretrain_model_D": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/170000_D.pth",
+        "pretrain_model_FRCNN": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/pretrained_models_EESRGAN_FRCNN/170000_FRCNN.pth",
         "pretrain_model_FRCNN_LR_LR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/FRCNN_model_LR_LR_cowc/0_FRCNN_LR_LR.pth",
         "training_state": "saved/training_state",
         "strict_load": true,
@@ -112,7 +112,7 @@
         "Test_Result_SR": "/home/jakaria/Super_Resolution/Filter_Enhance_Detect/saved/Test_Result_SR/"
     },
     "logger": {
-      "print_freq": 10,
-      "save_checkpoint_freq": 10
+      "print_freq": 100,
+      "save_checkpoint_freq": 1000
     }
 }
