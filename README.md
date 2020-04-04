@@ -27,7 +27,11 @@ The directory of the following JSON file is needed to be changed according to th
 
 ```
 ## Paper
-Find the priprints of the related paper on [preprints.org](https://www.preprints.org/manuscript/202003.0313/v1), [arxiv.org](https://arxiv.org/abs/2003.09085) and [researchgate.net](https://www.researchgate.net/publication/340095015_Small-Object_Detection_in_Remote_Sensing_Images_with_End-to-End_Edge-Enhanced_GAN_and_Object_Detector_Network).
+Find the preprints of the related paper on [preprints.org](https://www.preprints.org/manuscript/202003.0313/v1), [arxiv.org](https://arxiv.org/abs/2003.09085) and [researchgate.net](https://www.researchgate.net/publication/340095015_Small-Object_Detection_in_Remote_Sensing_Images_with_End-to-End_Edge-Enhanced_GAN_and_Object_Detector_Network).
+### Abstract
+The detection performance of small objects in remote sensing images is not satisfactory compared to large objects, especially in low-resolution and noisy images. A generative adversarial network (GAN)-based model called enhanced super-resolution GAN (ESRGAN) shows remarkable image enhancement performance, but reconstructed images miss high-frequency edge information. Therefore, object detection performance degrades for the small objects on recovered noisy and low-resolution remote sensing images. Inspired by the success of edge enhanced GAN (EEGAN) and ESRGAN, we apply a new edge-enhanced super-resolution GAN (EESRGAN) to improve the image quality of remote sensing images and used different detector networks in an end-to-end manner where detector loss is backpropagated into the EESRGAN to improve the detection performance. We propose an architecture with three components: ESRGAN, Edge Enhancement Network (EEN), and Detection network. We use residual-in-residual dense blocks (RRDB) for both the GAN and EEN, and for the detector network, we use the faster region-based convolutional network (FRCNN) (two-stage detector) and single-shot multi-box detector (SSD) (one stage detector). Extensive experiments on car overhead with context and oil and gas storage tank (created by us) data sets show superior performance of our method compared to the standalone state-of-the-art object detectors.
+### Keywords
+Object detection; faster region-based convolutional neural network (FRCNN); single-shot multi-box detector (SSD); super resolution; remote sensing imagery; edge enhancement
 ## Related Repository
 Some code segments are based on [ESRGAN](https://github.com/xinntao/BasicSR)
 ## Citation
@@ -37,3 +41,7 @@ Some code segments are based on [ESRGAN](https://github.com/xinntao/BasicSR)
   `journal={arXiv preprint arXiv:2003.09085},`\
   `year={2020}`\
 `}` 
+## To Do 
+- Clean the code.
+- Add more command line option for training and testing to run different configuration.
+- Fix bug and write important tests. 
