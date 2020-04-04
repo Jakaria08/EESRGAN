@@ -42,6 +42,6 @@ Some code segments are based on [ESRGAN](https://github.com/xinntao/BasicSR)
   `year={2020}`\
 `}` 
 ## To Do 
-- Clean the code.
+- Refactor and clean the code.
 - Add more command line option for training and testing to run different configuration.
 - Fix bug and write important tests. 
