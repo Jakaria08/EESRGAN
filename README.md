@@ -1,7 +1,11 @@
 # EESRGAN
 ## Enhancement and Detection
-|<img src="Detection_Results/1_LR.jpg" width="32%"></img>|<img src="Detection_Results/1_SR.jpg" width="32%"></img>|<img src="Detection_Results/1_GT.jpg" width="32%"></img>|
-|<img src="Detection_Results/1_LR_detection.jpg" width="32%"></img>|<img src="Detection_Results/1_SR_detection.jpg" width="32%"></img>|<img src="Detection_Results/1_GT_box.jpg" width="32%"></img>|
+|Low Resolution <br/> Image & Detection|Super Resolved <br/> Image & Detection|High Resolution Ground Truth <br/> Image & Detection|
+| --- | --- | --- |
+|<img src="Detection_Results/1_LR.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_SR.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_GT.jpg" width="256" height="256"></img>|
+|<img src="Detection_Results/1_LR_detection.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_SR_detection.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_GT_box.jpg" width="256" height="256"></img>|
+|<img src="Detection_Results/2_LR.jpg" width="256" height="256"></img>|<img src="Detection_Results/2_SR.jpg" width="256" height="256"></img>|<img src="Detection_Results/2_GT.jpg" width="256" height="256"></img>|
+|<img src="Detection_Results/2_LR_detect.jpg" width="256" height="256"></img>|<img src="Detection_Results/2_SR_detection.jpg" width="256" height="256"></img>|<img src="Detection_Results/2_GT_box.jpg" width="256" height="256"></img>|
 ## Dependencies and Installation
 - Python 3 (Recommend to use Anaconda)
 - PyTorch >= 1.0
