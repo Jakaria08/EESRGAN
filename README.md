@@ -1,4 +1,12 @@
 # EESRGAN
+## Enhancement and Detection
+<img src="Detection_Results/1_LR.jpg" width="32%"></img>
+<img src="Detection_Results/1_GT.jpg" width="32%"></img>
+<img src="Detection_Results/1_GT_box.jpg" width="32%"></img>
+<img src="Detection_Results/1_LR_detection.jpg" width="32%"></img>
+<img src="Detection_Results/1_SR_detection.jpg" width="32%"></img>
+<img src="Detection_Results/1_GT_box.jpg" width="32%"></img>
+
 ## Dependencies and Installation
 - Python 3 (Recommend to use Anaconda)
 - PyTorch >= 1.0
