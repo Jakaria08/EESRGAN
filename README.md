@@ -1,6 +1,6 @@
 # EESRGAN
 ## Enhancement and Detection
-|Low Resolution <br/> Image & Detection|Super Resolved <br/> Image & Detection|High Resolution Ground Truth <br/> Image & Detection|
+|Low Resolution <br/> Image & Detection|Super Resolved <br/> Image & Detection|High Resolution Ground Truth <br/> Image & Bounding Box|
 | --- | --- | --- |
 |<img src="Detection_Results/1_LR.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_SR.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_GT.jpg" width="256" height="256"></img>|
 |<img src="Detection_Results/1_LR_detection.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_SR_detection.jpg" width="256" height="256"></img>|<img src="Detection_Results/1_GT_box.jpg" width="256" height="256"></img>|
