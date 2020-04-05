@@ -1,0 +1,14 @@
+opencv_python_headless==4.1.1.26
+tqdm==4.36.1
+matplotlib==3.1.1
+albumentations==0.3.3
+torchvision==0.3.0
+pandas==0.25.1
+numpy==1.16.5
+pytest==5.2.0
+torch==1.1.0
+kornia==0.1.4.post2
+dataclasses==0.7
+Pillow==7.1.1
+pycocotools==2.0.0
+tensorboardX==2.0
