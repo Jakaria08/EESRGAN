@@ -1,6 +1,6 @@
 # EESRGAN
 ## Model Architecture
-<img src="Detection_Results/pipeline.PNG" width="100%"></img>
+<img src="Detection_Results/overall_pipeline.PNG" width="100%"></img>
 ## Enhancement and Detection
 |Low Resolution <br/> Image & Detection|Super Resolved <br/> Image & Detection|High Resolution Ground Truth <br/> Image & Bounding Box|
 | --- | --- | --- |
