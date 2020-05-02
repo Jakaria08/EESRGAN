@@ -58,7 +58,7 @@ Some code segments are based on [ESRGAN](https://github.com/xinntao/BasicSR)
 `@article{rabbi2020small,`\
   `title={Small-Object Detection in Remote Sensing Images with End-to-End Edge-Enhanced GAN and Object Detector Network},`\
   `author={Rabbi, Jakaria and Ray, Nilanjan and Schubert, Matthias and Chowdhury, Subir and Chao, Dennis},`\
-  `journal={arXiv preprint arXiv:2003.09085},`\
+  `journal={Remote Sensing},`\
   `volume={12},`\
   `number={9},`\
   `pages={1432},`\
