@@ -54,6 +54,7 @@ Object detection; faster region-based convolutional neural network (FRCNN); sing
 ## Related Repository
 Some code segments are based on [ESRGAN](https://github.com/xinntao/BasicSR)
 ## Citation
+### BibTex
 `@article{rabbi2020small,`\
   `title={Small-Object Detection in Remote Sensing Images with End-to-End Edge-Enhanced GAN and Object Detector Network},`\
   `author={Rabbi, Jakaria and Ray, Nilanjan and Schubert, Matthias and Chowdhury, Subir and Chao, Dennis},`\
@@ -64,6 +65,8 @@ Some code segments are based on [ESRGAN](https://github.com/xinntao/BasicSR)
   `year={2020}`\
   `publisher={Multidisciplinary Digital Publishing Institute}`\
 `}` 
+### Chicago
+Rabbi, Jakaria; Ray, Nilanjan; Schubert, Matthias; Chowdhury, Subir; Chao, Dennis. 2020. "Small-Object Detection in Remote Sensing Images with End-to-End Edge-Enhanced GAN and Object Detector Network." Remote Sens. 12, no. 9: 1432.  
 ## To Do 
 - Refactor and clean the code.
 - Add more command line option for training and testing to run different configuration.
